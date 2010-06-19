@@ -22,6 +22,7 @@ import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.TextView;
 import com.kaipic.lightmeter.LightSensor;
+import com.kaipic.lightmeter.LightSensorListener;
 import com.kaipic.lightmeter.MainWindow;
 import com.kaipic.lightmeter.R;
 
@@ -55,17 +56,17 @@ public class MainWindowTest extends
 
 	public void testClickButtonDisplaySensorRead() {
 		assertEquals("", mSensorReadView.getText());
-		LightSensor sensor = mockSensor(14.3f);
-		mActivity.setSensor(sensor);
+		mActivity.setSensor(mockSensor(14.3f));
 		click(mButton);
 		assertEquals("14.3", mSensorReadView.getText());
 	}
 
 	private LightSensor mockSensor(final float mockRead) {
 		LightSensor sensor = new LightSensor() {
-			public float read() {
-				return mockRead;
-			}
+			public float read() {return mockRead;}
+			public void stop() {}
+			public void start() {}
+			public void register(LightSensorListener listener) {}
 		};
 		return sensor;
 	}
@@ -80,4 +81,6 @@ public class MainWindowTest extends
 		mInstrumentation.waitForIdleSync();
 		this.sendKeys(KeyEvent.KEYCODE_DPAD_CENTER);
 	}
+
+
 }

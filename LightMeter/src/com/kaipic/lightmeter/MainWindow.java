@@ -22,9 +22,19 @@ public class MainWindow extends Activity {
 		registerEvents();
 	}
 
+	public void setSensor(LightSensor sensor) {
+		this.mSensor = sensor;
+	}
+
+	public LightSensor getSensor() {
+		return mSensor;
+	}
+	
+	
 	private void initializeFields() {
 		mReadButton = (Button) findViewById(R.id.read_button);
 		mSensorReadTextView = (TextView) findViewById(R.id.sensor_read_text_view);
+		mSensor = new AmbientLightSensor(getApplicationContext());
 	}
 
 	private void registerEvents() {
@@ -48,12 +58,19 @@ public class MainWindow extends Activity {
 		keyGuardManager.newKeyguardLock("com.kaipic.lightmeter.MainWindow").disableKeyguard();
 	}
 
-	public void setSensor(LightSensor sensor) {
-		this.mSensor = sensor;
+	@Override
+	protected void onResume() {
+		super.onResume();
+		mSensor.start();
 	}
 
-	public LightSensor getSensor() {
-		return mSensor;
+	@Override
+	protected void onStop() {
+		super.onStop();
+		mSensor.stop();
 	}
+	
+	
+
 
 }
