@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.kaipic.lightmeter.LightSensor;
 import com.kaipic.lightmeter.LightSensorListener;
 import com.kaipic.lightmeter.MainWindow;
+import com.kaipic.lightmeter.MockLightSensor;
 import com.kaipic.lightmeter.R;
 
 public class MainWindowTest extends
@@ -56,19 +57,35 @@ public class MainWindowTest extends
 
 	public void testClickButtonDisplaySensorRead() {
 		assertEquals("", mSensorReadView.getText());
-		mActivity.setSensor(mockSensor(14.3f));
+		mActivity.setSensor(new MockLightSensor().setRead(14.3f));
+//		mActivity.setSensor(new LightSensor() {
+//			
+//			@Override
+//			public void stop() {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//			
+//			@Override
+//			public void start() {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//			
+//			@Override
+//			public void register(LightSensorListener listener) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//			
+//			@Override
+//			public float read() {
+//				// TODO Auto-generated method stub
+//				return 14.3f;
+//			}
+//		});
 		click(mButton);
 		assertEquals("14.3", mSensorReadView.getText());
-	}
-
-	private LightSensor mockSensor(final float mockRead) {
-		LightSensor sensor = new LightSensor() {
-			public float read() {return mockRead;}
-			public void stop() {}
-			public void start() {}
-			public void register(LightSensorListener listener) {}
-		};
-		return sensor;
 	}
 
 	private void click(final Button button) {

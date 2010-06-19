@@ -10,7 +10,6 @@
     android:text="@string/hello"
     />
 <TextView 
-	android:text="" 
 	android:id="@+id/sensor_read_text_view" 
 	android:layout_width="wrap_content" 
 	android:layout_height="wrap_content">

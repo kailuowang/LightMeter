@@ -15,6 +15,7 @@ public class AmbientLightSensorTest {
 		sensor.broadcast();
 		verify(listener).onLightSensorChange();
 	}
+	
 	@Test
 	public void shouldBeAbleToRegisterListenerMultipleTimesWithoutDuplicatingBroadcasting(){
 		AmbientLightSensor sensor = new AmbientLightSensor();

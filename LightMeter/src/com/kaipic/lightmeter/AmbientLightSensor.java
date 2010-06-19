@@ -12,7 +12,7 @@ import android.hardware.SensorManager;
 
 public class AmbientLightSensor implements LightSensor, SensorEventListener {
 	SensorManager mSensorManager;
-	private float mRead;
+	protected float mRead;
 	private Set<LightSensorListener> listeners = new HashSet<LightSensorListener>();
 	public AmbientLightSensor(Context context) {
 		mSensorManager = (SensorManager) context.getSystemService(

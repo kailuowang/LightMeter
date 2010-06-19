@@ -11,7 +11,7 @@ public class MainWindow extends Activity {
 	private LightSensor mSensor;
 	private Button mReadButton;
 	private TextView mSensorReadTextView;
-	
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -29,8 +29,7 @@ public class MainWindow extends Activity {
 	public LightSensor getSensor() {
 		return mSensor;
 	}
-	
-	
+
 	private void initializeFields() {
 		mReadButton = (Button) findViewById(R.id.read_button);
 		mSensorReadTextView = (TextView) findViewById(R.id.sensor_read_text_view);
@@ -48,14 +47,15 @@ public class MainWindow extends Activity {
 	}
 
 	private void displayRead() {
-		Float read = (Float)mSensor.read();
+		Float read = (Float) mSensor.read();
 		mSensorReadTextView.setText(read.toString());
 	}
-	
-	//TODO: make this configurable
+
+	// TODO: make this configurable
 	private void disableKeyGuardForTesting() {
 		KeyguardManager keyGuardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
-		keyGuardManager.newKeyguardLock("com.kaipic.lightmeter.MainWindow").disableKeyguard();
+		keyGuardManager.newKeyguardLock("com.kaipic.lightmeter.MainWindow")
+				.disableKeyguard();
 	}
 
 	@Override
@@ -69,8 +69,5 @@ public class MainWindow extends Activity {
 		super.onStop();
 		mSensor.stop();
 	}
-	
-	
-
 
 }
