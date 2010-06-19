@@ -21,14 +21,10 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.TextView;
-
+import com.kaipic.lightmeter.LightSensor;
 import com.kaipic.lightmeter.MainWindow;
 import com.kaipic.lightmeter.R;
 
-/**
- * Make sure that the main launcher activity opens up properly, which will be
- * verified by {@link ActivityTestCase#testActivityTestCaseSetUpProperly}.
- */
 public class MainWindowTest extends
 		ActivityInstrumentationTestCase2<MainWindow> {
 	private Instrumentation mInstrumentation;
@@ -55,21 +51,33 @@ public class MainWindowTest extends
 		assertNotNull(mButton);
 		assertNotNull(mSensorReadView);
 		assertEquals("", mSensorReadView.getText());
-			
 	}
 
+	public void testClickButtonDisplaySensorRead() {
+		assertEquals("", mSensorReadView.getText());
+		LightSensor sensor = mockSensor(14.3f);
+		mActivity.setSensor(sensor);
+		click(mButton);
+		assertEquals("14.3", mSensorReadView.getText());
+	}
 
-	public void testClickButton() {
+	private LightSensor mockSensor(final float mockRead) {
+		LightSensor sensor = new LightSensor() {
+			public float read() {
+				return mockRead;
+			}
+		};
+		return sensor;
+	}
+
+	private void click(final Button button) {
 		mActivity.runOnUiThread(new Runnable() {
 			public void run() {
-				mButton.requestFocus();
+				button.requestFocus();
 			}
 		});
+		
 		mInstrumentation.waitForIdleSync();
 		this.sendKeys(KeyEvent.KEYCODE_DPAD_CENTER);
-		mInstrumentation.waitForIdleSync();
-		
-		assertEquals("1", mSensorReadView.getText());
-		
 	}
 }

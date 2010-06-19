@@ -9,23 +9,39 @@ import android.widget.TextView;
 
 public class MainWindow extends Activity {
 	private LightSensor mSensor;
-
+	private Button mReadButton;
+	private TextView mSensorReadTextView;
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		disableKeyGuardForTesting();
 		setContentView(R.layout.main);
-		Button readButton = (Button) findViewById(R.id.read_button);
-		readButton.setOnClickListener(new View.OnClickListener() {
+		initializeFields();
+		registerEvents();
+	}
+
+	private void initializeFields() {
+		mReadButton = (Button) findViewById(R.id.read_button);
+		mSensorReadTextView = (TextView) findViewById(R.id.sensor_read_text_view);
+	}
+
+	private void registerEvents() {
+		mReadButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				TextView sensor_read_text_view = (TextView) findViewById(R.id.sensor_read_text_view);
-				sensor_read_text_view.setText("1");
+				displayRead();
 			}
+
 		});
 	}
 
+	private void displayRead() {
+		Float read = (Float)mSensor.read();
+		mSensorReadTextView.setText(read.toString());
+	}
+	
 	//TODO: make this configurable
 	private void disableKeyGuardForTesting() {
 		KeyguardManager keyGuardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
