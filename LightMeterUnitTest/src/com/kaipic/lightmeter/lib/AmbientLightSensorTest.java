@@ -43,11 +43,20 @@ public class AmbientLightSensorTest {
 	
 	@Test
 	public void togglePausedShouldTogglePauseStatus() throws Exception {
-		LightSensor sensor = new AmbientLightSensor();
+		LightSensor sensor = new MockLightSensor();
 		assertFalse(sensor.isPaused());
 		sensor.togglePause();
 		assertTrue(sensor.isPaused());
 		sensor.togglePause();
 		assertFalse(sensor.isPaused());
+	}
+	@Test
+	public void togglePausedShouldRestart() throws Exception {
+		LightSensor sensor = spy(new MockLightSensor());
+		assertFalse(sensor.isPaused());
+		sensor.togglePause();
+		verify(sensor, never()).start();
+		sensor.togglePause();
+		verify(sensor).start();
 	}
 }

@@ -40,6 +40,7 @@ public class AmbientLightSensor implements LightSensor, SensorEventListener {
 	}
 
 	public void start() {
+		stop();
 		List<Sensor> sensors = mSensorManager.getSensorList(Sensor.TYPE_LIGHT);
 		Integer size = sensors.size();
 		if (size > 0) {
@@ -67,6 +68,8 @@ public class AmbientLightSensor implements LightSensor, SensorEventListener {
 
 	public void togglePause() {
 		mPaused = !mPaused;
+		if(!mPaused)
+			start();
 	}
 
 
