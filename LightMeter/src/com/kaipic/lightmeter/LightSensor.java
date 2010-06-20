@@ -8,5 +8,11 @@ public interface LightSensor {
 	void stop();
 	
 	void register(LightSensorListener listener);
+
+	public void togglePause();
+
+	public boolean isPaused();
+
+	public String getStatus();
 	
 }

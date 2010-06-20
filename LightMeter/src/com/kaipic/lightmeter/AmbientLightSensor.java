@@ -13,7 +13,9 @@ import android.hardware.SensorManager;
 public class AmbientLightSensor implements LightSensor, SensorEventListener {
 	SensorManager mSensorManager;
 	protected float mRead;
-	private Set<LightSensorListener> listeners = new HashSet<LightSensorListener>();
+	String mStatus = "UNKNOWN";
+	Set<LightSensorListener> listeners = new HashSet<LightSensorListener>();
+	boolean mPaused = false;
 	public AmbientLightSensor(Context context) {
 		mSensorManager = (SensorManager) context.getSystemService(
 				Context.SENSOR_SERVICE);
@@ -26,13 +28,12 @@ public class AmbientLightSensor implements LightSensor, SensorEventListener {
 	}
 
 	public void onSensorChanged(SensorEvent arg0) {
-		synchronized (this) {
-			mRead = arg0.values[0];
-			broadcast();
-		}
+		mRead = arg0.values[0];
+		broadcast();
 	}
 
 	void broadcast() {
+		if(isPaused()) return;
 		for (LightSensorListener listener : listeners) {
 			listener.onLightSensorChange();
 		}
@@ -42,8 +43,10 @@ public class AmbientLightSensor implements LightSensor, SensorEventListener {
 		List<Sensor> sensors = mSensorManager.getSensorList(Sensor.TYPE_LIGHT);
 		Integer size = sensors.size();
 		if (size > 0) {
-			mSensorManager.registerListener(this, sensors.get(0),
+			Sensor sensor = sensors.get(0);
+			mSensorManager.registerListener(this, sensor,
 					SensorManager.SENSOR_DELAY_FASTEST);
+			mStatus = "listening to " + sensor.getName() + "  " + sensor.getVendor(); 
 		}
 	}
 
@@ -51,12 +54,23 @@ public class AmbientLightSensor implements LightSensor, SensorEventListener {
 		mSensorManager.unregisterListener(this);
 	}
 
+	public String getStatus(){
+		return mStatus; 
+	}
 	public float read() {
 		return mRead;
 	}
 
-	@Override
 	public void register(LightSensorListener listener) {
 	   listeners.add(listener);
+	}
+
+	public void togglePause() {
+		mPaused = !mPaused;
+	}
+
+
+	public boolean isPaused() {
+		return mPaused;
 	}
 }

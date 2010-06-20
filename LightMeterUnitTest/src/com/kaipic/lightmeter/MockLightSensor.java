@@ -15,4 +15,9 @@ public class MockLightSensor extends AmbientLightSensor {
 		this.mRead = mockRead;
 		return this;
 	}
+	
+	public void broadCast()
+	{
+		super.broadcast();
+	}
 }

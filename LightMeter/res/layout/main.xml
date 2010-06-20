@@ -15,10 +15,17 @@
 	android:layout_height="wrap_content">
 </TextView>
 <Button 
-	android:text="@string/get_exposure"
-	android:id="@+id/read_button" 
+	android:text="@string/pause"
+	android:id="@+id/pause_button" 
 	android:layout_width="wrap_content" 
 	android:layout_height="wrap_content">
 </Button>
+
+<TextView 
+	android:id="@+id/status_text_view" 
+	android:layout_width="wrap_content" 
+	android:layout_height="wrap_content">
+</TextView>
+
 
 </LinearLayout>

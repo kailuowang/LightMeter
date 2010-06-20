@@ -41,11 +41,11 @@ public class MainWindowTest extends
 	protected void setUp() throws Exception {
 		super.setUp();
 		mInstrumentation = getInstrumentation();
+		MainWindow.disableKeyGruarding = true;
 		setActivityInitialTouchMode(false);
 		mActivity = getActivity();
-		mButton = (Button) mActivity.findViewById(R.id.read_button);
+		mButton = (Button) mActivity.findViewById(R.id.pause_button);
 		mSensorReadView = (TextView) mActivity.findViewById(R.id.sensor_read_text_view);
-		
 	}
 
 	public void testCreateActivity() {
@@ -55,39 +55,37 @@ public class MainWindowTest extends
 		assertEquals("", mSensorReadView.getText());
 	}
 
-	public void testClickButtonDisplaySensorRead() {
-		assertEquals("", mSensorReadView.getText());
-		mActivity.setSensor(new MockLightSensor().setRead(14.3f));
-//		mActivity.setSensor(new LightSensor() {
-//			
-//			@Override
-//			public void stop() {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//			
-//			@Override
-//			public void start() {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//			
-//			@Override
-//			public void register(LightSensorListener listener) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//			
-//			@Override
-//			public float read() {
-//				// TODO Auto-generated method stub
-//				return 14.3f;
-//			}
-//		});
+	public void testPauseButtonClickShouldPauseSensor() {
+		MockLightSensor sensor = new MockLightSensor();
+		mActivity.setSensor(sensor);
+		assertFalse(sensor.isPaused());
 		click(mButton);
+		assertTrue(sensor.isPaused());
+	}
+	
+	public void testPauseButtonClickShouldToggleButtonLable() {
+		mActivity.setSensor(new MockLightSensor());
+		assertEquals(getString(R.string.pause), mButton.getText());
+		click(mButton);
+		assertEquals( getString(R.string.continue_btn), mButton.getText());
+	}
+	
+	public void testListenToSensorAndDisplayRead(){
+		final MockLightSensor sensor = new MockLightSensor().setRead(14.3f);
+		mActivity.setSensor(sensor);
+		mActivity.runOnUiThread(new Runnable() {
+			public void run() {
+				sensor.broadCast();
+			}
+		});
+		mInstrumentation.waitForIdleSync();
 		assertEquals("14.3", mSensorReadView.getText());
 	}
 
+	private String getString(int name) {
+		return mActivity.getString(name);
+	}
+	
 	private void click(final Button button) {
 		mActivity.runOnUiThread(new Runnable() {
 			public void run() {
@@ -98,6 +96,5 @@ public class MainWindowTest extends
 		mInstrumentation.waitForIdleSync();
 		this.sendKeys(KeyEvent.KEYCODE_DPAD_CENTER);
 	}
-
 
 }
