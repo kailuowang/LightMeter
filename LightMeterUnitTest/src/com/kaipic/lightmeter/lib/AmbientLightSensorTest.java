@@ -1,8 +1,13 @@
-package com.kaipic.lightmeter;
+package com.kaipic.lightmeter.lib;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import com.kaipic.lightmeter.lib.AmbientLightSensor;
+import com.kaipic.lightmeter.lib.LightSensor;
+import com.kaipic.lightmeter.lib.LightSensorListener;
+
 import static org.mockito.Mockito.*;
 
 public class AmbientLightSensorTest {

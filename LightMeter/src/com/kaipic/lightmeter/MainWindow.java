@@ -1,5 +1,9 @@
 package com.kaipic.lightmeter;
 
+import com.kaipic.lightmeter.lib.AmbientLightSensor;
+import com.kaipic.lightmeter.lib.LightSensor;
+import com.kaipic.lightmeter.lib.LightSensorListener;
+
 import android.app.Activity;
 import android.app.KeyguardManager;
 import android.os.Bundle;

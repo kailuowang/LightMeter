@@ -1,4 +1,6 @@
-package com.kaipic.lightmeter;
+package com.kaipic.lightmeter.lib;
+
+import com.kaipic.lightmeter.lib.AmbientLightSensor;
 
 public class MockLightSensor extends AmbientLightSensor {
 

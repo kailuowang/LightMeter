@@ -21,11 +21,11 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.TextView;
-import com.kaipic.lightmeter.LightSensor;
-import com.kaipic.lightmeter.LightSensorListener;
 import com.kaipic.lightmeter.MainWindow;
-import com.kaipic.lightmeter.MockLightSensor;
 import com.kaipic.lightmeter.R;
+import com.kaipic.lightmeter.lib.LightSensor;
+import com.kaipic.lightmeter.lib.LightSensorListener;
+import com.kaipic.lightmeter.lib.MockLightSensor;
 
 public class MainWindowTest extends
 		ActivityInstrumentationTestCase2<MainWindow> {

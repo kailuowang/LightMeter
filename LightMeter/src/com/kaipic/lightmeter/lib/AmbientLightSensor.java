@@ -1,4 +1,4 @@
-package com.kaipic.lightmeter;
+package com.kaipic.lightmeter.lib;
 
 import java.util.HashSet;
 import java.util.List;
