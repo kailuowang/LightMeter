@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="hello">Welcome!</string>
-    <string name="pause">pause</string>
-    <string name="continue_btn">continue</string>
+    <string name="pause">Lock</string>
+    <string name="continue_btn">Unlock</string>
     <string name="app_name">LightMeter</string>
 </resources>

@@ -4,28 +4,62 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="@string/hello"
-    />
-<TextView 
-	android:id="@+id/sensor_read_text_view" 
-	android:layout_width="wrap_content" 
-	android:layout_height="wrap_content">
-</TextView>
-<Button 
-	android:text="@string/pause"
-	android:id="@+id/pause_button" 
-	android:layout_width="wrap_content" 
-	android:layout_height="wrap_content">
-</Button>
 
-<TextView 
-	android:id="@+id/status_text_view" 
-	android:layout_width="wrap_content" 
-	android:layout_height="wrap_content">
-</TextView>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:stretchColumns="1">
 
+    <TableRow>
+        <TextView
+            android:layout_column="1"
+            android:text="Aperture"
+            android:padding="3dip" />
+        <TextView
+            android:id="@+id/aperture" 
+            android:gravity="right"
+            android:padding="3dip" />
+    </TableRow>
 
+    <TableRow>
+        <TextView
+            android:layout_column="1"
+            android:text="ISO"
+            android:padding="3dip" />
+        <TextView
+          	android:id="@+id/iso" 
+            android:gravity="right"
+            android:padding="3dip" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_column="1"
+            android:text="Illumination"
+            android:padding="3dip" />
+        <TextView
+          	android:id="@+id/illumination" 
+            android:gravity="right"
+            android:padding="3dip" />
+    </TableRow>
+    <TableRow>
+        
+        <TextView 
+        	android:layout_column="2"
+           	android:id="@+id/status_text_view" 
+            android:gravity="right"
+            android:padding="3dip" />
+    </TableRow>
+    
+    <TableRow>
+
+	    <Button 
+			android:text="@string/pause"
+			android:id="@+id/pause_button" 
+			android:layout_column="2">
+			android:gravity="right"
+		</Button>
+		
+    </TableRow>
+	</TableLayout>
 </LinearLayout>

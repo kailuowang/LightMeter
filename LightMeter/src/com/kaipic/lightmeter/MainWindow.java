@@ -1,6 +1,7 @@
 package com.kaipic.lightmeter;
 
 import com.kaipic.lightmeter.lib.AmbientLightSensor;
+import com.kaipic.lightmeter.lib.LightMeter;
 import com.kaipic.lightmeter.lib.LightSensor;
 import com.kaipic.lightmeter.lib.LightSensorListener;
 
@@ -12,11 +13,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class MainWindow extends Activity implements LightSensorListener {
-	private LightSensor mSensor;
+	private LightMeter mLightMeter;
 	private Button mPauseButton;
 	private TextView mSensorReadTextView;
+	private TextView mApertureTextView;
+	private TextView mISOTextView;
     public static boolean disableKeyGruarding = false;
-	/** Called when the activity is first created. */
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -26,19 +29,32 @@ public class MainWindow extends Activity implements LightSensorListener {
 		registerEvents();
 	}
 
-	public void setSensor(LightSensor sensor) {
-		this.mSensor = sensor;
-		mSensor.register(this);
+	public void setLightMeter(LightMeter lightMeter){
+		mLightMeter = lightMeter;
+		getLightSensor().register(this);
+		startSensor();
 	}
 
-	public LightSensor getSensor() {
-		return mSensor;
+	private void startSensor() {
+		getLightSensor().start();
 	}
 
+	public void onLightSensorChange() {
+		display();
+	}
+
+	public void display() {
+		mSensorReadTextView.setText(((Float)getLightSensor().read()).toString() + " lux");
+		mApertureTextView.setText("f"+((Float)mLightMeter.getAperture()).toString() );
+		mISOTextView.setText(((Integer)mLightMeter.getISO()).toString() );
+	}
+	
 	private void initializeFields() {
 		mPauseButton = (Button) findViewById(R.id.pause_button);
-		mSensorReadTextView = (TextView) findViewById(R.id.sensor_read_text_view);
-		setSensor(new AmbientLightSensor(getApplicationContext()));
+		mSensorReadTextView = (TextView) findViewById(R.id.illumination);
+		mApertureTextView = (TextView) findViewById(R.id.aperture);
+		mISOTextView = (TextView) findViewById(R.id.iso);
+		mLightMeter = new LightMeter(new AmbientLightSensor(getApplicationContext()));
 	}
 
 	private void registerEvents() {
@@ -50,33 +66,41 @@ public class MainWindow extends Activity implements LightSensorListener {
 	}
 
 	private void toggleSensor() {
-		mSensor.togglePause();
-		int resId = mSensor.isPaused() ? R.string.continue_btn : R.string.pause;
+		LightSensor lightSensor = getLightSensor();
+		lightSensor .togglePause();
+		int resId = lightSensor.isPaused() ? R.string.continue_btn : R.string.pause;
 		mPauseButton.setText(getString(resId));
 		TextView textView = (TextView) findViewById(R.id.status_text_view);
-		textView.setText(mSensor.getStatus());
+		textView.setText(lightSensor.getStatus());
 	}
 
-	public void onLightSensorChange() {
-		Float read = (Float) mSensor.read();
-		mSensorReadTextView.setText(read.toString());
-	}
-
-	// TODO: make this configurable
 	private void disableKeyGuardForTesting() {
 		KeyguardManager keyGuardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
-		keyGuardManager.newKeyguardLock("com.kaipic.lightmeter.MainWindow")
-				.disableKeyguard();
+		keyGuardManager.newKeyguardLock("com.kaipic.lightmeter.MainWindow") .disableKeyguard();
 	}
 
 	protected void onResume() {
 		super.onResume();
-		if(mSensor != null)  mSensor.start();
+		startSensor();
+	}
+
+	private LightSensor getLightSensor() {
+		return mLightMeter.getLightSensor();
 	}
 
 	protected void onStop() {
+		stopSensor();
 		super.onStop();
-		if(mSensor != null) mSensor.stop();
+	}
+	
+	@Override
+	protected void onDestroy() {
+		stopSensor();
+		super.onDestroy();
+	}
+
+	private void stopSensor() {
+		getLightSensor().stop();
 	}
 
 }
