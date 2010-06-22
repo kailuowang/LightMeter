@@ -61,6 +61,7 @@ public class MainWindow extends Activity implements LightSensorListener {
 		mPauseButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 			  toggleSensor();
+			  display();
 			}
 		});
 	}
