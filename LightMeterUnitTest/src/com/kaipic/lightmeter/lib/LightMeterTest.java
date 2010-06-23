@@ -2,6 +2,7 @@ package com.kaipic.lightmeter.lib;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
+import static com.kaipic.lightmeter.lib.ShutterSpeedTest.*;
 import org.junit.Test;
 
 public class LightMeterTest {
@@ -11,11 +12,11 @@ public class LightMeterTest {
 		
 		LightSensor lightSensor = mock(LightSensor.class);
 		when(lightSensor.read()).thenReturn(400f);
-		float result = new LightMeter(lightSensor).setAperture(4f)
+		ShutterSpeed result = new LightMeter(lightSensor).setAperture(4f)
 												.setCalibration(250)
 												.setISO(100)
 												.calculateShutterSpeed();
-		assertEquals(10f, result, 0.0001);
+		assertShutterSpeedEquals(new ShutterSpeed(0.1f), result);
 	}
 
 	@Test
@@ -24,6 +25,5 @@ public class LightMeterTest {
 		assertTrue(lightMeter.getAperture() > 0);
 		assertTrue(lightMeter.getCalibration() > 0);
 		assertTrue(lightMeter.getISO() > 0);
-
 	}
 }

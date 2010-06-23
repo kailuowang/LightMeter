@@ -4,6 +4,7 @@ import com.kaipic.lightmeter.lib.AmbientLightSensor;
 import com.kaipic.lightmeter.lib.LightMeter;
 import com.kaipic.lightmeter.lib.LightSensor;
 import com.kaipic.lightmeter.lib.LightSensorListener;
+import com.kaipic.lightmeter.lib.LightSensorSimulator;
 
 import android.app.Activity;
 import android.app.KeyguardManager;
@@ -18,12 +19,13 @@ public class MainWindow extends Activity implements LightSensorListener {
 	private TextView mSensorReadTextView;
 	private TextView mApertureTextView;
 	private TextView mISOTextView;
-    public static boolean disableKeyGruarding = false;
+	private TextView mShutterSpeedTextView;
+    public static boolean isTesting = true;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if(disableKeyGruarding) disableKeyGuardForTesting();
+		if(isTesting) disableKeyGuardForTesting();
 		setContentView(R.layout.main);
 		initializeFields();
 		registerEvents();
@@ -47,6 +49,7 @@ public class MainWindow extends Activity implements LightSensorListener {
 		mSensorReadTextView.setText(((Float)getLightSensor().read()).toString() + " lux");
 		mApertureTextView.setText("f"+((Float)mLightMeter.getAperture()).toString() );
 		mISOTextView.setText(((Integer)mLightMeter.getISO()).toString() );
+		mShutterSpeedTextView.setText(mLightMeter.calculateShutterSpeed().toString());
 	}
 	
 	private void initializeFields() {
@@ -54,7 +57,12 @@ public class MainWindow extends Activity implements LightSensorListener {
 		mSensorReadTextView = (TextView) findViewById(R.id.illumination);
 		mApertureTextView = (TextView) findViewById(R.id.aperture);
 		mISOTextView = (TextView) findViewById(R.id.iso);
-		mLightMeter = new LightMeter(new AmbientLightSensor(getApplicationContext()));
+		mShutterSpeedTextView = (TextView) findViewById(R.id.shutterSpeed);
+		mLightMeter = new LightMeter(getSensor());
+	}
+
+	private LightSensor getSensor() {
+		return isTesting ? new LightSensorSimulator() : new AmbientLightSensor(getApplicationContext());
 	}
 
 	private void registerEvents() {

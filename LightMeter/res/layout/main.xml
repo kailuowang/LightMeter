@@ -43,6 +43,16 @@
             android:padding="3dip" />
     </TableRow>
     <TableRow>
+        <TextView
+            android:layout_column="1"
+            android:text="Shutter Speed"
+            android:padding="3dip" />
+        <TextView
+          	android:id="@+id/shutterSpeed" 
+            android:gravity="right"
+            android:padding="3dip" />
+    </TableRow>
+    <TableRow>
         
         <TextView 
         	android:layout_column="2"

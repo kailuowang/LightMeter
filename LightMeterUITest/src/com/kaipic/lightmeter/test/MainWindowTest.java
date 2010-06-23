@@ -24,7 +24,7 @@ public class MainWindowTest extends
 	protected void setUp() throws Exception {
 		super.setUp();
 		mInstrumentation = getInstrumentation();
-		MainWindow.disableKeyGruarding = true;
+		MainWindow.isTesting = true;
 		setActivityInitialTouchMode(false);
 		mActivity = getActivity();
 		mButton = (Button) mActivity.findViewById(R.id.pause_button);
@@ -63,7 +63,10 @@ public class MainWindowTest extends
 		assertEquals("f3.5", ((TextView)mActivity.findViewById(R.id.aperture)).getText());
 		assertEquals("100", ((TextView)mActivity.findViewById(R.id.iso)).getText());
 		assertEquals("14.3 lux", ((TextView)mActivity.findViewById(R.id.illumination)).getText());
+		assertTrue(((TextView)mActivity.findViewById(R.id.shutterSpeed)).getText().length() > 0 );
 	}
+	
+	
 
 	private void runOnUiThread(Runnable runable) {
 		mActivity.runOnUiThread(runable);

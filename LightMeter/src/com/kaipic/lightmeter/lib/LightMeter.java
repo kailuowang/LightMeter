@@ -41,9 +41,8 @@ public class LightMeter {
 		return this;
 	}
 
-	public float calculateShutterSpeed() {
-		return mLightSensor.read() * mISO
-				/ (mCalibration * mAperture * mAperture);
+	public ShutterSpeed calculateShutterSpeed() {
+		return new ShutterSpeed( mAperture, mCalibration, mISO, mLightSensor.read());
 	}
 
 }
