@@ -12,9 +12,11 @@ public class ShutterSpeedTest {
 		assertEquals("1/50", new ShutterSpeed(1f/50f).toString());
 	}
 	
+	
 	@Test
 	public void shouldConvertToCorrectFormatForValueLagerThan1() throws Exception {
 		assertEquals("2s", new ShutterSpeed(2f).toString());
+		assertEquals("1s", new ShutterSpeed(1f).toString());
 	}
 	
 	@Test
@@ -22,7 +24,7 @@ public class ShutterSpeedTest {
 		
 		LightSensor lightSensor = mock(LightSensor.class);
 		when(lightSensor.read()).thenReturn(400f);
-		ShutterSpeed shutterSpeed = new ShutterSpeed(4f, 250, 100, 400f);
+		ShutterSpeed shutterSpeed = new ShutterSpeed(new Aperture(4f), 250, 100, 400f);
 		assertShutterSpeedEquals(new ShutterSpeed(0.1f), shutterSpeed);
 	}
 	

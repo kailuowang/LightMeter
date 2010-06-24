@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import com.kaipic.lightmeter.MainWindow;
 import com.kaipic.lightmeter.R;
+import com.kaipic.lightmeter.lib.Aperture;
 import com.kaipic.lightmeter.lib.LightMeter;
 import com.kaipic.lightmeter.lib.MockLightSensor;
 
@@ -35,7 +36,6 @@ public class MainWindowTest extends
 		assertNotNull(mActivity);
 		assertNotNull(mButton);
 		assertNotNull(mSensorReadView);
-		assertEquals("", mSensorReadView.getText());
 	}
 
 	public void testPauseButtonClickShouldPauseSensor() {
@@ -60,13 +60,17 @@ public class MainWindowTest extends
 		runOnUiThread(new Runnable() {
 			public void run() { mActivity.display(); }
 		});
-		assertEquals("f3.5", ((TextView)mActivity.findViewById(R.id.aperture)).getText());
 		assertEquals("100", ((TextView)mActivity.findViewById(R.id.iso)).getText());
 		assertEquals("14.3 lux", ((TextView)mActivity.findViewById(R.id.illumination)).getText());
 		assertTrue(((TextView)mActivity.findViewById(R.id.shutterSpeed)).getText().length() > 0 );
 	}
 	
-	
+	public void testSetAperture(){
+		LightMeter lightMeter = new LightMeter(new MockLightSensor());
+		mActivity.setLightMeter(lightMeter);
+		mActivity.setAperture("5.6");
+		assertEquals(new Aperture(5.6f), lightMeter.getAperture());
+	}
 
 	private void runOnUiThread(Runnable runable) {
 		mActivity.runOnUiThread(runable);

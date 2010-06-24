@@ -2,25 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
+    android:layout_height="fill_parent" >
 
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:stretchColumns="1">
-
     <TableRow>
         <TextView
             android:layout_column="1"
             android:text="Aperture"
             android:padding="3dip" />
-        <TextView
-            android:id="@+id/aperture" 
-            android:gravity="right"
-            android:padding="3dip" />
+        <Spinner 
+	        android:id="@+id/apertureSpinner"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:drawSelectorOnTop="true"
+	        android:prompt="@string/apertureSpiner_prompt" />
     </TableRow>
-
     <TableRow>
         <TextView
             android:layout_column="1"
@@ -31,7 +30,6 @@
             android:gravity="right"
             android:padding="3dip" />
     </TableRow>
-
     <TableRow>
         <TextView
             android:layout_column="1"
@@ -53,16 +51,13 @@
             android:padding="3dip" />
     </TableRow>
     <TableRow>
-        
         <TextView 
         	android:layout_column="2"
            	android:id="@+id/status_text_view" 
             android:gravity="right"
             android:padding="3dip" />
     </TableRow>
-    
     <TableRow>
-
 	    <Button 
 			android:text="@string/pause"
 			android:id="@+id/pause_button" 

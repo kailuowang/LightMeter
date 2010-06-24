@@ -1,6 +1,7 @@
 package com.kaipic.lightmeter;
 
 import com.kaipic.lightmeter.lib.AmbientLightSensor;
+import com.kaipic.lightmeter.lib.Aperture;
 import com.kaipic.lightmeter.lib.LightMeter;
 import com.kaipic.lightmeter.lib.LightSensor;
 import com.kaipic.lightmeter.lib.LightSensorListener;
@@ -10,16 +11,22 @@ import android.app.Activity;
 import android.app.KeyguardManager;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 
 public class MainWindow extends Activity implements LightSensorListener {
 	private LightMeter mLightMeter;
 	private Button mPauseButton;
 	private TextView mSensorReadTextView;
-	private TextView mApertureTextView;
 	private TextView mISOTextView;
 	private TextView mShutterSpeedTextView;
+	private Spinner mAppertureSpinner;
     public static boolean isTesting = true;
 	
 	@Override
@@ -47,7 +54,6 @@ public class MainWindow extends Activity implements LightSensorListener {
 
 	public void display() {
 		mSensorReadTextView.setText(((Float)getLightSensor().read()).toString() + " lux");
-		mApertureTextView.setText("f"+((Float)mLightMeter.getAperture()).toString() );
 		mISOTextView.setText(((Integer)mLightMeter.getISO()).toString() );
 		mShutterSpeedTextView.setText(mLightMeter.calculateShutterSpeed().toString());
 	}
@@ -55,10 +61,14 @@ public class MainWindow extends Activity implements LightSensorListener {
 	private void initializeFields() {
 		mPauseButton = (Button) findViewById(R.id.pause_button);
 		mSensorReadTextView = (TextView) findViewById(R.id.illumination);
-		mApertureTextView = (TextView) findViewById(R.id.aperture);
 		mISOTextView = (TextView) findViewById(R.id.iso);
 		mShutterSpeedTextView = (TextView) findViewById(R.id.shutterSpeed);
 		mLightMeter = new LightMeter(getSensor());
+	    mAppertureSpinner = (Spinner) findViewById(R.id.apertureSpinner);
+	    ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(
+	            this, R.array.appertures, android.R.layout.simple_spinner_item);
+	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	    mAppertureSpinner.setAdapter(adapter);
 	}
 
 	private LightSensor getSensor() {
@@ -72,6 +82,20 @@ public class MainWindow extends Activity implements LightSensorListener {
 			  display();
 			}
 		});
+		
+		mAppertureSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				CharSequence aperture = (CharSequence) arg0.getItemAtPosition(arg2);
+				setAperture(aperture);
+				display();
+			}
+			public void onNothingSelected(AdapterView<?> arg0) { }
+		});
+	}
+
+	public void setAperture(CharSequence aperture) {
+	   mLightMeter.setAperture(Aperture.fromString((String)aperture));
 	}
 
 	private void toggleSensor() {
@@ -91,6 +115,7 @@ public class MainWindow extends Activity implements LightSensorListener {
 	protected void onResume() {
 		super.onResume();
 		startSensor();
+		
 	}
 
 	private LightSensor getLightSensor() {

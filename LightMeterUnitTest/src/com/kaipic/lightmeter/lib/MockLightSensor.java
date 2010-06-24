@@ -4,10 +4,8 @@ import com.kaipic.lightmeter.lib.AmbientLightSensor;
 
 public class MockLightSensor extends AmbientLightSensor {
 
-	@Override
 	public void start() {}
 
-	@Override
 	public void stop() {}
 	
 	public MockLightSensor setRead(float mockRead)

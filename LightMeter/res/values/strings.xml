@@ -4,4 +4,5 @@
     <string name="pause">Lock</string>
     <string name="continue_btn">Unlock</string>
     <string name="app_name">LightMeter</string>
+    <string name="apertureSpiner_prompt">Please set aperture</string>
 </resources>

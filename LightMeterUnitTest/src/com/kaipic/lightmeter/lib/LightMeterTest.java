@@ -22,7 +22,7 @@ public class LightMeterTest {
 	@Test
 	public void shouldCreateWithInitialSettings() throws Exception {
 		LightMeter lightMeter = new LightMeter(mock(LightSensor.class));
-		assertTrue(lightMeter.getAperture() > 0);
+		assertFalse(lightMeter.getAperture() == null);
 		assertTrue(lightMeter.getCalibration() > 0);
 		assertTrue(lightMeter.getISO() > 0);
 	}

@@ -7,8 +7,8 @@ public class ShutterSpeed {
 		this.value = value;
 	}
 	
-	public ShutterSpeed(float aperture, int calibration, int iso, float illumination) {
-		this( calibration * aperture * aperture / (illumination * iso));
+	public ShutterSpeed(Aperture aperture, int calibration, int iso, float illumination) {
+		this( calibration * aperture.getValue() * aperture.getValue() / (illumination * iso));
 	}
 
 	public String toString() {
