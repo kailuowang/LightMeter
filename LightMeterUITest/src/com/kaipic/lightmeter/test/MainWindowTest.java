@@ -45,6 +45,13 @@ public class MainWindowTest extends
 		click(mButton);
 		assertTrue(sensor.isPaused());
 	}
+
+	public void testPauseButtonClickShouldLockLightMeter() {
+		
+		assertFalse(mActivity.getLightMeter().isLocked());
+		click(mButton);
+		assertTrue(mActivity.getLightMeter().isLocked());
+	}
 	
 	public void testPauseButtonClickShouldToggleButtonLable() {
 		mActivity.setLightMeter(new LightMeter(new MockLightSensor()));
@@ -100,5 +107,4 @@ public class MainWindowTest extends
 		mInstrumentation.waitForIdleSync();
 		this.sendKeys(KeyEvent.KEYCODE_DPAD_CENTER);
 	}
-
 }

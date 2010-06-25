@@ -43,6 +43,10 @@ public class MainWindow extends Activity implements LightSensorListener {
 		getLightSensor().register(this);
 		startSensor();
 	}
+	
+	public LightMeter getLightMeter(){
+		return mLightMeter;
+	}
 
 	private void startSensor() {
 		getLightSensor().start();
@@ -53,7 +57,7 @@ public class MainWindow extends Activity implements LightSensorListener {
 	}
 
 	public void display() {
-		mSensorReadTextView.setText(((Float)getLightSensor().read()).toString() + " lux");
+		mSensorReadTextView.setText(((Float)mLightMeter.readLight()).toString() + " lux");
 		mISOTextView.setText(((Integer)mLightMeter.getISO()).toString() );
 		mShutterSpeedTextView.setText(mLightMeter.calculateShutterSpeed().toString());
 	}
@@ -78,7 +82,7 @@ public class MainWindow extends Activity implements LightSensorListener {
 	private void registerEvents() {
 		mPauseButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-			  toggleSensor();
+			  toggleLock();
 			  display();
 			}
 		});
@@ -98,10 +102,12 @@ public class MainWindow extends Activity implements LightSensorListener {
 	   mLightMeter.setAperture(Aperture.fromString((String)aperture));
 	}
 
-	private void toggleSensor() {
+	private void toggleLock() {
 		LightSensor lightSensor = getLightSensor();
-		lightSensor .togglePause();
-		int resId = lightSensor.isPaused() ? R.string.continue_btn : R.string.pause;
+		lightSensor.togglePause();
+		boolean locked = lightSensor.isPaused();
+		if(locked) mLightMeter.lock(); else mLightMeter.unlock();
+		int resId = locked ? R.string.continue_btn : R.string.pause;
 		mPauseButton.setText(getString(resId));
 		TextView textView = (TextView) findViewById(R.id.status_text_view);
 		textView.setText(lightSensor.getStatus());

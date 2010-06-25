@@ -1,25 +1,31 @@
 package com.kaipic.lightmeter.lib;
 
 public class LightMeter {
-	private LightSensor mLightSensor;
-	private Aperture mAperture = new Aperture(8.0f);
-	private int mISO = 100;
-	private int mCalibration = 250;
+	private LightSensor lightSensor;
+	private Aperture aperture = new Aperture(8.0f);
+	private int iso = 100;
+	private int calibration = 250;
+	private boolean locked;
+	private float lastRead;
 
 	public LightMeter(LightSensor lightSensor) {
-		this.mLightSensor = lightSensor;
+		this.lightSensor = lightSensor;
+	}
+
+	public boolean isLocked(){
+		return locked;
 	}
 
 	public LightSensor getLightSensor() {
-		return mLightSensor;
+		return lightSensor;
 	}
 
 	public Aperture getAperture() {
-		return mAperture;
+		return aperture;
 	}
 	
 	public LightMeter setAperture(Aperture aperture) {
-		this.mAperture = aperture;
+		this.aperture = aperture;
 		return this;
 	}
 
@@ -28,25 +34,38 @@ public class LightMeter {
 	}
 	
 	public int getISO() {
-		return mISO;
+		return iso;
 	}
 
 	public LightMeter setISO(int iso) {
-		this.mISO = iso;
+		this.iso = iso;
 		return this;
 	}
 
 	public int getCalibration() {
-		return mCalibration;
+		return calibration;
 	}
 
 	public LightMeter setCalibration(int calibration) {
-		this.mCalibration = calibration;
+		this.calibration = calibration;
 		return this;
 	}
 
 	public ShutterSpeed calculateShutterSpeed() {
-		return new ShutterSpeed( mAperture, mCalibration, mISO, mLightSensor.read());
+		return new ShutterSpeed( aperture, calibration, iso, readLight());
+	}
+
+	public float readLight() {
+		if(!locked) lastRead = lightSensor.read();
+		return lastRead;
+	}
+
+	public void lock() {
+		locked = true;
+	}
+
+	public void unlock() {
+		locked = false;
 	}
 
 }
