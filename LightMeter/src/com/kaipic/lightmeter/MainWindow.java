@@ -11,23 +11,21 @@ import android.app.Activity;
 import android.app.KeyguardManager;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 public class MainWindow extends Activity implements LightSensorListener {
 	private LightMeter mLightMeter;
 	private Button mPauseButton;
 	private TextView mSensorReadTextView;
-	private TextView mISOTextView;
 	private TextView mShutterSpeedTextView;
 	private Spinner mAppertureSpinner;
-    public static boolean isTesting = true;
+	private Spinner mISOSpinner;
+    public static boolean isTesting = false;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -58,21 +56,25 @@ public class MainWindow extends Activity implements LightSensorListener {
 
 	public void display() {
 		mSensorReadTextView.setText(((Float)mLightMeter.readLight()).toString() + " lux");
-		mISOTextView.setText(((Integer)mLightMeter.getISO()).toString() );
 		mShutterSpeedTextView.setText(mLightMeter.calculateShutterSpeed().toString());
 	}
 	
 	private void initializeFields() {
 		mPauseButton = (Button) findViewById(R.id.pause_button);
 		mSensorReadTextView = (TextView) findViewById(R.id.illumination);
-		mISOTextView = (TextView) findViewById(R.id.iso);
 		mShutterSpeedTextView = (TextView) findViewById(R.id.shutterSpeed);
-		mLightMeter = new LightMeter(getSensor());
-	    mAppertureSpinner = (Spinner) findViewById(R.id.apertureSpinner);
-	    ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(
-	            this, R.array.appertures, android.R.layout.simple_spinner_item);
+		setLightMeter(new LightMeter(getSensor()));
+		mAppertureSpinner = (Spinner) findViewById(R.id.apertureSpinner);
+	    mISOSpinner = (Spinner) findViewById(R.id.isoSpinner);
+	    setupSpinner(mISOSpinner, R.array.isos);
+	    setupSpinner(mAppertureSpinner, R.array.appertures);
+	}
+
+	private void setupSpinner(Spinner spinner, int itemArray) {
+		ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(
+	            this, itemArray, android.R.layout.simple_spinner_item);
 	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	    mAppertureSpinner.setAdapter(adapter);
+		spinner.setAdapter(adapter);
 	}
 
 	private LightSensor getSensor() {
@@ -87,19 +89,33 @@ public class MainWindow extends Activity implements LightSensorListener {
 			}
 		});
 		
-		mAppertureSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+		registerSpinnerListenner(mAppertureSpinner, new SpinnerItemSelectListenner() {
+			public void onSpinnerItemSelected(Object selectedValue) {
+				setAperture((String)selectedValue);
+				display();
+			}
+		});
+		registerSpinnerListenner(mISOSpinner, new SpinnerItemSelectListenner() {
+			public void onSpinnerItemSelected(Object selectedValue) {
+				mLightMeter.setISO(Integer.parseInt((String)selectedValue));
+				display();
+			}
+		});
+	}
+
+	private void registerSpinnerListenner(Spinner spinner, final SpinnerItemSelectListenner listener) {
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				CharSequence aperture = (CharSequence) arg0.getItemAtPosition(arg2);
-				setAperture(aperture);
-				display();
+				Object aperture = arg0.getItemAtPosition(arg2);
+				listener.onSpinnerItemSelected(aperture);
 			}
 			public void onNothingSelected(AdapterView<?> arg0) { }
 		});
 	}
-
-	public void setAperture(CharSequence aperture) {
-	   mLightMeter.setAperture(Aperture.fromString((String)aperture));
+	
+	public void setAperture(String aperture) {
+	   mLightMeter.setAperture(Aperture.fromString(aperture));
 	}
 
 	private void toggleLock() {
@@ -121,7 +137,6 @@ public class MainWindow extends Activity implements LightSensorListener {
 	protected void onResume() {
 		super.onResume();
 		startSensor();
-		
 	}
 
 	private LightSensor getLightSensor() {

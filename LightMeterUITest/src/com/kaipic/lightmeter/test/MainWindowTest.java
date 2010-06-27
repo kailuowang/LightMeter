@@ -67,7 +67,6 @@ public class MainWindowTest extends
 		runOnUiThread(new Runnable() {
 			public void run() { mActivity.display(); }
 		});
-		assertEquals("100", ((TextView)mActivity.findViewById(R.id.iso)).getText());
 		assertEquals("14.3 lux", ((TextView)mActivity.findViewById(R.id.illumination)).getText());
 		assertTrue(((TextView)mActivity.findViewById(R.id.shutterSpeed)).getText().length() > 0 );
 	}
