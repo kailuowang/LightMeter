@@ -5,7 +5,6 @@ import java.util.Random;
 
 public class LightSensorSimulator extends AmbientLightSensor {
 	Date lastReadAt = new Date();
-	float lastRead = 1;
 	Random r = new Random();
 	
 	public float read() {
@@ -13,11 +12,23 @@ public class LightSensorSimulator extends AmbientLightSensor {
 		
 		if(sinceLastRead > 1 )
 		{
-			lastRead = (float)Math.pow(2f, (float)r.nextInt(14));
+			mRead = (float)Math.pow(2f, (float)r.nextInt(14));
 			lastReadAt = new Date();
 		}
 		
-		return lastRead;
+		return mRead;
+	}
+
+    public LightSensorSimulator setRead(float mockRead)
+    {
+        mRead = mockRead;
+        lastReadAt = new Date();
+        return this;
+    }
+
+    public void broadCast()
+	{
+		super.broadcast();
 	}
 
 	public void start() { }

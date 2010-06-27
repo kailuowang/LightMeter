@@ -139,7 +139,12 @@ public class MainWindow extends Activity implements LightSensorListener {
 		startSensor();
 	}
 
-	private LightSensor getLightSensor() {
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        startSensor();
+    }
+
+    private LightSensor getLightSensor() {
 		return mLightMeter.getLightSensor();
 	}
 

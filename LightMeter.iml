@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="android" name="Android">
+      <configuration>
+        <option name="PLATFORM_NAME" value="" />
+        <option name="USE_CUSTOM_GEN_FOLDER" value="false" />
+        <option name="CUSTOM_GEN_FOLDER_RELATIVE_PATH" value="" />
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_6" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/LightMeter/bin" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/LightMeter">
+      <sourceFolder url="file://$MODULE_DIR$/LightMeter/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/LightMeter/gen" isTestSource="false" />
+    </content>
+    <orderEntry type="jdk" jdkName="1.6" jdkType="JavaSDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="libs" level="project" />
+  </component>
+</module>
+
