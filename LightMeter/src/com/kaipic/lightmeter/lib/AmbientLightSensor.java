@@ -1,8 +1,6 @@
 package com.kaipic.lightmeter.lib;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -10,13 +8,12 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-public class AmbientLightSensor implements LightSensor, SensorEventListener {
+public class AmbientLightSensor extends LightSensor implements SensorEventListener {
 	SensorManager mSensorManager;
-	protected float mRead;
+	private float mRead;
 	String mStatus = "UNKNOWN";
-	Set<LightSensorListener> listeners = new HashSet<LightSensorListener>();
-	boolean mPaused = false;
-	public AmbientLightSensor(Context context) {
+
+    public AmbientLightSensor(Context context) {
 		mSensorManager = (SensorManager) context.getSystemService(
 				Context.SENSOR_SERVICE);
 	}
@@ -29,17 +26,11 @@ public class AmbientLightSensor implements LightSensor, SensorEventListener {
 
 	public void onSensorChanged(SensorEvent arg0) {
 		mRead = arg0.values[0];
-		broadcast();
+        broadcast();
 	}
 
-	void broadcast() {
-		if(isPaused()) return;
-		for (LightSensorListener listener : listeners) {
-			listener.onLightSensorChange();
-		}
-	}
-
-	public void start() {
+    @Override
+    public void start() {
 		stop();
 		List<Sensor> sensors = mSensorManager.getSensorList(Sensor.TYPE_LIGHT);
 		Integer size = sensors.size();
@@ -51,29 +42,19 @@ public class AmbientLightSensor implements LightSensor, SensorEventListener {
 		}
 	}
 
-	public void stop() {
+	@Override
+    public void stop() {
 		mSensorManager.unregisterListener(this);
 	}
 
-	public String getStatus(){
+	@Override
+    public String getStatus(){
 		return mStatus; 
 	}
-	public float read() {
+	@Override
+    public float read() {
 		return mRead;
 	}
 
-	public void register(LightSensorListener listener) {
-	   listeners.add(listener);
-	}
 
-	public void togglePause() {
-		mPaused = !mPaused;
-		if(!mPaused)
-			start();
-	}
-
-
-	public boolean isPaused() {
-		return mPaused;
-	}
 }

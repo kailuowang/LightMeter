@@ -1,11 +1,7 @@
 package com.kaipic.lightmeter;
 
-import com.kaipic.lightmeter.lib.AmbientLightSensor;
-import com.kaipic.lightmeter.lib.Aperture;
-import com.kaipic.lightmeter.lib.LightMeter;
-import com.kaipic.lightmeter.lib.LightSensor;
-import com.kaipic.lightmeter.lib.LightSensorListener;
-import com.kaipic.lightmeter.lib.LightSensorSimulator;
+import com.kaipic.lightmeter.lib.*;
+import com.kaipic.lightmeter.lib.MockLightSensor;
 
 import android.app.Activity;
 import android.app.KeyguardManager;
@@ -78,7 +74,7 @@ public class MainWindow extends Activity implements LightSensorListener {
 	}
 
 	private LightSensor getSensor() {
-		return isTesting ? new LightSensorSimulator() : new AmbientLightSensor(getApplicationContext());
+		return isTesting ? new MockLightSensor() : new AmbientLightSensor(getApplicationContext());
 	}
 
 	private void registerEvents() {

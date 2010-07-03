@@ -36,7 +36,4 @@ public class Aperture {
 			return false;
 		return true;
 	}
-	
-	
-	
 }

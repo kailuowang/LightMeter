@@ -11,7 +11,11 @@ public class ShutterSpeed {
 		this( calibration * aperture.getValue() * aperture.getValue() / (illumination * iso));
 	}
 
-	public String toString() {
+    public ShutterSpeed(Aperture aperture, ExposureValue exposureValue) {
+        this((float) (aperture.getValue() * aperture.getValue() / Math.pow(2d, exposureValue.getValue())));
+    }
+
+    public String toString() {
 		if(value < 1)
 			return "1/" + (int)(1f/value);
 		else

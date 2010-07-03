@@ -1,18 +1,73 @@
 package com.kaipic.lightmeter.lib;
 
-public interface LightSensor {
-	float read();
+import java.util.HashSet;
+import java.util.Set;
 
-	void start();
+public abstract class LightSensor {
+    private boolean paused = false;
+    private float lastRead = 0;
+    private int iso =  100;
+    Set<LightSensorListener> listeners = new HashSet<LightSensorListener>();
+    private int calibration = 100;
 
-	void stop();
-	
-	void register(LightSensorListener listener);
+    public LightSensor setISO(int iso) {
+        this.iso = iso;
+        return this;
+    }
 
-	public void togglePause();
+    public LightSensor setCalibration(int calibration) {
+        this.calibration = calibration;
+        return this;
+    }
 
-	public boolean isPaused();
+    public ExposureValue getEV(){
+        if(!isPaused())
+          lastRead = read();
+        return new ExposureValue(log2(lastRead*iso/calibration));
+    }
 
-	public String getStatus();
-	
+    void broadcast() {
+        if (isPaused()) return;
+        for (LightSensorListener listener : listeners) {
+            listener.onLightSensorChange();
+        }
+    }
+
+    public abstract float read();
+
+    public void register(LightSensorListener listener) {
+        listeners.add(listener);
+    }
+
+    public void togglePause() {
+        paused = !paused;
+        if (!paused)
+            start();
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void start() {
+    }
+
+    public void stop() {
+    }
+
+    public String getStatus() {
+        return "UNKNOWN";
+    }
+
+    private float log2(float x) {
+        return (float) (Math.log(x)/Math.log(2));
+    }
+
+    public int getISO() {
+        return iso;
+    }
+
+    public int getCalibration() {
+        return calibration;
+    }
 }

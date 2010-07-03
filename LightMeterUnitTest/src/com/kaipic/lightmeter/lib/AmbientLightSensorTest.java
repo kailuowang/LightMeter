@@ -4,17 +4,13 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.kaipic.lightmeter.lib.AmbientLightSensor;
-import com.kaipic.lightmeter.lib.LightSensor;
-import com.kaipic.lightmeter.lib.LightSensorListener;
-
 import static org.mockito.Mockito.*;
 
 public class AmbientLightSensorTest {
 
 	@Test
 	public void shouldBeAbleToRegisterListenerAndListenToBroadCast(){
-		AmbientLightSensor sensor = new AmbientLightSensor();
+		LightSensor sensor = new AmbientLightSensor();
 		LightSensorListener listener = mock(LightSensorListener.class);
 		sensor.register(listener);
 		sensor.broadcast();
@@ -23,7 +19,7 @@ public class AmbientLightSensorTest {
 	
 	@Test
 	public void shouldBeAbleToRegisterListenerMultipleTimesWithoutDuplicatingBroadcasting(){
-		AmbientLightSensor sensor = new AmbientLightSensor();
+		LightSensor sensor = new AmbientLightSensor();
 		LightSensorListener listener = mock(LightSensorListener.class);
 		sensor.register(listener);
 		sensor.register(listener);
@@ -33,7 +29,7 @@ public class AmbientLightSensorTest {
 	
 	@Test
 	public void shouldStopBroadCastingWhenPaused() throws Exception {
-		AmbientLightSensor sensor = new AmbientLightSensor();
+		LightSensor sensor = new AmbientLightSensor();
 		LightSensorListener listener = mock(LightSensorListener.class);
 		sensor.register(listener);
 		sensor.togglePause();
@@ -43,7 +39,10 @@ public class AmbientLightSensorTest {
 	
 	@Test
 	public void togglePausedShouldTogglePauseStatus() throws Exception {
-		LightSensor sensor = new MockLightSensor();
+		LightSensor sensor = new AmbientLightSensor(){
+            public void start() {}
+            public void stop() {}
+        };
 		assertFalse(sensor.isPaused());
 		sensor.togglePause();
 		assertTrue(sensor.isPaused());
@@ -53,7 +52,10 @@ public class AmbientLightSensorTest {
 	
 	@Test
 	public void togglePausedShouldRestart() throws Exception {
-		LightSensor sensor = spy(new MockLightSensor());
+		LightSensor sensor = spy(new AmbientLightSensor(){
+            public void start() {}
+            public void stop() {}
+        });
 		assertFalse(sensor.isPaused());
 		sensor.togglePause();
 		verify(sensor, never()).start();

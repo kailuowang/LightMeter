@@ -9,8 +9,7 @@ import com.kaipic.lightmeter.MainWindow;
 import com.kaipic.lightmeter.R;
 import com.kaipic.lightmeter.lib.Aperture;
 import com.kaipic.lightmeter.lib.LightMeter;
-import com.kaipic.lightmeter.lib.LightSensor;
-import com.kaipic.lightmeter.lib.LightSensorSimulator;
+import com.kaipic.lightmeter.lib.MockLightSensor;
 
 public class MainWindowTest extends
 		ActivityInstrumentationTestCase2<MainWindow> {
@@ -40,7 +39,7 @@ public class MainWindowTest extends
 	}
 
 	public void testPauseButtonClickShouldPauseSensor() {
-		LightSensorSimulator sensor = new LightSensorSimulator();
+		MockLightSensor sensor = new MockLightSensor();
 		mActivity.setLightMeter(new LightMeter(sensor));
 		assertFalse(sensor.isPaused());
 		click(mButton);
@@ -55,14 +54,14 @@ public class MainWindowTest extends
 	}
 	
 	public void testPauseButtonClickShouldToggleButtonLabel() {
-		mActivity.setLightMeter(new LightMeter(new LightSensorSimulator()));
+		mActivity.setLightMeter(new LightMeter(new MockLightSensor()));
 		assertEquals(getString(R.string.pause), mButton.getText());
 		click(mButton);
 		assertEquals( getString(R.string.continue_btn), mButton.getText());
 	}
 	
 	public void testDisplayShouldDisplayLightMeter(){
-		LightMeter lightMeter = new LightMeter(new LightSensorSimulator().setRead(14.3f));
+		LightMeter lightMeter = new LightMeter(new MockLightSensor().setRead(14.3f));
 		lightMeter.setAperture(3.5f).setCalibration(250).setISO(100);
 		mActivity.setLightMeter(lightMeter);
 		runOnUiThread(new Runnable() {
@@ -73,7 +72,7 @@ public class MainWindowTest extends
 	}
 	
 	public void testSetAperture(){
-		LightMeter lightMeter = new LightMeter(new LightSensorSimulator());
+		LightMeter lightMeter = new LightMeter(new MockLightSensor());
 		mActivity.setLightMeter(lightMeter);
 		mActivity.setAperture("5.6");
 		assertEquals(new Aperture(5.6f), lightMeter.getAperture());
@@ -85,7 +84,7 @@ public class MainWindowTest extends
 	}
 	
 	public void testListenToSensorAndDisplayRead(){
-		final LightSensorSimulator sensor = new LightSensorSimulator().setRead(14.3f);
+		final MockLightSensor sensor = new MockLightSensor().setRead(14.3f);
 		mActivity.setLightMeter(new LightMeter(sensor));
 		runOnUiThread(new Runnable() {
 			public void run() { sensor.broadCast(); }
