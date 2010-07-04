@@ -22,8 +22,9 @@ public class MainWindow extends Activity implements LightSensorListener {
 	private Spinner mAppertureSpinner;
 	private Spinner mISOSpinner;
     public static boolean isTesting = false;
-	
-	@Override
+    private TextView mExposureValueTextView;
+
+    @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if(isTesting) disableKeyGuardForTesting();
@@ -58,6 +59,7 @@ public class MainWindow extends Activity implements LightSensorListener {
 	private void initializeFields() {
 		mPauseButton = (Button) findViewById(R.id.pause_button);
 		mSensorReadTextView = (TextView) findViewById(R.id.illumination);
+		mExposureValueTextView = (TextView) findViewById(R.id.exposureValue);
 		mShutterSpeedTextView = (TextView) findViewById(R.id.shutterSpeed);
 		setLightMeter(new LightMeter(getSensor()));
 		mAppertureSpinner = (Spinner) findViewById(R.id.apertureSpinner);

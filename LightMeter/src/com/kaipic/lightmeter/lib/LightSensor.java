@@ -1,7 +1,10 @@
 package com.kaipic.lightmeter.lib;
 
+
 import java.util.HashSet;
 import java.util.Set;
+
+import static com.kaipic.lightmeter.lib.Util.log2;
 
 public abstract class LightSensor {
     private boolean paused = false;
@@ -59,9 +62,7 @@ public abstract class LightSensor {
         return "UNKNOWN";
     }
 
-    private float log2(float x) {
-        return (float) (Math.log(x)/Math.log(2));
-    }
+
 
     public int getISO() {
         return iso;
@@ -69,5 +70,10 @@ public abstract class LightSensor {
 
     public int getCalibration() {
         return calibration;
+    }
+
+
+    public ExposureValue getISO100EV() {
+        return getEV().getISO100EV(iso);
     }
 }
