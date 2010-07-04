@@ -3,7 +3,7 @@
   <component name="FacetManager">
     <facet type="android" name="Android">
       <configuration>
-        <option name="PLATFORM_NAME" value="" />
+        <option name="PLATFORM_NAME" value="Android 2.1-update1 Google APIs" />
         <option name="USE_CUSTOM_GEN_FOLDER" value="false" />
         <option name="CUSTOM_GEN_FOLDER_RELATIVE_PATH" value="" />
       </configuration>
@@ -19,6 +19,7 @@
     <orderEntry type="jdk" jdkName="1.6" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="libs" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Android 2.1-update1 Google APIs" level="application" />
   </component>
 </module>
 

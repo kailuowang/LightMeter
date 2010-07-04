@@ -3,6 +3,7 @@ package com.kaipic.lightmeter.test;
 import android.app.Instrumentation;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import com.kaipic.lightmeter.MainWindow;
@@ -17,6 +18,7 @@ public class MainWindowTest extends
 	private MainWindow mActivity;
 	private Button mButton;
 	private TextView mSensorReadView;
+	private TextView mExposureValueView;
 
 	public MainWindowTest() {
 		super("com.kaipic.lightmeter", MainWindow.class);
@@ -29,7 +31,7 @@ public class MainWindowTest extends
 		setActivityInitialTouchMode(false);
 		mActivity = getActivity();
 		mButton = (Button) mActivity.findViewById(R.id.pause_button);
-		mSensorReadView = (TextView) mActivity.findViewById(R.id.illumination);
+        mSensorReadView = (TextView) mActivity.findViewById(R.id.illumination);
 	}
 
 	public void testCreateActivity() {

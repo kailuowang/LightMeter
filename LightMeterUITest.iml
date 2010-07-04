@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
-  <component name="FacetManager">
-    <facet type="android" name="Android">
-      <configuration>
-        <option name="PLATFORM_NAME" value="" />
-        <option name="USE_CUSTOM_GEN_FOLDER" value="false" />
-        <option name="CUSTOM_GEN_FOLDER_RELATIVE_PATH" value="" />
-      </configuration>
-    </facet>
-  </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_6" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/LightMeterUITest/bin" />
     <exclude-output />
@@ -20,6 +11,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="LightMeter" />
     <orderEntry type="library" name="libs" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Android 2.1-update1 Google APIs" level="application" />
   </component>
 </module>
 
