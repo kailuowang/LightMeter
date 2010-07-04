@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
-    <string-array name="appertures">
-        <item>0.95</item>
-        <item>1.0</item>
-        <item>1.2</item>
-        <item>1.4</item>
-        <item>1.8</item>
-        <item>2.0</item>
-        <item>2.4</item>
-        <item>2.8</item>
-        <item>3.3</item>
-        <item>4.0</item>
-        <item>4.8</item>
-        <item>5.6</item>
-        <item>6.7</item>
-        <item>8.0</item>
-        <item>9.5</item>
-        <item>11</item>
-        <item>13</item>
-        <item>16</item>
-        <item>19</item>
-        <item>22</item>
-    </string-array>
+  <string-array name="appertures">
+    <item>0.95</item>
+    <item>1.0</item>
+    <item>1.2</item>
+    <item>1.4</item>
+    <item>1.8</item>
+    <item>2.0</item>
+    <item>2.4</item>
+    <item>2.8</item>
+    <item>3.3</item>
+    <item>4.0</item>
+    <item>4.8</item>
+    <item>5.6</item>
+    <item>6.7</item>
+    <item>8.0</item>
+    <item>9.5</item>
+    <item>11</item>
+    <item>13</item>
+    <item>16</item>
+    <item>19</item>
+    <item>22</item>
+  </string-array>
 
-<string-array name="isos">
-	<item>50</item>
-	<item>100</item>
-	<item>160</item>
-	<item>200</item>
-	<item>400</item>
-	<item>800</item>
-	<item>1600</item>
-	<item>3200</item>
-</string-array>
+  <string-array name="isos">
+    <item>50</item>
+    <item>100</item>
+    <item>160</item>
+    <item>200</item>
+    <item>400</item>
+    <item>800</item>
+    <item>1600</item>
+    <item>3200</item>
+  </string-array>
 </resources>

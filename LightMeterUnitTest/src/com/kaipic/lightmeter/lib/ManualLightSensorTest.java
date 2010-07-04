@@ -1,7 +1,5 @@
 package com.kaipic.lightmeter.lib;
 
-import org.junit.Test;
-
 /**
  * Created by IntelliJ IDEA.
  * User: ThoughtWorks

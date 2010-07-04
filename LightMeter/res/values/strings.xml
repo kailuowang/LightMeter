@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Welcome!</string>
-    <string name="pause">Lock</string>
-    <string name="continue_btn">Unlock</string>
-    <string name="app_name">LightMeter</string>
-    <string name="apertureSpiner_prompt">Please set aperture</string>
-    <string name="isoSpiner_prompt">Please set ISO</string>
+  <string name="hello">Welcome!</string>
+  <string name="pause">Lock</string>
+  <string name="continue_btn">Unlock</string>
+  <string name="app_name">LightMeter</string>
+  <string name="apertureSpiner_prompt">Please set aperture</string>
+  <string name="isoSpiner_prompt">Please set ISO</string>
 </resources>

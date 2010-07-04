@@ -16,9 +16,8 @@
       <sourceFolder url="file://$MODULE_DIR$/LightMeter/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/LightMeter/gen" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="1.6" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="libs" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Android 2.1-update1 Google APIs" level="application" />
   </component>
 </module>

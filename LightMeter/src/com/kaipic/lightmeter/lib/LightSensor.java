@@ -7,73 +7,72 @@ import java.util.Set;
 import static com.kaipic.lightmeter.lib.Util.log2;
 
 public abstract class LightSensor {
-    private boolean paused = false;
-    private float lastRead = 0;
-    private int iso =  100;
-    Set<LightSensorListener> listeners = new HashSet<LightSensorListener>();
-    private int calibration = 100;
+  private boolean paused = false;
+  private float lastRead = 0;
+  private int iso = 100;
+  Set<LightSensorListener> listeners = new HashSet<LightSensorListener>();
+  private int calibration = 100;
 
-    public LightSensor setISO(int iso) {
-        this.iso = iso;
-        return this;
+  public LightSensor setISO(int iso) {
+    this.iso = iso;
+    return this;
+  }
+
+  public LightSensor setCalibration(int calibration) {
+    this.calibration = calibration;
+    return this;
+  }
+
+  public ExposureValue getEV() {
+    if (!isPaused())
+      lastRead = read();
+    return new ExposureValue(log2(lastRead * iso / calibration));
+  }
+
+  public void broadcast() {
+    if (isPaused()) return;
+    for (LightSensorListener listener : listeners) {
+      listener.onLightSensorChange();
     }
+  }
 
-    public LightSensor setCalibration(int calibration) {
-        this.calibration = calibration;
-        return this;
-    }
+  public abstract float read();
 
-    public ExposureValue getEV(){
-        if(!isPaused())
-          lastRead = read();
-        return new ExposureValue(log2(lastRead*iso/calibration));
-    }
+  public void register(LightSensorListener listener) {
+    listeners.add(listener);
+  }
 
-    void broadcast() {
-        if (isPaused()) return;
-        for (LightSensorListener listener : listeners) {
-            listener.onLightSensorChange();
-        }
-    }
+  public void togglePause() {
+    paused = !paused;
+    if (!paused)
+      start();
+  }
 
-    public abstract float read();
+  public boolean isPaused() {
+    return paused;
+  }
 
-    public void register(LightSensorListener listener) {
-        listeners.add(listener);
-    }
+  public void start() {
+  }
 
-    public void togglePause() {
-        paused = !paused;
-        if (!paused)
-            start();
-    }
+  public void stop() {
+  }
 
-    public boolean isPaused() {
-        return paused;
-    }
-
-    public void start() {
-    }
-
-    public void stop() {
-    }
-
-    public String getStatus() {
-        return "UNKNOWN";
-    }
+  public String getStatus() {
+    return isPaused() ? "Paused" : "Monitoring";
+  }
 
 
+  public int getISO() {
+    return iso;
+  }
 
-    public int getISO() {
-        return iso;
-    }
-
-    public int getCalibration() {
-        return calibration;
-    }
+  public int getCalibration() {
+    return calibration;
+  }
 
 
-    public ExposureValue getISO100EV() {
-        return getEV().getISO100EV(iso);
-    }
+  public ExposureValue getISO100EV() {
+    return getEV().getISO100EV(iso);
+  }
 }

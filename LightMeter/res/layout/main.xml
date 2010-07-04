@@ -1,80 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:stretchColumns="1">
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent">
+  <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:stretchColumns="1">
     <TableRow>
-        <TextView
-            android:layout_column="1"
-            android:text="Aperture"
-            android:padding="3dip" />
-        <Spinner 
-	        android:id="@+id/apertureSpinner"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:drawSelectorOnTop="true"
-	        android:prompt="@string/apertureSpiner_prompt" />
-    </TableRow>
-    <TableRow>
-        <TextView
-            android:layout_column="1"
-            android:text="ISO"
-            android:padding="3dip" />
-        <Spinner 
-	        android:id="@+id/isoSpinner"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:drawSelectorOnTop="true"
-	        android:prompt="@string/isoSpiner_prompt" />
+      <TextView
+          android:layout_column="1"
+          android:text="Aperture"
+          android:padding="3dip"/>
+      <Spinner
+          android:id="@+id/apertureSpinner"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:drawSelectorOnTop="true"
+          android:prompt="@string/apertureSpiner_prompt"/>
     </TableRow>
     <TableRow>
-        <TextView
-            android:layout_column="1"
-            android:text="Illumination"
-            android:padding="3dip" />
-        <TextView
-          	android:id="@+id/illumination" 
-            android:gravity="right"
-            android:padding="3dip" />
-    </TableRow>
-     <TableRow>
-        <TextView
-            android:layout_column="1"
-            android:text="Exposure Value"
-            android:padding="3dip" />
-        <TextView
-          	android:id="@+id/exposureValue"
-            android:gravity="right"
-            android:padding="3dip" />
+      <TextView
+          android:layout_column="1"
+          android:text="ISO"
+          android:padding="3dip"/>
+      <Spinner
+          android:id="@+id/isoSpinner"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:drawSelectorOnTop="true"
+          android:prompt="@string/isoSpiner_prompt"/>
     </TableRow>
     <TableRow>
-        <TextView
-            android:layout_column="1"
-            android:text="Shutter Speed"
-            android:padding="3dip" />
-        <TextView
-          	android:id="@+id/shutterSpeed" 
-            android:gravity="right"
-            android:padding="3dip" />
+      <TextView
+          android:layout_column="1"
+          android:text="Exposure Value:"
+          android:padding="3dip"/>
+      <TextView
+          android:id="@+id/exposureValue"
+          android:gravity="right"
+          android:padding="3dip"/>
     </TableRow>
     <TableRow>
-	    <Button 
-			android:text="@string/pause"
-			android:id="@+id/pause_button" 
-			android:layout_column="2">
-			android:gravity="right"
-		</Button>
-		
+      <TextView
+          android:layout_column="1"
+          android:text="Shutter Speed"
+          android:padding="3dip"/>
+      <TextView
+          android:id="@+id/shutterSpeed"
+          android:gravity="right"
+          android:padding="3dip"/>
     </TableRow>
-	</TableLayout>
-    <TextView 
-	       	android:id="@+id/status_text_view" 
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:padding="3dip" />
+    <TableRow>
+      <Button
+          android:text="@string/pause"
+          android:id="@+id/pause_button"
+          android:layout_column="2">
+        android:gravity="right"
+      </Button>
+
+    </TableRow>
+  </TableLayout>
+  <TextView
+      android:id="@+id/status_text_view"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:padding="3dip"/>
 
 </LinearLayout>

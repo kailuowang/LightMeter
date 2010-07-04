@@ -1,164 +1,161 @@
 package com.kaipic.lightmeter;
 
-import com.kaipic.lightmeter.lib.*;
-import com.kaipic.lightmeter.lib.MockLightSensor;
-
 import android.app.Activity;
 import android.app.KeyguardManager;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.*;
 import android.widget.AdapterView.OnItemSelectedListener;
+import com.kaipic.lightmeter.lib.*;
 
 public class MainWindow extends Activity implements LightSensorListener {
-	private LightMeter mLightMeter;
-	private Button mPauseButton;
-	private TextView mSensorReadTextView;
-	private TextView mShutterSpeedTextView;
-	private Spinner mAppertureSpinner;
-	private Spinner mISOSpinner;
-    public static boolean isTesting = false;
-    private TextView mExposureValueTextView;
+  private LightMeter lightMeter;
+  private Button pauseButton;
+  private TextView shutterSpeedTextView;
+  private Spinner apertureSpinner;
+  private Spinner isoSpinner;
+  public static boolean isTesting = true;
+  private TextView exposureValueTextView;
+  private TextView statusTextView;
 
-    @Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		if(isTesting) disableKeyGuardForTesting();
-		setContentView(R.layout.main);
-		initializeFields();
-		registerEvents();
-	}
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    if (isTesting) disableKeyGuardForTesting();
+    setContentView(R.layout.main);
+    initializeFields();
+    registerEvents();
+  }
 
-	public void setLightMeter(LightMeter lightMeter){
-		mLightMeter = lightMeter;
-		getLightSensor().register(this);
-		startSensor();
-	}
-	
-	public LightMeter getLightMeter(){
-		return mLightMeter;
-	}
+  public void setLightMeter(LightMeter lightMeter) {
+    this.lightMeter = lightMeter;
+    getLightSensor().register(this);
+    startSensor();
+  }
 
-	private void startSensor() {
-		getLightSensor().start();
-	}
+  public LightMeter getLightMeter() {
+    return lightMeter;
+  }
 
-	public void onLightSensorChange() {
-		display();
-	}
+  private void startSensor() {
+    getLightSensor().start();
+  }
 
-	public void display() {
-		mSensorReadTextView.setText(((Float)mLightMeter.readLight()).toString() + " lux");
-		mShutterSpeedTextView.setText(mLightMeter.calculateShutterSpeed().toString());
-	}
-	
-	private void initializeFields() {
-		mPauseButton = (Button) findViewById(R.id.pause_button);
-		mSensorReadTextView = (TextView) findViewById(R.id.illumination);
-		mExposureValueTextView = (TextView) findViewById(R.id.exposureValue);
-		mShutterSpeedTextView = (TextView) findViewById(R.id.shutterSpeed);
-		setLightMeter(new LightMeter(getSensor()));
-		mAppertureSpinner = (Spinner) findViewById(R.id.apertureSpinner);
-	    mISOSpinner = (Spinner) findViewById(R.id.isoSpinner);
-	    setupSpinner(mISOSpinner, R.array.isos);
-	    setupSpinner(mAppertureSpinner, R.array.appertures);
-	}
+  public void onLightSensorChange() {
+    display();
+  }
 
-	private void setupSpinner(Spinner spinner, int itemArray) {
-		ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(
-	            this, itemArray, android.R.layout.simple_spinner_item);
-	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinner.setAdapter(adapter);
-	}
+  public void display() {
+    exposureValueTextView.setText(lightMeter.getLightSensor().getISO100EV().toString());
+    shutterSpeedTextView.setText(lightMeter.calculateShutterSpeed().toString());
+    statusTextView.setText(lightMeter.getLightSensor().getStatus());
+  }
 
-	private LightSensor getSensor() {
-		return isTesting ? new MockLightSensor() : new AmbientLightSensor(getApplicationContext());
-	}
+  private void initializeFields() {
+    pauseButton = (Button) findViewById(R.id.pause_button);
+    exposureValueTextView = (TextView) findViewById(R.id.exposureValue);
+    shutterSpeedTextView = (TextView) findViewById(R.id.shutterSpeed);
+    statusTextView = (TextView) findViewById(R.id.status_text_view);
+    setLightMeter(new LightMeter(getSensor()));
+    apertureSpinner = (Spinner) findViewById(R.id.apertureSpinner);
+    isoSpinner = (Spinner) findViewById(R.id.isoSpinner);
+    setupSpinner(isoSpinner, R.array.isos);
+    setupSpinner(apertureSpinner, R.array.appertures);
+  }
 
-	private void registerEvents() {
-		mPauseButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-			  toggleLock();
-			  display();
-			}
-		});
-		
-		registerSpinnerListenner(mAppertureSpinner, new SpinnerItemSelectListenner() {
-			public void onSpinnerItemSelected(Object selectedValue) {
-				setAperture((String)selectedValue);
-				display();
-			}
-		});
-		registerSpinnerListenner(mISOSpinner, new SpinnerItemSelectListenner() {
-			public void onSpinnerItemSelected(Object selectedValue) {
-				mLightMeter.setISO(Integer.parseInt((String)selectedValue));
-				display();
-			}
-		});
-	}
+  private void setupSpinner(Spinner spinner, int itemArray) {
+    ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(
+        this, itemArray, android.R.layout.simple_spinner_item);
+    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    spinner.setAdapter(adapter);
+  }
 
-	private void registerSpinnerListenner(Spinner spinner, final SpinnerItemSelectListenner listener) {
-		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int arg2, long arg3) {
-				Object aperture = arg0.getItemAtPosition(arg2);
-				listener.onSpinnerItemSelected(aperture);
-			}
-			public void onNothingSelected(AdapterView<?> arg0) { }
-		});
-	}
-	
-	public void setAperture(String aperture) {
-	   mLightMeter.setAperture(Aperture.fromString(aperture));
-	}
+  private LightSensor getSensor() {
+    return isTesting ? new MockLightSensor() : new AmbientLightSensor(getApplicationContext());
+  }
 
-	private void toggleLock() {
-		LightSensor lightSensor = getLightSensor();
-		lightSensor.togglePause();
-		boolean locked = lightSensor.isPaused();
-		if(locked) mLightMeter.lock(); else mLightMeter.unlock();
-		int resId = locked ? R.string.continue_btn : R.string.pause;
-		mPauseButton.setText(getString(resId));
-		TextView textView = (TextView) findViewById(R.id.status_text_view);
-		textView.setText(lightSensor.getStatus());
-	}
+  private void registerEvents() {
+    pauseButton.setOnClickListener(new View.OnClickListener() {
+      public void onClick(View v) {
+        toggleLock();
+        display();
+      }
+    });
 
-	private void disableKeyGuardForTesting() {
-		KeyguardManager keyGuardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
-		keyGuardManager.newKeyguardLock("com.kaipic.lightmeter.MainWindow") .disableKeyguard();
-	}
+    registerSpinnerListenner(apertureSpinner, new SpinnerItemSelectListenner() {
+      public void onSpinnerItemSelected(Object selectedValue) {
+        setAperture((String) selectedValue);
+        display();
+      }
+    });
+    registerSpinnerListenner(isoSpinner, new SpinnerItemSelectListenner() {
+      public void onSpinnerItemSelected(Object selectedValue) {
+        lightMeter.setISO(Integer.parseInt((String) selectedValue));
+        display();
+      }
+    });
+  }
 
-	protected void onResume() {
-		super.onResume();
-		startSensor();
-	}
+  private void registerSpinnerListenner(Spinner spinner, final SpinnerItemSelectListenner listener) {
+    spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+      public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                 int arg2, long arg3) {
+        Object aperture = arg0.getItemAtPosition(arg2);
+        listener.onSpinnerItemSelected(aperture);
+      }
 
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        startSensor();
-    }
+      public void onNothingSelected(AdapterView<?> arg0) {
+      }
+    });
+  }
 
-    private LightSensor getLightSensor() {
-		return mLightMeter.getLightSensor();
-	}
+  public void setAperture(String aperture) {
+    lightMeter.setAperture(Aperture.fromString(aperture));
+  }
 
-	protected void onStop() {
-		stopSensor();
-		super.onStop();
-	}
-	
-	@Override
-	protected void onDestroy() {
-		stopSensor();
-		super.onDestroy();
-	}
+  private void toggleLock() {
+    LightSensor lightSensor = getLightSensor();
+    lightSensor.togglePause();
+    boolean locked = lightSensor.isPaused();
+    int resId = locked ? R.string.continue_btn : R.string.pause;
+    pauseButton.setText(getString(resId));
+    TextView textView = (TextView) findViewById(R.id.status_text_view);
+    textView.setText(lightSensor.getStatus());
+  }
 
-	private void stopSensor() {
-		getLightSensor().stop();
-	}
+
+  private void disableKeyGuardForTesting() {
+    KeyguardManager keyGuardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
+    keyGuardManager.newKeyguardLock("com.kaipic.lightmeter.MainWindow").disableKeyguard();
+  }
+
+  protected void onResume() {
+    super.onResume();
+    startSensor();
+  }
+
+  protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    super.onRestoreInstanceState(savedInstanceState);
+    startSensor();
+  }
+
+  private LightSensor getLightSensor() {
+    return lightMeter.getLightSensor();
+  }
+
+  protected void onStop() {
+    stopSensor();
+    super.onStop();
+  }
+
+  @Override
+  protected void onDestroy() {
+    stopSensor();
+    super.onDestroy();
+  }
+
+  private void stopSensor() {
+    getLightSensor().stop();
+  }
 
 }
