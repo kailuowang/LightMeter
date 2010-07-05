@@ -26,7 +26,7 @@ public abstract class LightSensor {
   public ExposureValue getEV() {
     if (!isPaused())
       lastRead = read();
-    return new ExposureValue(log2(lastRead * iso / calibration));
+    return new ExposureValue(lastRead, iso, calibration);
   }
 
   public void broadcast() {
@@ -38,7 +38,7 @@ public abstract class LightSensor {
 
   public abstract float read();
 
-  public void register(LightSensorListener listener) {
+  public void subscribe(LightSensorListener listener) {
     listeners.add(listener);
   }
 
@@ -74,5 +74,9 @@ public abstract class LightSensor {
 
   public ExposureValue getISO100EV() {
     return getEV().getISO100EV(iso);
+  }
+
+  public void unsubscribe(LightSensorListener listener) {
+    listeners.remove(listener);
   }
 }

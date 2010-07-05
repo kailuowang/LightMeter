@@ -1,12 +1,16 @@
 package com.kaipic.lightmeter.lib;
 
-/**
- * Created by IntelliJ IDEA.
- * User: ThoughtWorks
- * Date: Jul 2, 2010
- * Time: 6:37:12 PM
- * To change this template use File | Settings | File Templates.
- */
+import org.junit.Test;
+
+import static com.kaipic.lightmeter.lib.ExposureValueTest.assertEVEquals;
+
 public class ManualLightSensorTest {
 
+  @Test
+  public void shouldBeAbleToSetEVbyEVAt100() throws Exception {
+    ManualLightSensor sensor = new ManualLightSensor();
+    sensor.setISO(200);
+    sensor.setEVByEVAt100(new ExposureValue(10f));
+    assertEVEquals(new ExposureValue(11f), sensor.getEV());
+  }
 }

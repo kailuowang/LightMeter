@@ -8,7 +8,6 @@ public class LightMeter {
     this.lightSensor = lightSensor;
   }
 
-
   public LightSensor getLightSensor() {
     return lightSensor;
   }

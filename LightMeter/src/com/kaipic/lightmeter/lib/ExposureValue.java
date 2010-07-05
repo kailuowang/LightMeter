@@ -10,6 +10,10 @@ public class ExposureValue {
     this.value = value;
   }
 
+  public ExposureValue(float illumination, int iso, int calibration) {
+    this(log2(illumination * iso / calibration));
+  }
+
   public float getValue() {
     return value;
   }
@@ -24,5 +28,9 @@ public class ExposureValue {
 
   public ExposureValue getISO100EV(int currentISO) {
     return multiply(100f / currentISO);
+  }
+
+  public float toIllumination(int iso, int calibration) {
+    return (float) (Math.pow(2, value) * calibration / iso);
   }
 }

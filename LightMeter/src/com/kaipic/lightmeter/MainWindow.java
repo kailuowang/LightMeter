@@ -29,7 +29,7 @@ public class MainWindow extends Activity implements LightSensorListener {
 
   public void setLightMeter(LightMeter lightMeter) {
     this.lightMeter = lightMeter;
-    getLightSensor().register(this);
+    getLightSensor().subscribe(this);
     startSensor();
   }
 

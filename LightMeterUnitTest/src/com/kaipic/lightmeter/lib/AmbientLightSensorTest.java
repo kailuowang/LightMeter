@@ -12,7 +12,7 @@ public class AmbientLightSensorTest {
   public void shouldBeAbleToRegisterListenerAndListenToBroadCast() {
     LightSensor sensor = new AmbientLightSensor();
     LightSensorListener listener = mock(LightSensorListener.class);
-    sensor.register(listener);
+    sensor.subscribe(listener);
     sensor.broadcast();
     verify(listener).onLightSensorChange();
   }
@@ -21,8 +21,8 @@ public class AmbientLightSensorTest {
   public void shouldBeAbleToRegisterListenerMultipleTimesWithoutDuplicatingBroadcasting() {
     LightSensor sensor = new AmbientLightSensor();
     LightSensorListener listener = mock(LightSensorListener.class);
-    sensor.register(listener);
-    sensor.register(listener);
+    sensor.subscribe(listener);
+    sensor.subscribe(listener);
     sensor.broadcast();
     verify(listener, times(1)).onLightSensorChange();
   }
@@ -31,7 +31,7 @@ public class AmbientLightSensorTest {
   public void shouldStopBroadCastingWhenPaused() throws Exception {
     LightSensor sensor = new AmbientLightSensor();
     LightSensorListener listener = mock(LightSensorListener.class);
-    sensor.register(listener);
+    sensor.subscribe(listener);
     sensor.togglePause();
     sensor.broadcast();
     verify(listener, never()).onLightSensorChange();

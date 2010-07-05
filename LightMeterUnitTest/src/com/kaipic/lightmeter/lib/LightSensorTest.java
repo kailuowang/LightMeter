@@ -1,11 +1,11 @@
 package com.kaipic.lightmeter.lib;
 
 import org.junit.Test;
+import org.mockito.verification.VerificationMode;
 
 import static com.kaipic.lightmeter.lib.ExposureValueTest.assertEVEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class LightSensorTest {
   @Test
@@ -50,6 +50,27 @@ public class LightSensorTest {
     assertEVEquals(new ExposureValue(8f), lightSensor.getEV());
   }
 
+  @Test
+  public void shouldCallRegisteredListener() throws Exception {
+    LightSensor lightSensor = mockSensor();
+    LightSensorListener listener = mock(LightSensorListener.class);
+    lightSensor.subscribe(listener);
+    lightSensor.broadcast();
+    verify(listener).onLightSensorChange();
+  }
+
+  @Test
+  public void shouldStopCallUnregisteredListener() throws Exception {
+    LightSensor lightSensor = mockSensor();
+    LightSensorListener listener = mock(LightSensorListener.class);
+    lightSensor.subscribe(listener);
+    lightSensor.broadcast();
+    verify(listener, times(1)).onLightSensorChange();
+    lightSensor.unsubscribe(listener);
+    lightSensor.broadcast();
+    verify(listener, times(1)).onLightSensorChange();
+  }
+
   protected LightSensor mockSensor() {
     return spy(new LightSensor() {
       public float read() {
@@ -57,6 +78,5 @@ public class LightSensorTest {
       }
     });
   }
-
 
 }
