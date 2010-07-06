@@ -28,7 +28,7 @@ public class MainWindow extends Activity implements LightMeterListener {
   }
 
 
-  public LightMeter getLightMeter(){
+  public LightMeter getLightMeter() {
     return lightMeter;
   }
 
