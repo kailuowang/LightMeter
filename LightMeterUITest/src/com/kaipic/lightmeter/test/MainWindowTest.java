@@ -38,7 +38,7 @@ public class MainWindowTest extends
 
   public void testPauseButtonClickShouldPauseSensor() {
     MockLightSensor sensor = new MockLightSensor();
-    mActivity.setLightMeter(new LightMeter(sensor));
+    mActivity.getLightMeter().setLightSensor(sensor);
     assertFalse(sensor.isPaused());
     click(mButton);
     assertTrue(sensor.isPaused());
@@ -46,16 +46,16 @@ public class MainWindowTest extends
 
 
   public void testPauseButtonClickShouldToggleButtonLabel() {
-    mActivity.setLightMeter(new LightMeter(new MockLightSensor()));
+    mActivity.getLightMeter().setLightSensor(new MockLightSensor());
     assertEquals(getString(R.string.pause), mButton.getText());
     click(mButton);
     assertEquals(getString(R.string.continue_btn), mButton.getText());
   }
 
   public void testDisplayShouldDisplayLightMeter() {
-    LightMeter lightMeter = createTestLightMeter(10f);
+    LightMeter lightMeter = mActivity.getLightMeter();
+    lightMeter.setLightSensor(createMockLightSensor(10f));
     lightMeter.setAperture(3.5f).setCalibration(250).setISO(100);
-    mActivity.setLightMeter(lightMeter);
     runOnUiThread(new Runnable() {
       public void run() {
         mActivity.display();
@@ -65,8 +65,27 @@ public class MainWindowTest extends
     assertTrue(((TextView) mActivity.findViewById(R.id.shutterSpeed)).getText().length() > 0);
   }
 
-  private LightMeter createTestLightMeter(final float ev) {
-    LightMeter lightMeter = new LightMeter(new LightSensor() {
+  public void testSetAperture() {
+    mActivity.setAperture("5.6");
+    assertEquals(new Aperture(5.6f), mActivity.getLightMeter().getAperture());
+  }
+
+  public void testListenToSensorAndDisplayRead() {
+    final ManualLightSensor lightSensor = new ManualLightSensor();
+    lightSensor.setEVByEVAt100(new ExposureValue(9f));
+    mActivity.getLightMeter().setLightSensor(lightSensor);
+
+    lightSensor.setEVByEVAt100(new ExposureValue(10f));
+    runOnUiThread(new Runnable() {
+      public void run() {
+        lightSensor.broadcast();
+      }
+    });
+    assertEquals("EV10.0", mExposureValueView.getText());
+  }
+
+  private LightSensor createMockLightSensor(final float ev) {
+    return new LightSensor() {
       public float read() {
         return 0;
       }
@@ -74,31 +93,12 @@ public class MainWindowTest extends
       public ExposureValue getEV() {
         return new ExposureValue(ev);
       }
-    });
-    return lightMeter;
-  }
-
-  public void testSetAperture() {
-    LightMeter lightMeter = new LightMeter(new MockLightSensor());
-    mActivity.setLightMeter(lightMeter);
-    mActivity.setAperture("5.6");
-    assertEquals(new Aperture(5.6f), lightMeter.getAperture());
+    };
   }
 
   private void runOnUiThread(Runnable runnable) {
     mActivity.runOnUiThread(runnable);
     mInstrumentation.waitForIdleSync();
-  }
-
-  public void testListenToSensorAndDisplayRead() {
-    final LightMeter lightMeter = createTestLightMeter(10f);
-    mActivity.setLightMeter(lightMeter);
-    runOnUiThread(new Runnable() {
-      public void run() {
-        lightMeter.getLightSensor().broadcast();
-      }
-    });
-    assertEquals("EV10.0", mExposureValueView.getText());
   }
 
   private String getString(int name) {

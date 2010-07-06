@@ -1,15 +1,25 @@
 package com.kaipic.lightmeter.lib;
 
-public class LightMeter {
+import java.util.HashSet;
+import java.util.Set;
+
+public class LightMeter implements LightSensorListener {
   private LightSensor lightSensor;
   private Aperture aperture = new Aperture(8.0f);
+  private Set<LightMeterListener> subscribers = new HashSet<LightMeterListener>();
 
-  public LightMeter(LightSensor lightSensor) {
-    this.lightSensor = lightSensor;
+  public LightMeter() {
   }
 
-  public LightSensor getLightSensor() {
-    return lightSensor;
+  public LightMeter(LightSensor lightSensor) {
+    setLightSensor(lightSensor);
+  }
+
+  public void setLightSensor(LightSensor lightSensor) {
+    if(this.lightSensor != null)
+      this.lightSensor.unsubscribe(this);
+    this.lightSensor = lightSensor;
+    this.lightSensor.subscribe(this);
   }
 
   public Aperture getAperture() {
@@ -37,5 +47,43 @@ public class LightMeter {
 
   public ShutterSpeed calculateShutterSpeed() {
     return new ShutterSpeed(aperture, lightSensor.getEV());
+  }
+
+  public void subscribe(LightMeterListener listener) {
+    subscribers.add(listener);
+  }
+
+  public void unsubscribe(LightMeterListener listener) {
+    subscribers.remove(listener);
+  }
+
+  public void togglePause(){
+    lightSensor.togglePause();
+  }
+
+  public void start() {
+    lightSensor.start();
+  }
+
+  public ExposureValue getISO100EV() {
+    return lightSensor.getISO100EV();
+  }
+
+  public void stop() {
+    lightSensor.stop();
+  }
+
+  public boolean isPaused() {
+    return lightSensor.isPaused();
+  }
+
+  public void onLightSensorChange() {
+    for (LightMeterListener subscriber : subscribers) {
+      subscriber.onLightMeterChange();
+    }
+  }
+
+  public CharSequence getStatus() {
+    return lightSensor.getStatus();
   }
 }

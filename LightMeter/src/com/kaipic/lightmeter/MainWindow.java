@@ -8,7 +8,7 @@ import android.widget.*;
 import android.widget.AdapterView.OnItemSelectedListener;
 import com.kaipic.lightmeter.lib.*;
 
-public class MainWindow extends Activity implements LightSensorListener {
+public class MainWindow extends Activity implements LightMeterListener {
   private LightMeter lightMeter;
   private Button pauseButton;
   private TextView shutterSpeedTextView;
@@ -27,28 +27,19 @@ public class MainWindow extends Activity implements LightSensorListener {
     registerEvents();
   }
 
-  public void setLightMeter(LightMeter lightMeter) {
-    this.lightMeter = lightMeter;
-    getLightSensor().subscribe(this);
-    startSensor();
-  }
 
-  public LightMeter getLightMeter() {
+  public LightMeter getLightMeter(){
     return lightMeter;
   }
 
-  private void startSensor() {
-    getLightSensor().start();
-  }
-
-  public void onLightSensorChange() {
+  public void onLightMeterChange() {
     display();
   }
 
   public void display() {
-    exposureValueTextView.setText(lightMeter.getLightSensor().getISO100EV().toString());
+    exposureValueTextView.setText(lightMeter.getISO100EV().toString());
     shutterSpeedTextView.setText(lightMeter.calculateShutterSpeed().toString());
-    statusTextView.setText(lightMeter.getLightSensor().getStatus());
+    statusTextView.setText(lightMeter.getStatus());
   }
 
   private void initializeFields() {
@@ -56,7 +47,10 @@ public class MainWindow extends Activity implements LightSensorListener {
     exposureValueTextView = (TextView) findViewById(R.id.exposureValue);
     shutterSpeedTextView = (TextView) findViewById(R.id.shutterSpeed);
     statusTextView = (TextView) findViewById(R.id.status_text_view);
-    setLightMeter(new LightMeter(getSensor()));
+    lightMeter = new LightMeter(createLightSensor());
+    lightMeter.subscribe(this);
+    lightMeter.start();
+
     apertureSpinner = (Spinner) findViewById(R.id.apertureSpinner);
     isoSpinner = (Spinner) findViewById(R.id.isoSpinner);
     setupSpinner(isoSpinner, R.array.isos);
@@ -70,7 +64,7 @@ public class MainWindow extends Activity implements LightSensorListener {
     spinner.setAdapter(adapter);
   }
 
-  private LightSensor getSensor() {
+  private LightSensor createLightSensor() {
     return isTesting ? new MockLightSensor() : new AmbientLightSensor(getApplicationContext());
   }
 
@@ -114,13 +108,10 @@ public class MainWindow extends Activity implements LightSensorListener {
   }
 
   private void toggleLock() {
-    LightSensor lightSensor = getLightSensor();
-    lightSensor.togglePause();
-    boolean locked = lightSensor.isPaused();
+    lightMeter.togglePause();
+    boolean locked = lightMeter.isPaused();
     int resId = locked ? R.string.continue_btn : R.string.pause;
     pauseButton.setText(getString(resId));
-    TextView textView = (TextView) findViewById(R.id.status_text_view);
-    textView.setText(lightSensor.getStatus());
   }
 
 
@@ -131,31 +122,23 @@ public class MainWindow extends Activity implements LightSensorListener {
 
   protected void onResume() {
     super.onResume();
-    startSensor();
+    lightMeter.start();
   }
 
   protected void onRestoreInstanceState(Bundle savedInstanceState) {
     super.onRestoreInstanceState(savedInstanceState);
-    startSensor();
-  }
-
-  private LightSensor getLightSensor() {
-    return lightMeter.getLightSensor();
+    lightMeter.start();
   }
 
   protected void onStop() {
-    stopSensor();
+    lightMeter.stop();
     super.onStop();
   }
 
   @Override
   protected void onDestroy() {
-    stopSensor();
+    lightMeter.stop();
     super.onDestroy();
-  }
-
-  private void stopSensor() {
-    getLightSensor().stop();
   }
 
 }
