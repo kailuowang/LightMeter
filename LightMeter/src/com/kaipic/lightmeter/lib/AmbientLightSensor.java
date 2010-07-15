@@ -18,11 +18,9 @@ public class AmbientLightSensor extends LightSensor implements SensorEventListen
         Context.SENSOR_SERVICE);
   }
 
-  AmbientLightSensor() {
-  }
+  AmbientLightSensor() {}
 
-  public void onAccuracyChanged(Sensor arg0, int arg1) {
-  }
+  public void onAccuracyChanged(Sensor arg0, int arg1) {}
 
   public void onSensorChanged(SensorEvent arg0) {
     mRead = arg0.values[0];

@@ -48,5 +48,4 @@ public class LightMeterTest {
     verify(lightSensor2).subscribe(meter);
   }
 
-
 }

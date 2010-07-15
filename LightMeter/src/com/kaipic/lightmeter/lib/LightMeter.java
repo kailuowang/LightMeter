@@ -8,8 +8,6 @@ public class LightMeter implements LightSensorListener {
   private Aperture aperture = new Aperture(8.0f);
   private Set<LightMeterListener> subscribers = new HashSet<LightMeterListener>();
 
-  public LightMeter() {
-  }
 
   public LightMeter(LightSensor lightSensor) {
     setLightSensor(lightSensor);
