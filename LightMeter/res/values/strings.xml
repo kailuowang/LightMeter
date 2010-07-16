@@ -4,6 +4,7 @@
   <string name="pause">Lock</string>
   <string name="continue_btn">Unlock</string>
   <string name="app_name">LightMeter</string>
-  <string name="apertureSpiner_prompt">Please set aperture</string>
-  <string name="isoSpiner_prompt">Please set ISO</string>
+  <string name="aperture_spinner_prompt">Please set aperture</string>
+  <string name="iso_spinner_prompt">Please set ISO</string>
+  <string name="exposure_spinner_prompt"></string>
 </resources>

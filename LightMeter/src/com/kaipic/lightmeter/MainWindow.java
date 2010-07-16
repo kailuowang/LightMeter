@@ -13,10 +13,12 @@ public class MainWindow extends Activity implements LightMeterListener {
   private Button pauseButton;
   private TextView shutterSpeedTextView;
   private Spinner apertureSpinner;
+  private Spinner exposureSpinner;
   private Spinner isoSpinner;
   public static boolean isTesting = true;
   private TextView exposureValueTextView;
   private TextView statusTextView;
+  private LightSensorRepo lightSensorRepo;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -50,11 +52,13 @@ public class MainWindow extends Activity implements LightMeterListener {
     lightMeter = new LightMeter(createLightSensor());
     lightMeter.subscribe(this);
     lightMeter.start();
-
+    lightSensorRepo = new LightSensorRepo(this.getApplicationContext());
     apertureSpinner = (Spinner) findViewById(R.id.apertureSpinner);
     isoSpinner = (Spinner) findViewById(R.id.isoSpinner);
+    exposureSpinner = (Spinner) findViewById(R.id.exposureSpinner);
     setupSpinner(isoSpinner, R.array.isos);
     setupSpinner(apertureSpinner, R.array.appertures);
+    setupSpinner(exposureSpinner, R.array.exposureValues);
   }
 
   private void setupSpinner(Spinner spinner, int itemArray) {
@@ -77,14 +81,20 @@ public class MainWindow extends Activity implements LightMeterListener {
     });
 
     registerSpinnerListenner(apertureSpinner, new SpinnerItemSelectListenner() {
-      public void onSpinnerItemSelected(Object selectedValue) {
+      public void onSpinnerItemSelected(Object selectedValue, int position) {
         setAperture((String) selectedValue);
         display();
       }
     });
     registerSpinnerListenner(isoSpinner, new SpinnerItemSelectListenner() {
-      public void onSpinnerItemSelected(Object selectedValue) {
+      public void onSpinnerItemSelected(Object selectedValue, int position) {
         lightMeter.setISO(Integer.parseInt((String) selectedValue));
+        display();
+      }
+    });
+    registerSpinnerListenner(exposureSpinner, new SpinnerItemSelectListenner() {
+      public void onSpinnerItemSelected(Object selectedValue, int position) {
+        lightMeter.setLightSensor(lightSensorRepo.getSensor(((Integer)position).toString()));
         display();
       }
     });
@@ -94,8 +104,8 @@ public class MainWindow extends Activity implements LightMeterListener {
     spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
       public void onItemSelected(AdapterView<?> arg0, View arg1,
                                  int arg2, long arg3) {
-        Object aperture = arg0.getItemAtPosition(arg2);
-        listener.onSpinnerItemSelected(aperture);
+        Object selectedItem = arg0.getItemAtPosition(arg2);
+        listener.onSpinnerItemSelected(selectedItem, arg2);
       }
 
       public void onNothingSelected(AdapterView<?> arg0) {

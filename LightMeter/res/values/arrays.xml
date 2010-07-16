@@ -34,4 +34,24 @@
     <item>1600</item>
     <item>3200</item>
   </string-array>
+
+  <string-array name="exposureValues">
+    <item>AUTO</item>
+    <item>1 Distant view of lighted skyline.</item>
+    <item>2 Lightning (with time exposure).</item>
+    <item>3 Fireworks (with time exposure).</item>
+    <item>4 Subjects under bright street lamps.</item>
+    <item>5 Night home interiors, average light.</item>
+    <item>6 Brightly lit home interiors at night. </item>
+    <item>7 Bottom of rainforest canopy.</item>
+    <item>8 Las Vegas or Times Square at night.</item>
+    <item>9 Landscapes 10 minutes after sunset.</item>
+    <item>10 Landscapes immediately after sunset. </item>
+    <item>11 Sunsets. Subjects in open shade.</item>
+    <item>12 Subject in heavy overcast.</item>
+    <item>13 Subjects in cloudy-bright light.</item>
+    <item>14 Subjects in weak, hazy sun.</item>
+    <item>15 Subjects in bright or hazy sun.</item>
+    <item>16 Subjects in bright daylight on sand or snow.</item>
+  </string-array>
 </resources>

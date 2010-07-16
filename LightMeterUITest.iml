@@ -18,8 +18,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="LightMeter" />
-    <orderEntry type="library" name="libs" level="project" />
+    <orderEntry type="module" module-name="LightMeter" exported="" />
     <orderEntry type="library" scope="PROVIDED" name="Android 2.1-update1 Google APIs" level="application" />
   </component>
 </module>

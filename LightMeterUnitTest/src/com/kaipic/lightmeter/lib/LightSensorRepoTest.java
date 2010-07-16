@@ -34,6 +34,15 @@ public class LightSensorRepoTest {
   }
 
   @Test
+  public void shouldGetAutoSensorByStringZero() throws Exception {
+    Context context = mock(Context.class);
+    LightSensorRepo repo = new LightSensorRepo(context);
+    LightSensor sensor = repo.getSensor("0");
+    assertTrue(sensor instanceof AmbientLightSensor);
+    assertTrue(sensor == repo.getSensor("0"));
+  }
+
+  @Test
   public void shouldGetManualSensorByString() throws Exception {
     LightSensorRepo repo = new LightSensorRepo(null);
     LightSensor sensor = repo.getSensor("13");
