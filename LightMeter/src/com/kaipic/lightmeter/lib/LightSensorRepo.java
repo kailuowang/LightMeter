@@ -1,38 +1,26 @@
 package com.kaipic.lightmeter.lib;
 
-import android.content.Context;
-
 import java.util.HashMap;
 import java.util.Map;
 
-import static java.lang.Double.*;
+import static java.lang.Double.valueOf;
 
 public class LightSensorRepo {
-  private Context context;
+  private LightSensorFactory lightSensorFactory;
   private Map<LightSensorType, LightSensor> sensors = new HashMap<LightSensorType, LightSensor>();
 
-  public LightSensorRepo(Context context) {
-    this.context = context;
-  }
-
-  public LightSensor createSensor(LightSensorType type) {
-    switch (type) {
-      case AUTO:
-        return new AmbientLightSensor(context);
-
-      case MANUAL:
-        return new ManualLightSensor();
-    }
-    throw new UnsupportedOperationException(type + " creation not implemented in LightSensorRepo");
+  public LightSensorRepo(LightSensorFactory context) {
+    this.lightSensorFactory = context;
   }
 
   public LightSensor getSensor(String sensorInfo) {
-    if(sensorInfo == "0")
+    if ("0".equals(sensorInfo))
       sensorInfo = LightSensorType.AUTO.toString();
-    LightSensorType type = sensorInfo == LightSensorType.AUTO.toString() ? LightSensorType.AUTO : LightSensorType.MANUAL;
+    LightSensorType type = LightSensorType.AUTO.toString().equals(sensorInfo) ? LightSensorType.AUTO : LightSensorType.MANUAL;
     LightSensor sensor = sensors.get(type);
     if (sensor == null) {
-      sensor = createSensor(type);
+      sensor = lightSensorFactory.createSensor(type);
+      sensor.start();
       sensors.put(type, sensor);
     }
     if (type == LightSensorType.MANUAL) {
@@ -40,5 +28,16 @@ public class LightSensorRepo {
     }
     return sensor;
   }
-  
+
+  public void start() {
+    for (LightSensor sensor : sensors.values()) {
+      sensor.start();
+    }
+  }
+
+  public void stop() {
+    for (LightSensor sensor : sensors.values()) {
+      sensor.stop();
+    }
+  }
 }

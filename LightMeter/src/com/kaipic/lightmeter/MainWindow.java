@@ -27,6 +27,7 @@ public class MainWindow extends Activity implements LightMeterListener {
     setContentView(R.layout.main);
     initializeFields();
     registerEvents();
+    display();
   }
 
 
@@ -49,10 +50,12 @@ public class MainWindow extends Activity implements LightMeterListener {
     exposureValueTextView = (TextView) findViewById(R.id.exposureValue);
     shutterSpeedTextView = (TextView) findViewById(R.id.shutterSpeed);
     statusTextView = (TextView) findViewById(R.id.status_text_view);
-    lightMeter = new LightMeter(createLightSensor());
+
+    lightSensorRepo = new LightSensorRepo(new LightSensorFactory(this.getApplicationContext()));
+    lightMeter = new LightMeter(lightSensorRepo);
+    lightMeter.setLightSensor(LightSensorType.AUTO.toString());
     lightMeter.subscribe(this);
     lightMeter.start();
-    lightSensorRepo = new LightSensorRepo(this.getApplicationContext());
     apertureSpinner = (Spinner) findViewById(R.id.apertureSpinner);
     isoSpinner = (Spinner) findViewById(R.id.isoSpinner);
     exposureSpinner = (Spinner) findViewById(R.id.exposureSpinner);
@@ -68,9 +71,6 @@ public class MainWindow extends Activity implements LightMeterListener {
     spinner.setAdapter(adapter);
   }
 
-  private LightSensor createLightSensor() {
-    return isTesting ? new MockLightSensor() : new AmbientLightSensor(getApplicationContext());
-  }
 
   private void registerEvents() {
     pauseButton.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +94,7 @@ public class MainWindow extends Activity implements LightMeterListener {
     });
     registerSpinnerListenner(exposureSpinner, new SpinnerItemSelectListenner() {
       public void onSpinnerItemSelected(Object selectedValue, int position) {
-        lightMeter.setLightSensor(lightSensorRepo.getSensor(((Integer)position).toString()));
+        lightMeter.setLightSensor(lightSensorRepo.getSensor(((Integer) position).toString()));
         display();
       }
     });

@@ -29,7 +29,7 @@ public class LightMeterTest {
     LightMeterListener listener = mock(LightMeterListener.class);
     LightSensor sensor = new ManualLightSensor();
     LightMeter meter = new LightMeter(sensor);
-    
+
     meter.subscribe(listener);
     sensor.broadcast();
     verify(listener, times(1)).onLightMeterChange();

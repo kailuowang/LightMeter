@@ -5,16 +5,24 @@ import java.util.Set;
 
 public class LightMeter implements LightSensorListener {
   private LightSensor lightSensor;
+  private LightSensorRepo lightSensorRepo;
   private Aperture aperture = new Aperture(8.0f);
   private Set<LightMeterListener> subscribers = new HashSet<LightMeterListener>();
 
+  public LightMeter(LightSensorRepo lightSensorRepo) {
+    this.lightSensorRepo = lightSensorRepo;
+  }
 
-  public LightMeter(LightSensor lightSensor) {
+  LightMeter(LightSensor lightSensor) {
     setLightSensor(lightSensor);
   }
 
+  public void setLightSensor(String lightSensorInfo) {
+    setLightSensor(lightSensorRepo.getSensor(lightSensorInfo));
+  }
+
   public void setLightSensor(LightSensor lightSensor) {
-    if(this.lightSensor != null)
+    if (this.lightSensor != null)
       this.lightSensor.unsubscribe(this);
     this.lightSensor = lightSensor;
     this.lightSensor.subscribe(this);
@@ -55,12 +63,12 @@ public class LightMeter implements LightSensorListener {
     subscribers.remove(listener);
   }
 
-  public void togglePause(){
+  public void togglePause() {
     lightSensor.togglePause();
   }
 
   public void start() {
-    lightSensor.start();
+    lightSensorRepo.start();
   }
 
   public ExposureValue getISO100EV() {
@@ -68,7 +76,7 @@ public class LightMeter implements LightSensorListener {
   }
 
   public void stop() {
-    lightSensor.stop();
+    lightSensorRepo.stop();
   }
 
   public boolean isPaused() {
