@@ -26,7 +26,6 @@ public class MainWindowTest extends
   protected void setUp() throws Exception {
     super.setUp();
     mInstrumentation = getInstrumentation();
-    MainWindow.isTesting = true;
     setActivityInitialTouchMode(false);
     mActivity = getActivity();
     mButton = (Button) mActivity.findViewById(R.id.pause_button);

@@ -34,9 +34,11 @@ public final class R {
         public static final int aperture_spinner_prompt=0x7f050004;
         public static final int app_name=0x7f050003;
         public static final int continue_btn=0x7f050002;
+        public static final int copyright=0x7f050007;
         public static final int exposure_spinner_prompt=0x7f050006;
         public static final int hello=0x7f050000;
         public static final int iso_spinner_prompt=0x7f050005;
         public static final int pause=0x7f050001;
+        public static final int version=0x7f050008;
     }
 }

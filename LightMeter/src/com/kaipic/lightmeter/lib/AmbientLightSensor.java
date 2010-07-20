@@ -36,7 +36,7 @@ public class AmbientLightSensor extends LightSensor implements SensorEventListen
       Sensor sensor = sensors.get(0);
       mSensorManager.registerListener(this, sensor,
           SensorManager.SENSOR_DELAY_FASTEST);
-      mStatus = "listening to " + sensor.getName() + "  " + sensor.getVendor();
+      mStatus = "Using " + sensor.getName();
     }else{
       mStatus = "No ambient light sensor found on the phone.";
     }

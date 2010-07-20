@@ -1,7 +1,6 @@
 package com.kaipic.lightmeter;
 
 import android.app.Activity;
-import android.app.KeyguardManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
@@ -15,7 +14,6 @@ public class MainWindow extends Activity implements LightMeterListener {
   private Spinner apertureSpinner;
   private Spinner exposureSpinner;
   private Spinner isoSpinner;
-  public static boolean isTesting = false;
   private TextView exposureValueTextView;
   private TextView statusTextView;
   private LightSensorRepo lightSensorRepo;
@@ -23,7 +21,6 @@ public class MainWindow extends Activity implements LightMeterListener {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    if (isTesting) disableKeyGuardForTesting();
     setContentView(R.layout.main);
     initializeFields();
     registerEvents();
@@ -125,12 +122,6 @@ public class MainWindow extends Activity implements LightMeterListener {
     pauseButton.setText(getString(resId));
   }
 
-
-  private void disableKeyGuardForTesting() {
-    KeyguardManager keyGuardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
-    keyGuardManager.newKeyguardLock("com.kaipic.lightmeter.MainWindow").disableKeyguard();
-  }
-
   protected void onResume() {
     super.onResume();
     lightMeter.start();
@@ -140,11 +131,6 @@ public class MainWindow extends Activity implements LightMeterListener {
     super.onRestoreInstanceState(savedInstanceState);
     lightMeter.start();
   }
-
-//    protected void onStop() {
-//        lightMeter.stop();
-//        super.onStop();
-//    }
 
   protected void onPause() {
     lightMeter.stop();
