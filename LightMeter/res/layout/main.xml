@@ -84,6 +84,5 @@
           android:layout_span="2"
           android:layout_column="1"/>
     </TableRow>
- 
   </TableLayout>
 </LinearLayout>

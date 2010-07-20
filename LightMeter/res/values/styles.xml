@@ -1,0 +1,25 @@
+<?xml  version="1.0" encoding="utf-8"?>
+<resources>
+  <style name="MyTheme" parent="android:Theme.Black">
+    <item name="android:spinnerItemStyle">@style/MySpinnerItemView</item>
+    <item name="android:spinnerStyle">@style/MySpinnerView</item>
+    <item name="android:spinnerDropDownItemStyle">@style/MySpinnerDropDownItemView</item>
+  </style>
+  <style name="MySpinnerItemView" parent="android:style/Widget.TextView.SpinnerItem">
+    <item name="android:textAppearance">@style/SmallTextAppearance</item>
+  </style>
+  <style name="MySpinnerDropDownItemView" parent="android:style/Widget.DropDownItem.Spinner">
+    <item name="android:textAppearance">@style/SmallerTextAppearance</item>
+  </style>
+  <style name="MySpinnerView" parent="android:style/Widget.Spinner">
+    <item name="android:textAppearance">@style/SmallTextAppearance</item>
+  </style>
+  <style name="SmallTextAppearance" parent="android:style/TextAppearance">
+    <item name="android:textSize">13sp</item>
+    <item name="android:textColor">#333</item>
+  </style>
+  <style name="SmallerTextAppearance" parent="android:style/TextAppearance">
+    <item name="android:textSize">12sp</item>
+    <item name="android:textColor">#333</item>
+  </style>
+</resources>

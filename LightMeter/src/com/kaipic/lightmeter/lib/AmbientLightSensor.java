@@ -18,9 +18,11 @@ public class AmbientLightSensor extends LightSensor implements SensorEventListen
         Context.SENSOR_SERVICE);
   }
 
-  AmbientLightSensor() {}
+  AmbientLightSensor() {
+  }
 
-  public void onAccuracyChanged(Sensor arg0, int arg1) {}
+  public void onAccuracyChanged(Sensor arg0, int arg1) {
+  }
 
   public void onSensorChanged(SensorEvent arg0) {
     mRead = arg0.values[0];
@@ -37,7 +39,7 @@ public class AmbientLightSensor extends LightSensor implements SensorEventListen
       mSensorManager.registerListener(this, sensor,
           SensorManager.SENSOR_DELAY_FASTEST);
       mStatus = "Using " + sensor.getName();
-    }else{
+    } else {
       mStatus = "No ambient light sensor found on the phone.";
     }
 

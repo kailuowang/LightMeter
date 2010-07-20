@@ -9,6 +9,7 @@ public class LightMeter implements LightSensorListener {
   private LightSensorRepo lightSensorRepo;
   private Aperture aperture = new Aperture(8.0f);
   private Set<LightMeterListener> subscribers = new HashSet<LightMeterListener>();
+
   public LightMeter(LightSensorRepo lightSensorRepo) {
     this.lightSensorRepo = lightSensorRepo;
   }

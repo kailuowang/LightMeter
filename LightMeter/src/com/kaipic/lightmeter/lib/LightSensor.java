@@ -4,8 +4,6 @@ package com.kaipic.lightmeter.lib;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.kaipic.lightmeter.lib.Util.log2;
-
 public abstract class LightSensor {
   private boolean paused = false;
   private float lastRead = 0;
@@ -80,7 +78,7 @@ public abstract class LightSensor {
     listeners.remove(listener);
   }
 
-  public LightSensorType getType(){
+  public LightSensorType getType() {
     return LightSensorType.UNKNOWN;
   }
 }

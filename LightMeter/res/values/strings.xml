@@ -6,9 +6,9 @@
   <string name="app_name">Light Meter EAP</string>
   <string name="aperture_spinner_prompt">Please set aperture</string>
   <string name="iso_spinner_prompt">Please set ISO</string>
-  <string name="exposure_spinner_prompt"></string>
-  <string name="copyright">copyright © 2010 Kailuo Wang  </string>
-  <string name="version">Version 1.0 Early Access Preview (EAP) </string>
+  <string name="exposure_spinner_prompt">Please set EV setting</string>
+  <string name="copyright">copyright © 2010 Kailuo Wang</string>
+  <string name="version">Version 1.0 Early Access Preview (EAP)</string>
   <string name="about">About</string>
   <string name="ok">OK</string>
   <string name="photo_website">Website: http://kaipic.com</string>

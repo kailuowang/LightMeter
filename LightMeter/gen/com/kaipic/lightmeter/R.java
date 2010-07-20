@@ -20,23 +20,23 @@ public final class R {
         public static final int tag=0x7f020001;
     }
     public static final class id {
-        public static final int about=0x7f070009;
-        public static final int about_ok_button=0x7f070001;
-        public static final int apertureSpinner=0x7f070002;
-        public static final int exposureSpinner=0x7f070004;
-        public static final int exposureValue=0x7f070005;
-        public static final int isoSpinner=0x7f070003;
-        public static final int pause_button=0x7f070007;
-        public static final int shutterSpeed=0x7f070006;
-        public static final int status_text_view=0x7f070008;
-        public static final int textAboutVersion=0x7f070000;
+        public static final int about=0x7f080009;
+        public static final int about_ok_button=0x7f080001;
+        public static final int apertureSpinner=0x7f080002;
+        public static final int exposureSpinner=0x7f080004;
+        public static final int exposureValue=0x7f080005;
+        public static final int isoSpinner=0x7f080003;
+        public static final int pause_button=0x7f080007;
+        public static final int shutterSpeed=0x7f080006;
+        public static final int status_text_view=0x7f080008;
+        public static final int textAboutVersion=0x7f080000;
     }
     public static final class layout {
         public static final int about_dialog=0x7f030000;
         public static final int main=0x7f030001;
     }
     public static final class menu {
-        public static final int option_menu=0x7f060000;
+        public static final int option_menu=0x7f070000;
     }
     public static final class string {
         public static final int about=0x7f050009;
@@ -52,5 +52,13 @@ public final class R {
         public static final int pause=0x7f050001;
         public static final int photo_website=0x7f05000b;
         public static final int version=0x7f050008;
+    }
+    public static final class style {
+        public static final int MySpinnerDropDownItemView=0x7f060002;
+        public static final int MySpinnerItemView=0x7f060001;
+        public static final int MySpinnerView=0x7f060003;
+        public static final int MyTheme=0x7f060000;
+        public static final int SmallTextAppearance=0x7f060004;
+        public static final int SmallerTextAppearance=0x7f060005;
     }
 }
