@@ -23,6 +23,8 @@ public class ExposureValue {
   }
 
   public String toString() {
+    if (value < -4.9)
+      return "N/A";
     return String.format("EV%.1f", value);
   }
 

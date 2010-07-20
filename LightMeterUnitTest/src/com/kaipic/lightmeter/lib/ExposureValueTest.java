@@ -11,6 +11,11 @@ public class ExposureValueTest {
   }
 
   @Test
+  public void shouldGenerateReasonableStringIfValueIsTooLow() throws Exception {
+    assertEquals("N/A", new ExposureValue(-5f).toString());
+  }
+
+  @Test
   public void shouldBeAbleToMultiplyToFloatLargerThan1() throws Exception {
     ExposureValue ev = new ExposureValue(2f);
     assertEVEquals(new ExposureValue(3f), ev.multiply(2f));
