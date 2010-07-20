@@ -1,7 +1,12 @@
 package com.kaipic.lightmeter;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -27,6 +32,13 @@ public class MainWindow extends Activity implements LightMeterListener {
     display();
   }
 
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.option_menu, menu);
+    return true;
+  }
+
   public LightMeter getLightMeter() {
     return lightMeter;
   }
@@ -49,7 +61,7 @@ public class MainWindow extends Activity implements LightMeterListener {
     shutterSpeedTextView = (TextView) findViewById(R.id.shutterSpeed);
     statusTextView = (TextView) findViewById(R.id.status_text_view);
 
-    lightSensorRepo = new LightSensorRepo(new LightSensorFactory(this.getApplicationContext()));
+    lightSensorRepo = new LightSensorRepo(new LightSensorFactory(getApplicationContext()));
     lightMeter = new LightMeter(lightSensorRepo);
     lightMeter.setLightSensor(LightSensorType.AUTO.toString());
     lightMeter.subscribe(this);
@@ -62,9 +74,46 @@ public class MainWindow extends Activity implements LightMeterListener {
     setupSpinner(exposureSpinner, R.array.exposureValues);
   }
 
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.about:
+        showDialog(1);
+        return true;
+      default:
+        return super.onOptionsItemSelected(item);
+    }
+  }
+
+
+  protected Dialog onCreateDialog(int id) {
+    Dialog dialog;
+    switch (id) {
+      case 1:
+        dialog = createAboutDialog();
+        break;
+      default:
+        dialog = null;
+    }
+    return dialog;
+
+  }
+
+  private Dialog createAboutDialog() {
+    final Dialog dialog = new Dialog(this);
+    dialog.setContentView(R.layout.about_dialog);
+    dialog.setTitle("About Light Meter");
+    Button okButton = (Button) dialog.findViewById(R.id.about_ok_button);
+    okButton.setOnClickListener(new View.OnClickListener() {
+      public void onClick(View v) {
+        dialog.dismiss();
+      }
+    });
+    return dialog;
+  }
+
   private void setupSpinner(Spinner spinner, int itemArray) {
     ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(
-      this, itemArray, android.R.layout.simple_spinner_item);
+        this, itemArray, android.R.layout.simple_spinner_item);
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spinner.setAdapter(adapter);
   }
