@@ -79,4 +79,8 @@ public abstract class LightSensor {
   public void unsubscribe(LightSensorListener listener) {
     listeners.remove(listener);
   }
+
+  public LightSensorType getType(){
+    return LightSensorType.UNKNOWN;
+  }
 }

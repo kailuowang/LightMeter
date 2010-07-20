@@ -15,7 +15,7 @@ public class MainWindow extends Activity implements LightMeterListener {
   private Spinner apertureSpinner;
   private Spinner exposureSpinner;
   private Spinner isoSpinner;
-  public static boolean isTesting = true;
+  public static boolean isTesting = false;
   private TextView exposureValueTextView;
   private TextView statusTextView;
   private LightSensorRepo lightSensorRepo;
@@ -30,7 +30,6 @@ public class MainWindow extends Activity implements LightMeterListener {
     display();
   }
 
-
   public LightMeter getLightMeter() {
     return lightMeter;
   }
@@ -42,7 +41,9 @@ public class MainWindow extends Activity implements LightMeterListener {
   public void display() {
     exposureValueTextView.setText(lightMeter.getISO100EV().toString());
     shutterSpeedTextView.setText(lightMeter.calculateShutterSpeed().toString());
-    statusTextView.setText(lightMeter.getStatus());
+    statusTextView.setText("Status: " + lightMeter.getStatus());
+    boolean usingAutoLightSensor = lightMeter.getLightSensor().getType().equals(LightSensorType.AUTO);
+    pauseButton.setVisibility(usingAutoLightSensor ? View.VISIBLE : View.INVISIBLE);
   }
 
   private void initializeFields() {
@@ -66,7 +67,7 @@ public class MainWindow extends Activity implements LightMeterListener {
 
   private void setupSpinner(Spinner spinner, int itemArray) {
     ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(
-        this, itemArray, android.R.layout.simple_spinner_item);
+      this, itemArray, android.R.layout.simple_spinner_item);
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spinner.setAdapter(adapter);
   }
@@ -140,12 +141,16 @@ public class MainWindow extends Activity implements LightMeterListener {
     lightMeter.start();
   }
 
-  protected void onStop() {
+//    protected void onStop() {
+//        lightMeter.stop();
+//        super.onStop();
+//    }
+
+  protected void onPause() {
     lightMeter.stop();
-    super.onStop();
+    super.onPause();
   }
 
-  @Override
   protected void onDestroy() {
     lightMeter.stop();
     super.onDestroy();

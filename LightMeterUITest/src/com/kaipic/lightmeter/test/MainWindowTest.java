@@ -4,17 +4,20 @@ import android.app.Instrumentation;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.KeyEvent;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import com.kaipic.lightmeter.MainWindow;
 import com.kaipic.lightmeter.R;
 import com.kaipic.lightmeter.lib.*;
 
 public class MainWindowTest extends
-    ActivityInstrumentationTestCase2<MainWindow> {
+  ActivityInstrumentationTestCase2<MainWindow> {
   private Instrumentation mInstrumentation;
   private MainWindow mActivity;
   private Button mButton;
   private TextView mExposureValueView;
+  private Spinner mIsoSpinner;
+  private Spinner mExposureSpinner;
 
   public MainWindowTest() {
     super("com.kaipic.lightmeter", MainWindow.class);
@@ -28,6 +31,8 @@ public class MainWindowTest extends
     mActivity = getActivity();
     mButton = (Button) mActivity.findViewById(R.id.pause_button);
     mExposureValueView = (TextView) mActivity.findViewById(R.id.exposureValue);
+    mIsoSpinner = (Spinner) mActivity.findViewById(R.id.isoSpinner);
+    mExposureSpinner = (Spinner) mActivity.findViewById(R.id.exposureSpinner);
   }
 
   public void testCreateActivity() {
@@ -65,6 +70,37 @@ public class MainWindowTest extends
     assertTrue(((TextView) mActivity.findViewById(R.id.shutterSpeed)).getText().length() > 0);
   }
 
+  public void testSetISOShouldSetISOtoLightMeter() {
+    runOnUiThread(new Runnable() {
+      public void run() {
+        mIsoSpinner.requestFocus();
+        mIsoSpinner.setSelection(2);
+      }
+    });
+    String expectedISO = mActivity.getResources().getStringArray(R.array.isos)[2];
+    assertEquals(expectedISO, String.valueOf(mActivity.getLightMeter().getISO()));
+  }
+
+  public void testSetExposureValueShouldResultInSuchExposureValueInLightMeter() {
+    setExposureValueSpinnerTo(3);
+    assertEquals(3f, mActivity.getLightMeter().getISO100EV().getValue(), 0.001f);
+  }
+
+  public void testSetExposureValueToAutoShouldResultInAutomaticLightSensor() {
+    setExposureValueSpinnerToAuto();
+    assertEquals(LightSensorType.AUTO,  mActivity.getLightMeter().getLightSensor().getType());
+  }
+
+  public void testSetExposureValueToAutoShouldShowLockButton() {
+    setExposureValueSpinnerToAuto();
+    assertTrue(mButton.isShown());
+  }
+
+  public void testSetExposureValueToManualShouldHideLockButton() {
+    setExposureValueSpinnerTo(1);
+    assertFalse(mButton.isShown());
+  }
+
   public void testSetAperture() {
     mActivity.setAperture("5.6");
     assertEquals(new Aperture(5.6f), mActivity.getLightMeter().getAperture());
@@ -82,6 +118,19 @@ public class MainWindowTest extends
       }
     });
     assertEquals("EV10.0", mExposureValueView.getText());
+  }
+
+  private void setExposureValueSpinnerTo(final int position) {
+    runOnUiThread(new Runnable() {
+      public void run() {
+        mExposureSpinner.requestFocus();
+        mExposureSpinner.setSelection(position);
+      }
+    });
+  }
+
+  private void setExposureValueSpinnerToAuto() {
+    setExposureValueSpinnerTo(0);
   }
 
   private LightSensor createMockLightSensor(final float ev) {

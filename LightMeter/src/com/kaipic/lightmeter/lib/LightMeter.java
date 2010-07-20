@@ -5,10 +5,10 @@ import java.util.Set;
 
 public class LightMeter implements LightSensorListener {
   private LightSensor lightSensor;
+
   private LightSensorRepo lightSensorRepo;
   private Aperture aperture = new Aperture(8.0f);
   private Set<LightMeterListener> subscribers = new HashSet<LightMeterListener>();
-
   public LightMeter(LightSensorRepo lightSensorRepo) {
     this.lightSensorRepo = lightSensorRepo;
   }
@@ -19,6 +19,10 @@ public class LightMeter implements LightSensorListener {
 
   public void setLightSensor(String lightSensorInfo) {
     setLightSensor(lightSensorRepo.getSensor(lightSensorInfo));
+  }
+
+  public LightSensor getLightSensor() {
+    return lightSensor;
   }
 
   public void setLightSensor(LightSensor lightSensor) {
@@ -73,6 +77,10 @@ public class LightMeter implements LightSensorListener {
 
   public ExposureValue getISO100EV() {
     return lightSensor.getISO100EV();
+  }
+
+  public int getISO() {
+    return lightSensor.getISO();
   }
 
   public void stop() {

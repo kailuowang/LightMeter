@@ -11,7 +11,7 @@ import java.util.List;
 public class AmbientLightSensor extends LightSensor implements SensorEventListener {
   SensorManager mSensorManager;
   private float mRead;
-  String mStatus = "UNKNOWN";
+  String mStatus = "Initialized";
 
   public AmbientLightSensor(Context context) {
     mSensorManager = (SensorManager) context.getSystemService(
@@ -37,17 +37,26 @@ public class AmbientLightSensor extends LightSensor implements SensorEventListen
       mSensorManager.registerListener(this, sensor,
           SensorManager.SENSOR_DELAY_FASTEST);
       mStatus = "listening to " + sensor.getName() + "  " + sensor.getVendor();
+    }else{
+      mStatus = "No ambient light sensor found on the phone.";
     }
+
   }
 
   @Override
   public void stop() {
     mSensorManager.unregisterListener(this);
+    mStatus = "Stopped";
   }
 
   @Override
   public String getStatus() {
     return mStatus;
+  }
+
+  @Override
+  public LightSensorType getType() {
+    return LightSensorType.AUTO;
   }
 
   @Override
