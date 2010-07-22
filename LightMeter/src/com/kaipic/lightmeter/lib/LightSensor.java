@@ -81,4 +81,8 @@ public abstract class LightSensor {
   public LightSensorType getType() {
     return LightSensorType.UNKNOWN;
   }
+
+  public void Calibrate(ExposureValue affirmedISO100EV) {
+    setCalibration((int) (100f * read() / (Math.pow(2, affirmedISO100EV.getValue()))));
+  }
 }

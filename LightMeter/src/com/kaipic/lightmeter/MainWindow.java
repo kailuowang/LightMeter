@@ -76,7 +76,7 @@ public class MainWindow extends Activity implements LightMeterListener {
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.about:
-        showDialog(1);
+        showDialog(R.id.about);
         return true;
       default:
         return super.onOptionsItemSelected(item);
@@ -87,7 +87,7 @@ public class MainWindow extends Activity implements LightMeterListener {
   protected Dialog onCreateDialog(int id) {
     Dialog dialog;
     switch (id) {
-      case 1:
+      case R.id.about:
         dialog = createAboutDialog();
         break;
       default:

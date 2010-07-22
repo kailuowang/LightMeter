@@ -1,7 +1,6 @@
 package com.kaipic.lightmeter.lib;
 
 import org.junit.Test;
-import org.mockito.verification.VerificationMode;
 
 import static com.kaipic.lightmeter.lib.ExposureValueTest.assertEVEquals;
 import static org.junit.Assert.assertTrue;
@@ -69,6 +68,14 @@ public class LightSensorTest {
     lightSensor.unsubscribe(listener);
     lightSensor.broadcast();
     verify(listener, times(1)).onLightSensorChange();
+  }
+
+  @Test
+  public void shouldCalibrateByExposureValue() throws Exception {
+    ManualLightSensor sensor = new ManualLightSensor();
+    sensor.setEVByEVAt100(new ExposureValue(10));
+    sensor.Calibrate(new ExposureValue(11));
+    assertEVEquals(new ExposureValue(11), sensor.getISO100EV());
   }
 
   protected LightSensor mockSensor() {

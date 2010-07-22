@@ -18,4 +18,5 @@ public class ManualLightSensor extends LightSensor {
   public LightSensorType getType() {
     return LightSensorType.MANUAL;
   }
+
 }
