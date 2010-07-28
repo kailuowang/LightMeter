@@ -28,6 +28,13 @@
           android:layout_width="fill_parent"
           android:layout_height="wrap_content"
           android:padding="3dip"
+          android:text="@string/twitter"/>
+    </TableRow>
+    <TableRow>
+      <TextView
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:padding="3dip"
           android:text="@string/blog_website"/>
     </TableRow>
     <TableRow>

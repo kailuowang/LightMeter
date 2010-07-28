@@ -2,6 +2,7 @@ package com.kaipic.lightmeter;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,12 +22,14 @@ public class MainWindow extends Activity implements LightMeterListener {
   private TextView exposureValueTextView;
   private TextView statusTextView;
   private LightSensorRepo lightSensorRepo;
+  private static final String PREFS_NAME = "LIGHT_METER_PREFS";
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
     initializeFields();
+    updateLightMeterSettings();
     registerEvents();
     display();
   }
@@ -94,7 +97,12 @@ public class MainWindow extends Activity implements LightMeterListener {
         dialog = null;
     }
     return dialog;
+  }
 
+  public void updateLightMeterSettings() {
+    setAperture((String) apertureSpinner.getSelectedItem());
+    lightMeter.setISO(Integer.parseInt((String) isoSpinner.getSelectedItem()));
+    lightMeter.setLightSensor(lightSensorRepo.getSensor(((Integer) exposureSpinner.getSelectedItemPosition()).toString()));
   }
 
   private Dialog createAboutDialog() {
@@ -110,11 +118,13 @@ public class MainWindow extends Activity implements LightMeterListener {
     return dialog;
   }
 
-  private void setupSpinner(Spinner spinner, int itemArray) {
+  public void setupSpinner(Spinner spinner, int itemArray) {
     ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(
         this, itemArray, android.R.layout.simple_spinner_item);
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spinner.setAdapter(adapter);
+    spinner.setSelection(getSharedPreferences(PREFS_NAME, 0).getInt(spinnerPreferenceKey(spinner), 0), false);
+
   }
 
 
@@ -126,24 +136,15 @@ public class MainWindow extends Activity implements LightMeterListener {
       }
     });
 
-    registerSpinnerListenner(apertureSpinner, new SpinnerItemSelectListenner() {
+    SpinnerItemSelectListenner listener = new SpinnerItemSelectListenner() {
       public void onSpinnerItemSelected(Object selectedValue, int position) {
-        setAperture((String) selectedValue);
+        updateLightMeterSettings();
         display();
       }
-    });
-    registerSpinnerListenner(isoSpinner, new SpinnerItemSelectListenner() {
-      public void onSpinnerItemSelected(Object selectedValue, int position) {
-        lightMeter.setISO(Integer.parseInt((String) selectedValue));
-        display();
-      }
-    });
-    registerSpinnerListenner(exposureSpinner, new SpinnerItemSelectListenner() {
-      public void onSpinnerItemSelected(Object selectedValue, int position) {
-        lightMeter.setLightSensor(lightSensorRepo.getSensor(((Integer) position).toString()));
-        display();
-      }
-    });
+    };
+    registerSpinnerListenner(exposureSpinner, listener);
+    registerSpinnerListenner(isoSpinner, listener);
+    registerSpinnerListenner(apertureSpinner, listener);
   }
 
   private void registerSpinnerListenner(Spinner spinner, final SpinnerItemSelectListenner listener) {
@@ -185,9 +186,30 @@ public class MainWindow extends Activity implements LightMeterListener {
     super.onPause();
   }
 
+  protected void onStop() {
+    super.onStop();
+    saveSettings();
+  }
+
   protected void onDestroy() {
     lightMeter.stop();
     super.onDestroy();
   }
 
+  public void saveSettings() {
+    SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+    SharedPreferences.Editor editor = settings.edit();
+    saveSpinnerSetting(editor, isoSpinner);
+    saveSpinnerSetting(editor, exposureSpinner);
+    saveSpinnerSetting(editor, apertureSpinner);
+    editor.commit();
+  }
+
+  private void saveSpinnerSetting(SharedPreferences.Editor editor, final Spinner spinner) {
+    editor.putInt(spinnerPreferenceKey(spinner), spinner.getSelectedItemPosition());
+  }
+
+  private String spinnerPreferenceKey(final Spinner spinner) {
+    return "Spinner" + spinner.getId() + "Position";
+  }
 }

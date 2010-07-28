@@ -11,13 +11,14 @@ import com.kaipic.lightmeter.R;
 import com.kaipic.lightmeter.lib.*;
 
 public class MainWindowTest extends
-  ActivityInstrumentationTestCase2<MainWindow> {
+    ActivityInstrumentationTestCase2<MainWindow> {
   private Instrumentation mInstrumentation;
   private MainWindow mActivity;
   private Button mButton;
   private TextView mExposureValueView;
   private Spinner mIsoSpinner;
   private Spinner mExposureSpinner;
+  private Spinner mApertureSpinner;
 
   public MainWindowTest() {
     super("com.kaipic.lightmeter", MainWindow.class);
@@ -32,6 +33,19 @@ public class MainWindowTest extends
     mExposureValueView = (TextView) mActivity.findViewById(R.id.exposureValue);
     mIsoSpinner = (Spinner) mActivity.findViewById(R.id.isoSpinner);
     mExposureSpinner = (Spinner) mActivity.findViewById(R.id.exposureSpinner);
+    mApertureSpinner = (Spinner) mActivity.findViewById(R.id.apertureSpinner);
+  }
+
+  protected void tearDown() throws Exception {
+    runOnUiThread(new Runnable() {
+      public void run() {
+        mIsoSpinner.setSelection(0, false);
+        mExposureSpinner.setSelection(0, false);
+        mApertureSpinner.setSelection(0, false);
+      }
+    });
+
+    super.tearDown();
   }
 
   public void testCreateActivity() {
@@ -87,7 +101,7 @@ public class MainWindowTest extends
 
   public void testSetExposureValueToAutoShouldResultInAutomaticLightSensor() {
     setExposureValueSpinnerToAuto();
-    assertEquals(LightSensorType.AUTO,  mActivity.getLightMeter().getLightSensor().getType());
+    assertEquals(LightSensorType.AUTO, mActivity.getLightMeter().getLightSensor().getType());
   }
 
   public void testSetExposureValueToAutoShouldShowLockButton() {
@@ -118,6 +132,24 @@ public class MainWindowTest extends
     });
     assertEquals("EV10.0", mExposureValueView.getText());
   }
+
+  public void testSetupSpinnerShouldRememberLastPosition() {
+    runOnUiThread(new Runnable() {
+      public void run() {
+        mIsoSpinner.requestFocus();
+        mIsoSpinner.setSelection(2);
+      }
+    });
+    mActivity.saveSettings();
+    runOnUiThread(new Runnable() {
+      public void run() {
+        mActivity.setupSpinner(mIsoSpinner, R.array.isos);
+        assertEquals(2, mIsoSpinner.getSelectedItemPosition());
+        mIsoSpinner.setSelection(0);
+      }
+    });
+  }
+
 
   private void setExposureValueSpinnerTo(final int position) {
     runOnUiThread(new Runnable() {
