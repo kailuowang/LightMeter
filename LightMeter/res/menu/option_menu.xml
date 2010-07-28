@@ -4,4 +4,7 @@
   <item android:id="@+id/about"
         android:icon="@drawable/tag"
         android:title="@string/about"/>
+  <item android:id="@+id/calibrate"
+        android:icon="@drawable/calibrate"
+        android:title="@string/calibrate"/>
 </menu>

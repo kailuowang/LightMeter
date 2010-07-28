@@ -18,14 +18,16 @@ public final class R {
   }
 
   public static final class drawable {
-    public static final int icon = 0x7f020000;
-    public static final int tag = 0x7f020001;
+    public static final int calibrate = 0x7f020000;
+    public static final int icon = 0x7f020001;
+    public static final int tag = 0x7f020002;
   }
 
   public static final class id {
     public static final int about = 0x7f080009;
     public static final int about_ok_button = 0x7f080001;
     public static final int apertureSpinner = 0x7f080002;
+    public static final int calibrate = 0x7f08000a;
     public static final int exposureSpinner = 0x7f080004;
     public static final int exposureValue = 0x7f080005;
     public static final int isoSpinner = 0x7f080003;
@@ -49,6 +51,7 @@ public final class R {
     public static final int aperture_spinner_prompt = 0x7f050004;
     public static final int app_name = 0x7f050003;
     public static final int blog_website = 0x7f05000c;
+    public static final int calibrate = 0x7f05000e;
     public static final int continue_btn = 0x7f050002;
     public static final int copyright = 0x7f050007;
     public static final int exposure_spinner_prompt = 0x7f050006;

@@ -1,7 +1,9 @@
 package com.kaipic.lightmeter;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
@@ -81,6 +83,9 @@ public class MainWindow extends Activity implements LightMeterListener {
       case R.id.about:
         showDialog(R.id.about);
         return true;
+      case R.id.calibrate:
+        showDialog(R.id.calibrate);
+        return true;
       default:
         return super.onOptionsItemSelected(item);
     }
@@ -93,10 +98,34 @@ public class MainWindow extends Activity implements LightMeterListener {
       case R.id.about:
         dialog = createAboutDialog();
         break;
+      case R.id.calibrate:
+        dialog = createCalibrateDialog();
+        break;
       default:
         dialog = null;
     }
     return dialog;
+  }
+
+  private Dialog createCalibrateDialog() {
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    builder.setMessage("This will use the currently set manual exposure value to calibrate the auto light sensor. Please make sure the light sensor on your phone is getting the light matching that EV value right now and then you can click the calibrate button.")
+        .setCancelable(false)
+        .setPositiveButton("Calibrate", new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int id) {
+            calibrate();
+          }
+        })
+        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int id) {
+            dialog.cancel();
+          }
+        });
+    return builder.create();
+  }
+
+  public void calibrate() {
+
   }
 
   public void updateLightMeterSettings() {
