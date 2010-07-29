@@ -25,7 +25,7 @@ public class MainWindow extends Activity implements LightMeterListener {
   private TextView statusTextView;
   private static final String PREFS_NAME = "LIGHT_METER_PREFS";
   private static final String LIGHT_SENSOR_CALIBRATION = "LightSensorCalibration";
-  private static final boolean DEBUG = true;
+  private static final boolean DEBUG = false;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -131,6 +131,7 @@ public class MainWindow extends Activity implements LightMeterListener {
         .setNeutralButton("Reset Factory", new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int id) {
             lightMeter.resetCalibration();
+            display();
           }
         });
     return builder.create();
