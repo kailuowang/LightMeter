@@ -103,10 +103,18 @@ public class LightMeter implements LightSensorListener {
   }
 
   public void calibrate() {
-    getAutoLightSensor().calibrate(getISO100EV());
+    if (!usingAutoLightSensor()) {
+      getAutoLightSensor().calibrate(getISO100EV());
+    }
+  }
+
+  public void resetCalibration() {
+    getAutoLightSensor().resetCalibration();
   }
 
   private LightSensor getAutoLightSensor() {
+    if (lightSensor.getType() == LightSensorType.AUTO)
+      return lightSensor;
     return lightSensorRepo.getSensor(LightSensorType.AUTO.toString());
   }
 
@@ -116,5 +124,9 @@ public class LightMeter implements LightSensorListener {
 
   public void setCalibration(float calibration) {
     getAutoLightSensor().setCalibration(calibration);
+  }
+
+  public boolean usingAutoLightSensor() {
+    return lightSensor.getType().equals(LightSensorType.AUTO);
   }
 }

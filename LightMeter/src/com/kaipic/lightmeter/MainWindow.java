@@ -25,6 +25,7 @@ public class MainWindow extends Activity implements LightMeterListener {
   private TextView statusTextView;
   private static final String PREFS_NAME = "LIGHT_METER_PREFS";
   private static final String LIGHT_SENSOR_CALIBRATION = "LightSensorCalibration";
+  private static final boolean DEBUG = true;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -55,8 +56,7 @@ public class MainWindow extends Activity implements LightMeterListener {
     exposureValueTextView.setText(lightMeter.getISO100EV().toString());
     shutterSpeedTextView.setText(lightMeter.calculateShutterSpeed().toString());
     statusTextView.setText("Status: " + lightMeter.getStatus());
-    boolean usingAutoLightSensor = lightMeter.getLightSensor().getType().equals(LightSensorType.AUTO);
-    pauseButton.setVisibility(usingAutoLightSensor ? View.VISIBLE : View.INVISIBLE);
+    pauseButton.setVisibility(lightMeter.usingAutoLightSensor() ? View.VISIBLE : View.INVISIBLE);
   }
 
   private void initializeFields() {
@@ -75,11 +75,15 @@ public class MainWindow extends Activity implements LightMeterListener {
   }
 
   private void initializeLightMeter() {
-    lightMeter = new LightMeter(new LightSensorRepo(new LightSensorFactory(getApplicationContext())));
+    lightMeter = new LightMeter(new LightSensorRepo(getLightSensorFactory()));
     lightMeter.setLightSensor(LightSensorType.AUTO.toString());
     lightMeter.setCalibration(getSettings().getFloat(LIGHT_SENSOR_CALIBRATION, lightMeter.getCalibration()));
     lightMeter.subscribe(this);
     lightMeter.start();
+  }
+
+  private LightSensorFactory getLightSensorFactory() {
+    return DEBUG ? new TestLightSensorFactory(getApplicationContext()) : new LightSensorFactory(getApplicationContext());
   }
 
   public boolean onOptionsItemSelected(MenuItem item) {
@@ -114,22 +118,22 @@ public class MainWindow extends Activity implements LightMeterListener {
   private Dialog createCalibrateDialog() {
     AlertDialog.Builder builder = new AlertDialog.Builder(this);
     builder.setMessage("This will use the currently set manual exposure value to calibrate the auto light sensor. Please make sure the light sensor on your phone is getting the light matching that EV value right now and then you can click the calibrate button.")
-        .setCancelable(false)
         .setPositiveButton("Calibrate", new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int id) {
-            calibrate();
+            lightMeter.calibrate();
           }
         })
         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int id) {
             dialog.cancel();
           }
+        })
+        .setNeutralButton("Reset Factory", new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int id) {
+            lightMeter.resetCalibration();
+          }
         });
     return builder.create();
-  }
-
-  public void calibrate() {
-    lightMeter.calibrate();
   }
 
   public void updateLightMeterSettings() {

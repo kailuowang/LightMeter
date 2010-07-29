@@ -23,4 +23,7 @@ public class MockLightSensor extends LightSensor {
     return this;
   }
 
+  public LightSensorType getType() {
+    return LightSensorType.AUTO;
+  }
 }

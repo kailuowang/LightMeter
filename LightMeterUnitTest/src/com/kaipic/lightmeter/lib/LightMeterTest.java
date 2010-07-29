@@ -36,6 +36,15 @@ public class LightMeterTest {
   }
 
   @Test
+  public void shouldNotCalibrateAutoSensorWhenCurrentLight() throws Exception {
+    LightSensor lightSensor = mock(LightSensor.class);
+    when(lightSensor.getType()).thenReturn(LightSensorType.AUTO);
+    LightMeter lightMeter = new LightMeter(lightSensor);
+    lightMeter.calibrate();
+    verify(lightSensor, never()).calibrate(any(ExposureValue.class));
+  }
+
+  @Test
   public void shouldNotifySubscribedListenersWhenSensorBroadcast() throws Exception {
     LightMeterListener listener = mock(LightMeterListener.class);
     LightSensor sensor = new ManualLightSensor();

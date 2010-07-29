@@ -8,10 +8,6 @@ public class MockLightSensorFactory extends LightSensorFactory {
   private float mockReading;
 
   protected LightSensor createAutoLightSensor() {
-    return new LightSensor() {
-      public float read() {
-        return mockReading;
-      }
-    };
+    return new MockLightSensor().setRead(mockReading);
   }
 }

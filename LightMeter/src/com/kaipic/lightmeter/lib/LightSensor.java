@@ -5,11 +5,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 public abstract class LightSensor {
+  private static final int DEFAULT_CALIBRATION = 100;
   private boolean paused = false;
   private float lastRead = 0;
   private int iso = 100;
   Set<LightSensorListener> listeners = new HashSet<LightSensorListener>();
-  private float calibration = 100;
+  private float calibration = DEFAULT_CALIBRATION;
 
   public LightSensor setISO(int iso) {
     this.iso = iso;
@@ -67,6 +68,10 @@ public abstract class LightSensor {
 
   public float getCalibration() {
     return calibration;
+  }
+
+  public void resetCalibration() {
+    setCalibration(DEFAULT_CALIBRATION);
   }
 
 
