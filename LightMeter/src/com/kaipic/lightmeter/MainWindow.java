@@ -23,8 +23,8 @@ public class MainWindow extends Activity implements LightMeterListener {
   private Spinner isoSpinner;
   private TextView exposureValueTextView;
   private TextView statusTextView;
-  private LightSensorRepo lightSensorRepo;
   private static final String PREFS_NAME = "LIGHT_METER_PREFS";
+  private static final String LIGHT_SENSOR_CALIBRATION = "LightSensorCalibration";
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -65,17 +65,21 @@ public class MainWindow extends Activity implements LightMeterListener {
     shutterSpeedTextView = (TextView) findViewById(R.id.shutterSpeed);
     statusTextView = (TextView) findViewById(R.id.status_text_view);
 
-    lightSensorRepo = new LightSensorRepo(new LightSensorFactory(getApplicationContext()));
-    lightMeter = new LightMeter(lightSensorRepo);
-    lightMeter.setLightSensor(LightSensorType.AUTO.toString());
-    lightMeter.subscribe(this);
-    lightMeter.start();
+    initializeLightMeter();
     apertureSpinner = (Spinner) findViewById(R.id.apertureSpinner);
     isoSpinner = (Spinner) findViewById(R.id.isoSpinner);
     exposureSpinner = (Spinner) findViewById(R.id.exposureSpinner);
     setupSpinner(isoSpinner, R.array.isos);
     setupSpinner(apertureSpinner, R.array.appertures);
     setupSpinner(exposureSpinner, R.array.exposureValues);
+  }
+
+  private void initializeLightMeter() {
+    lightMeter = new LightMeter(new LightSensorRepo(new LightSensorFactory(getApplicationContext())));
+    lightMeter.setLightSensor(LightSensorType.AUTO.toString());
+    lightMeter.setCalibration(getSettings().getFloat(LIGHT_SENSOR_CALIBRATION, lightMeter.getCalibration()));
+    lightMeter.subscribe(this);
+    lightMeter.start();
   }
 
   public boolean onOptionsItemSelected(MenuItem item) {
@@ -125,13 +129,13 @@ public class MainWindow extends Activity implements LightMeterListener {
   }
 
   public void calibrate() {
-
+    lightMeter.calibrate();
   }
 
   public void updateLightMeterSettings() {
     setAperture((String) apertureSpinner.getSelectedItem());
     lightMeter.setISO(Integer.parseInt((String) isoSpinner.getSelectedItem()));
-    lightMeter.setLightSensor(lightSensorRepo.getSensor(((Integer) exposureSpinner.getSelectedItemPosition()).toString()));
+    lightMeter.setLightSensor(((Integer) exposureSpinner.getSelectedItemPosition()).toString());
   }
 
   private Dialog createAboutDialog() {
@@ -152,8 +156,12 @@ public class MainWindow extends Activity implements LightMeterListener {
         this, itemArray, android.R.layout.simple_spinner_item);
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spinner.setAdapter(adapter);
-    spinner.setSelection(getSharedPreferences(PREFS_NAME, 0).getInt(spinnerPreferenceKey(spinner), 0), false);
+    spinner.setSelection(getSettings().getInt(spinnerPreferenceKey(spinner), 0), false);
 
+  }
+
+  private SharedPreferences getSettings() {
+    return getSharedPreferences(PREFS_NAME, 0);
   }
 
 
@@ -226,11 +234,11 @@ public class MainWindow extends Activity implements LightMeterListener {
   }
 
   public void saveSettings() {
-    SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-    SharedPreferences.Editor editor = settings.edit();
+    SharedPreferences.Editor editor = getSettings().edit();
     saveSpinnerSetting(editor, isoSpinner);
     saveSpinnerSetting(editor, exposureSpinner);
     saveSpinnerSetting(editor, apertureSpinner);
+    editor.putFloat(LIGHT_SENSOR_CALIBRATION, lightMeter.getCalibration());
     editor.commit();
   }
 

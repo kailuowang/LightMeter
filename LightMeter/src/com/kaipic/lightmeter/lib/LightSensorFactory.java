@@ -9,11 +9,14 @@ public class LightSensorFactory {
     this.context = context;
   }
 
+  LightSensorFactory() {
+  }
+
   public LightSensor createSensor(LightSensorType type) {
     LightSensor sensor;
     switch (type) {
       case AUTO:
-        sensor = new AmbientLightSensor(context);
+        sensor = createAutoLightSensor();
         break;
       case MANUAL:
         sensor = new ManualLightSensor();
@@ -22,6 +25,10 @@ public class LightSensorFactory {
         throw new UnsupportedOperationException(type + " creation not implemented in LightSensorRepo");
     }
     return sensor;
+  }
+
+  protected LightSensor createAutoLightSensor() {
+    return new AmbientLightSensor(context);
   }
 
 }

@@ -2,6 +2,7 @@ package com.kaipic.lightmeter.lib;
 
 import org.junit.Test;
 
+import static com.kaipic.lightmeter.lib.ExposureValueTest.assertEVEquals;
 import static com.kaipic.lightmeter.lib.ShutterSpeedTest.assertShutterSpeedEquals;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.*;
@@ -22,6 +23,16 @@ public class LightMeterTest {
   public void shouldCreateWithInitialSettings() throws Exception {
     LightMeter lightMeter = new LightMeter(mock(LightSensor.class));
     assertFalse(lightMeter.getAperture() == null);
+  }
+
+  @Test
+  public void shouldCalibrateAutoSensorUsingManualSensorReading() throws Exception {
+    LightSensorFactory factory = new MockLightSensorFactory(100);
+    LightMeter lightMeter = new LightMeter(new LightSensorRepo(factory));
+    lightMeter.setLightSensor("15");
+    lightMeter.calibrate();
+    lightMeter.setLightSensor(LightSensorType.AUTO.toString());
+    assertEVEquals(new ExposureValue(15), lightMeter.getISO100EV());
   }
 
   @Test

@@ -101,4 +101,20 @@ public class LightMeter implements LightSensorListener {
   public CharSequence getStatus() {
     return lightSensor.getStatus();
   }
+
+  public void calibrate() {
+    getAutoLightSensor().calibrate(getISO100EV());
+  }
+
+  private LightSensor getAutoLightSensor() {
+    return lightSensorRepo.getSensor(LightSensorType.AUTO.toString());
+  }
+
+  public float getCalibration() {
+    return getAutoLightSensor().getCalibration();
+  }
+
+  public void setCalibration(float calibration) {
+    getAutoLightSensor().setCalibration(calibration);
+  }
 }

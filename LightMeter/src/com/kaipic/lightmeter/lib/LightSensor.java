@@ -9,14 +9,14 @@ public abstract class LightSensor {
   private float lastRead = 0;
   private int iso = 100;
   Set<LightSensorListener> listeners = new HashSet<LightSensorListener>();
-  private int calibration = 100;
+  private float calibration = 100;
 
   public LightSensor setISO(int iso) {
     this.iso = iso;
     return this;
   }
 
-  public LightSensor setCalibration(int calibration) {
+  public LightSensor setCalibration(float calibration) {
     this.calibration = calibration;
     return this;
   }
@@ -65,7 +65,7 @@ public abstract class LightSensor {
     return iso;
   }
 
-  public int getCalibration() {
+  public float getCalibration() {
     return calibration;
   }
 
@@ -82,7 +82,7 @@ public abstract class LightSensor {
     return LightSensorType.UNKNOWN;
   }
 
-  public void Calibrate(ExposureValue affirmedISO100EV) {
-    setCalibration((int) (100f * read() / (Math.pow(2, affirmedISO100EV.getValue()))));
+  public void calibrate(ExposureValue affirmedISO100EV) {
+    setCalibration((float) (100f * read() / (Math.pow(2f, affirmedISO100EV.getValue()))));
   }
 }

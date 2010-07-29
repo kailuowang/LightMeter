@@ -9,8 +9,8 @@ public class LightSensorRepo {
   private LightSensorFactory lightSensorFactory;
   private Map<LightSensorType, LightSensor> sensors = new HashMap<LightSensorType, LightSensor>();
 
-  public LightSensorRepo(LightSensorFactory context) {
-    this.lightSensorFactory = context;
+  public LightSensorRepo(LightSensorFactory lightSensorFactory) {
+    this.lightSensorFactory = lightSensorFactory;
   }
 
   public LightSensor getSensor(String sensorInfo) {

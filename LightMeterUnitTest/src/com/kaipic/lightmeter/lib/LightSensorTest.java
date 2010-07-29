@@ -72,10 +72,13 @@ public class LightSensorTest {
 
   @Test
   public void shouldCalibrateByExposureValue() throws Exception {
-    ManualLightSensor sensor = new ManualLightSensor();
-    sensor.setEVByEVAt100(new ExposureValue(10));
-    sensor.Calibrate(new ExposureValue(11));
-    assertEVEquals(new ExposureValue(11), sensor.getISO100EV());
+    LightSensor sensor = new LightSensor() {
+      public float read() {
+        return 100;
+      }
+    };
+    sensor.calibrate(new ExposureValue(13));
+    assertEVEquals(new ExposureValue(13), sensor.getISO100EV());
   }
 
   protected LightSensor mockSensor() {
