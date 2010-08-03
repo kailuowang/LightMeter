@@ -15,4 +15,12 @@
   <string name="blog_website">Blog: http://kailuowang.com</string>
   <string name="twitter">Twitter: @kailuowang</string>
   <string name="calibrate">Calibrate</string>
+  <string name="help_introduction">Light Meter uses the built-in ambient light sensor reading or manually set values to get Exposure Values and thus calculates the shutter speed based on ISO and aperture set by user.</string>
+  <string name="help_disclaimer">Disclaimer: Ambient light sensor, if your phone has one, could be very inaccurate. Manual exposure setting is preferred for accuracy.</string>
+  <string name="help_usage">Usage: to use the built-in light sensor, select "Auto" as Exposure Setting and check the status message,
+    it will say something like "Using CM3602 Light sensor" if you have ambient light sensor on the phone.
+    Then if you place the cell phone as you would place an incident light sensor, pretend that the cell phone screen is the front side.   
+
+
+  </string>
 </resources>
