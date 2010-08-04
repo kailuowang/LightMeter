@@ -16,12 +16,18 @@
                 android:text="@string/version"
                 android:padding="3dip"/>
     </TableRow>
+    <TextView android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:text="@string/road_map"
+              android:padding="3dip"
+              android:autoLink="web"/>
     <TableRow>
       <TextView
           android:layout_width="fill_parent"
           android:layout_height="wrap_content"
           android:padding="3dip"
-          android:text="@string/photo_website"/>
+          android:text="@string/photo_website"
+          android:autoLink="web"/>
     </TableRow>
     <TableRow>
       <TextView
@@ -35,7 +41,8 @@
           android:layout_width="fill_parent"
           android:layout_height="wrap_content"
           android:padding="3dip"
-          android:text="@string/blog_website"/>
+          android:text="@string/blog_website"
+          android:autoLink="web"/>
     </TableRow>
     <TableRow>
       <TextView
@@ -44,14 +51,6 @@
           android:padding="3dip"
           android:text="@string/copyright"/>
     </TableRow>
-    <TableRow>
-      <Button android:id="@+id/about_ok_button"
-              android:text="@string/ok"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:gravity="center"
-              android:padding="3dip">
-      </Button>
-    </TableRow>
+    
   </TableLayout>
 </LinearLayout>

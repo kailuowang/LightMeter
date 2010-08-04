@@ -22,17 +22,16 @@ public final class R {
         public static final int tag=0x7f020003;
     }
     public static final class id {
-        public static final int about=0x7f080009;
-        public static final int about_ok_button=0x7f080001;
-        public static final int apertureSpinner=0x7f080002;
-        public static final int calibrate=0x7f08000a;
-        public static final int exposureSpinner=0x7f080004;
-        public static final int exposureValue=0x7f080005;
-        public static final int help=0x7f08000b;
-        public static final int isoSpinner=0x7f080003;
-        public static final int pause_button=0x7f080007;
-        public static final int shutterSpeed=0x7f080006;
-        public static final int status_text_view=0x7f080008;
+        public static final int about=0x7f080008;
+        public static final int apertureSpinner=0x7f080001;
+        public static final int calibrate=0x7f080009;
+        public static final int exposureSpinner=0x7f080003;
+        public static final int exposureValue=0x7f080004;
+        public static final int help=0x7f08000a;
+        public static final int isoSpinner=0x7f080002;
+        public static final int pause_button=0x7f080006;
+        public static final int shutterSpeed=0x7f080005;
+        public static final int status_text_view=0x7f080007;
         public static final int textAboutVersion=0x7f080000;
     }
     public static final class layout {
@@ -63,6 +62,7 @@ public final class R {
         public static final int ok=0x7f05000a;
         public static final int pause=0x7f050001;
         public static final int photo_website=0x7f05000b;
+        public static final int road_map=0x7f050015;
         public static final int twitter=0x7f05000d;
         public static final int version=0x7f050008;
     }

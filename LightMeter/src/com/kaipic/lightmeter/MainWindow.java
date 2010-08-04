@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -122,7 +123,7 @@ public class MainWindow extends Activity implements LightMeterListener {
   }
 
   private Dialog createHelpDialog() {
-    return createSimpleDialog(R.layout.help_dialog, "Help", 0);
+    return createSimpleDialog(R.layout.help_dialog, "Help");
   }
 
   private Dialog createCalibrateDialog() {
@@ -154,21 +155,13 @@ public class MainWindow extends Activity implements LightMeterListener {
   }
 
   private Dialog createAboutDialog() {
-    return createSimpleDialog(R.layout.about_dialog, "About Light Meter", R.id.about_ok_button);
+    return createSimpleDialog(R.layout.about_dialog, "About Light Meter");
   }
 
-  private Dialog createSimpleDialog(int dialogId, String title, int okButtonId) {
+  private Dialog createSimpleDialog(int dialogId, String title) {
     final Dialog dialog = new Dialog(this);
     dialog.setContentView(dialogId);
     dialog.setTitle(title);
-    if (okButtonId > 0) {
-      Button okButton = (Button) dialog.findViewById(okButtonId);
-      okButton.setOnClickListener(new View.OnClickListener() {
-        public void onClick(View v) {
-          dialog.dismiss();
-        }
-      });
-    }
     return dialog;
   }
 
@@ -184,7 +177,6 @@ public class MainWindow extends Activity implements LightMeterListener {
   private SharedPreferences getSettings() {
     return getSharedPreferences(PREFS_NAME, 0);
   }
-
 
   private void registerEvents() {
     pauseButton.setOnClickListener(new View.OnClickListener() {
