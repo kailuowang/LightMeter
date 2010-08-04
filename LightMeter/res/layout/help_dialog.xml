@@ -28,7 +28,6 @@
               android:text="@string/help_usage_manual"
               android:textAppearance="@style/SmallerLightTextAppearance"
               android:padding="3dip"/>
-
     <TextView android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:text="@string/help_usage_calibration"
