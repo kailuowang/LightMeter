@@ -17,21 +17,22 @@ public final class R {
     }
     public static final class drawable {
         public static final int calibrate=0x7f020000;
-        public static final int icon=0x7f020001;
-        public static final int tag=0x7f020002;
+        public static final int help=0x7f020001;
+        public static final int icon=0x7f020002;
+        public static final int tag=0x7f020003;
     }
     public static final class id {
-        public static final int about=0x7f08000a;
+        public static final int about=0x7f080009;
         public static final int about_ok_button=0x7f080001;
-        public static final int apertureSpinner=0x7f080003;
-        public static final int calibrate=0x7f08000b;
-        public static final int exposureSpinner=0x7f080005;
-        public static final int exposureValue=0x7f080006;
-        public static final int help_ok_button=0x7f080002;
-        public static final int isoSpinner=0x7f080004;
-        public static final int pause_button=0x7f080008;
-        public static final int shutterSpeed=0x7f080007;
-        public static final int status_text_view=0x7f080009;
+        public static final int apertureSpinner=0x7f080002;
+        public static final int calibrate=0x7f08000a;
+        public static final int exposureSpinner=0x7f080004;
+        public static final int exposureValue=0x7f080005;
+        public static final int help=0x7f08000b;
+        public static final int isoSpinner=0x7f080003;
+        public static final int pause_button=0x7f080007;
+        public static final int shutterSpeed=0x7f080006;
+        public static final int status_text_view=0x7f080008;
         public static final int textAboutVersion=0x7f080000;
     }
     public static final class layout {
@@ -54,7 +55,10 @@ public final class R {
         public static final int hello=0x7f050000;
         public static final int help_disclaimer=0x7f050010;
         public static final int help_introduction=0x7f05000f;
-        public static final int help_usage=0x7f050011;
+        public static final int help_menu_title=0x7f050014;
+        public static final int help_usage_auto=0x7f050011;
+        public static final int help_usage_calibration=0x7f050013;
+        public static final int help_usage_manual=0x7f050012;
         public static final int iso_spinner_prompt=0x7f050005;
         public static final int ok=0x7f05000a;
         public static final int pause=0x7f050001;
@@ -68,6 +72,7 @@ public final class R {
         public static final int MySpinnerView=0x7f060003;
         public static final int MyTheme=0x7f060000;
         public static final int SmallTextAppearance=0x7f060004;
+        public static final int SmallerLightTextAppearance=0x7f060006;
         public static final int SmallerTextAppearance=0x7f060005;
     }
 }

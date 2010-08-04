@@ -1,40 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:padding="10dp">
 
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+    >
   <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
                android:layout_width="fill_parent"
-               android:layout_height="wrap_content"
-               android:stretchColumns="1">
-    <TableRow>
-      <TextView android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/help_introduction"
-                android:padding="3dip"/>
-    </TableRow>
-    <TableRow>
-      <TextView android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/help_disclaimer"
-                android:padding="3dip"/>
-    </TableRow>
-    <TableRow>
-      <TextView android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/help_usage"
-                android:padding="3dip"/>
-    </TableRow>
-    <TableRow>
-      <Button android:id="@+id/help_ok_button"
-              android:text="@string/ok"
-              android:layout_width="wrap_content"
+               android:layout_height="wrap_content">
+    <TextView android:layout_width="fill_parent"
               android:layout_height="wrap_content"
-              android:gravity="center"
-              android:padding="3dip">
-      </Button>
-    </TableRow>
+              android:text="@string/help_introduction"
+              android:maxLines="3"
+              android:padding="3dip"
+              android:textAppearance="@style/SmallerLightTextAppearance"
+        />
+    <TextView android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:text="@string/help_disclaimer"
+              android:textAppearance="@style/SmallerLightTextAppearance"
+              android:padding="3dip"/>
+    <TextView android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:text="@string/help_usage_auto"
+              android:textAppearance="@style/SmallerLightTextAppearance"
+              android:padding="3dip"/>
+    <TextView android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:text="@string/help_usage_manual"
+              android:textAppearance="@style/SmallerLightTextAppearance"
+              android:padding="3dip"/>
+    <TextView android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:text="@string/help_usage_calibration"
+              android:textAppearance="@style/SmallerLightTextAppearance"
+              android:padding="3dip"/>
   </TableLayout>
-</LinearLayout>
+</ScrollView>

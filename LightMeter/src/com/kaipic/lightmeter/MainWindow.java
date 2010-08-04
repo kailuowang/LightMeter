@@ -91,6 +91,9 @@ public class MainWindow extends Activity implements LightMeterListener {
       case R.id.about:
         showDialog(R.id.about);
         return true;
+      case R.id.help:
+        showDialog(R.id.help);
+        return true;
       case R.id.calibrate:
         showDialog(R.id.calibrate);
         return true;
@@ -106,6 +109,9 @@ public class MainWindow extends Activity implements LightMeterListener {
       case R.id.about:
         dialog = createAboutDialog();
         break;
+      case R.id.help:
+        dialog = createHelpDialog();
+        break;
       case R.id.calibrate:
         dialog = createCalibrateDialog();
         break;
@@ -115,25 +121,29 @@ public class MainWindow extends Activity implements LightMeterListener {
     return dialog;
   }
 
+  private Dialog createHelpDialog() {
+    return createSimpleDialog(R.layout.help_dialog, "Help", 0);
+  }
+
   private Dialog createCalibrateDialog() {
     AlertDialog.Builder builder = new AlertDialog.Builder(this);
     builder.setMessage("This will use the currently set manual exposure value to calibrate the auto light sensor. Please make sure the light sensor on your phone is getting the light matching that EV value right now and then you can click the calibrate button.")
-        .setPositiveButton("Calibrate", new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int id) {
-            lightMeter.calibrate();
-          }
-        })
-        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int id) {
-            dialog.cancel();
-          }
-        })
-        .setNeutralButton("Reset Factory", new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int id) {
-            lightMeter.resetCalibration();
-            display();
-          }
-        });
+      .setPositiveButton("Calibrate", new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int id) {
+          lightMeter.calibrate();
+        }
+      })
+      .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int id) {
+          dialog.cancel();
+        }
+      })
+      .setNeutralButton("Reset Factory", new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int id) {
+          lightMeter.resetCalibration();
+          display();
+        }
+      });
     return builder.create();
   }
 
@@ -144,21 +154,27 @@ public class MainWindow extends Activity implements LightMeterListener {
   }
 
   private Dialog createAboutDialog() {
+    return createSimpleDialog(R.layout.about_dialog, "About Light Meter", R.id.about_ok_button);
+  }
+
+  private Dialog createSimpleDialog(int dialogId, String title, int okButtonId) {
     final Dialog dialog = new Dialog(this);
-    dialog.setContentView(R.layout.about_dialog);
-    dialog.setTitle("About Light Meter");
-    Button okButton = (Button) dialog.findViewById(R.id.about_ok_button);
-    okButton.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View v) {
-        dialog.dismiss();
-      }
-    });
+    dialog.setContentView(dialogId);
+    dialog.setTitle(title);
+    if (okButtonId > 0) {
+      Button okButton = (Button) dialog.findViewById(okButtonId);
+      okButton.setOnClickListener(new View.OnClickListener() {
+        public void onClick(View v) {
+          dialog.dismiss();
+        }
+      });
+    }
     return dialog;
   }
 
   public void setupSpinner(Spinner spinner, int itemArray) {
     ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(
-        this, itemArray, android.R.layout.simple_spinner_item);
+      this, itemArray, android.R.layout.simple_spinner_item);
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spinner.setAdapter(adapter);
     spinner.setSelection(getSettings().getInt(spinnerPreferenceKey(spinner), 0), false);

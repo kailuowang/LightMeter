@@ -15,12 +15,42 @@
   <string name="blog_website">Blog: http://kailuowang.com</string>
   <string name="twitter">Twitter: @kailuowang</string>
   <string name="calibrate">Calibrate</string>
-  <string name="help_introduction">Light Meter uses the built-in ambient light sensor reading or manually set values to get Exposure Values and thus calculates the shutter speed based on ISO and aperture set by user.</string>
-  <string name="help_disclaimer">Disclaimer: Ambient light sensor, if your phone has one, could be very inaccurate. Manual exposure setting is preferred for accuracy.</string>
-  <string name="help_usage">Usage: to use the built-in light sensor, select "Auto" as Exposure Setting and check the status message,
-    it will say something like "Using CM3602 Light sensor" if you have ambient light sensor on the phone.
-    Then if you place the cell phone as you would place an incident light sensor, pretend that the cell phone screen is the front side.   
-
-
+  <string name="help_introduction">Light Meter uses the built-in ambient light sensor reading
+    or manually set values to get Exposure Values and thus
+    calculates the shutter speed based on ISO and aperture
+    set by user.
   </string>
+  <string name="help_disclaimer">Disclaimer: Ambient light sensor, if your phone has one,
+    could be very inaccurate. Manual exposure setting is preferred for accuracy.
+  </string>
+  <string name="help_usage_auto">Usage of Auto exposure setting: to use the built-in light sensor, select \"Auto\" as
+    Exposure Setting
+    and check the status message, it will say something like "Using CM3602 Light sensor" if you have ambient light
+    sensor on the phone.
+    Then if you place the cell phone as you would place an incident light sensor, the screen is the front side. The
+    shutter speed will then be calculated and displayed.
+    You can use the lock button to lock the exposure value read from the ambient light sensor,
+    just like what you can do with an incident light meter.
+  </string>
+  <string name="help_usage_manual">Usage of manual exposure settings: The status message may tell you that no ambient
+    light sensor found on the phone.
+    In that case you can only use the manual exposure settings.
+    The manual exposure settings actually more useful than the auto one.
+    Ambient light sensors are usually not accurate enough.
+    With the help of the textual description,
+    you probably can do a better job than the built-in ambient light sensors.
+    After you select the exposure setting, shutter speed will be calculated.
+  </string>
+  <string name="help_usage_calibration">Calibration:
+    You can also calibrate the ambient light sensor.
+    There is a calibration constant that affects how Exposure value is calculated
+    from the illumination value read from the ambient light sensor.
+    By calibration, you can help the app adjust this constant so that exposure value could be more accurate.
+    To calibrate, place your phone in a light situation where you can easily tell the exposure value,
+    then set the manual exposure setting to be that value.
+    Then click menu -> Calibrate and click the calibrate button in the pop-up window.
+    The app will then recalculate the calibration constant so that it will generate
+    the same exposure value using the ambient light sensor\'s illumination reading.
+  </string>
+  <string name="help_menu_title">Help</string>
 </resources>
