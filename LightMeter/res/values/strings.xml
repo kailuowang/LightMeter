@@ -28,7 +28,10 @@
     and check the status message, it will say something like "Using CM3602 Light sensor" if you have ambient light
     sensor on the phone.
     Then if you place the cell phone as you would place an incident light sensor, the screen is the front side. The
-    shutter speed will then be calculated and displayed.
+    shutter speed will then be calculated and displayed. Sometimes the ambient light sensor can be slow in response and
+    you will see N/A as reading,
+    in this case, move the cell phone to face different light situation will trigger the ambient light sensor to report
+    new reading.
     You can use the lock button to lock the exposure value read from the ambient light sensor,
     just like what you can do with an incident light meter.
   </string>
