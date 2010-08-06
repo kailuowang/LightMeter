@@ -170,11 +170,13 @@ public class MainWindow extends Activity implements LightMeterListener {
       this, itemArray, android.R.layout.simple_spinner_item);
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spinner.setAdapter(adapter);
-    spinner.setSelection(getSettings().getInt(spinnerPreferenceKey(spinner), 0), false);
-
+    int savedSelection = getSettings().getInt(spinnerPreferenceKey(spinner), 0);
+    if(savedSelection < adapter.getCount()){
+      spinner.setSelection(savedSelection, false);
+    }
   }
 
-  private SharedPreferences getSettings() {
+  public SharedPreferences getSettings() {
     return getSharedPreferences(PREFS_NAME, 0);
   }
 
@@ -259,7 +261,7 @@ public class MainWindow extends Activity implements LightMeterListener {
     editor.putInt(spinnerPreferenceKey(spinner), spinner.getSelectedItemPosition());
   }
 
-  private String spinnerPreferenceKey(final Spinner spinner) {
+  public String spinnerPreferenceKey(final Spinner spinner) {
     return "Spinner" + spinner.getId() + "Position";
   }
 }
