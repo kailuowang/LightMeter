@@ -18,6 +18,11 @@ public class ShutterSpeedTest {
   }
 
   @Test
+  public void shouldCreateFromString() throws Exception {
+    assertShutterSpeedEquals(new ShutterSpeed(1f / 50f), new ShutterSpeed("1/50"));
+  }
+
+  @Test
   public void shouldCreateFromApertureCalibrationISO() throws Exception {
     ShutterSpeed shutterSpeed = new ShutterSpeed(new Aperture(4f), 250, 100, 400f);
     assertShutterSpeedEquals(new ShutterSpeed(0.1f), shutterSpeed);

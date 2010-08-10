@@ -9,4 +9,4 @@
   </application>
 
   <instrumentation android:targetPackage="com.kaipic.lightmeter" android:name="android.test.InstrumentationTestRunner"/>
-</manifest> 
+</manifest>                                                                                                                                                     

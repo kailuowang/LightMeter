@@ -15,4 +15,6 @@
       </intent-filter>
     </activity>
   </application>
-</manifest> 
+  <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+
+</manifest>

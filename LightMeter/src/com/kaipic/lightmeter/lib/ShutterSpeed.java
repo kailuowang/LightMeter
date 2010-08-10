@@ -15,6 +15,20 @@ public class ShutterSpeed {
     this((float) (aperture.getValue() * aperture.getValue() / Math.pow(2d, exposureValue.getValue())));
   }
 
+  public ShutterSpeed(String stringValue) {
+    this(parse(stringValue));
+  }
+
+  private static float parse(String stringValue) {
+    float value = 0;
+    if (stringValue.contains("1/")) {
+      value = 1f / Float.valueOf(stringValue.replace("1/", ""));
+    } else if (stringValue.contains("s")) {
+      value = Float.valueOf(stringValue.replace("s", ""));
+    }
+    return value;
+  }
+
   public String toString() {
     if (value < 1)
       return "1/" + (int) (1f / value);
