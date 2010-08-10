@@ -56,9 +56,6 @@ public class LightMeter implements LightSensorListener {
     return this;
   }
 
-  public ShutterSpeed calculateShutterSpeed() {
-    return new ShutterSpeed(aperture, lightSensor.getEV());
-  }
 
   public void subscribe(LightMeterListener listener) {
     subscribers.add(listener);
@@ -74,10 +71,6 @@ public class LightMeter implements LightSensorListener {
 
   public void start() {
     lightSensorRepo.start();
-  }
-
-  public ExposureValue getISO100EV() {
-    return lightSensor.getISO100EV();
   }
 
   public int getISO() {
@@ -130,11 +123,20 @@ public class LightMeter implements LightSensorListener {
     return lightSensor.getType().equals(LightSensorType.AUTO);
   }
 
-  public ShutterSpeed getShutterSpeed() {
-    return shutterSpeed;
-  }
-
   public void setShutterSpeed(ShutterSpeed shutterSpeed) {
     this.shutterSpeed = shutterSpeed;
   }
+
+  ShutterSpeed getShutterSpeed() {
+    return shutterSpeed;
+  }
+
+  ExposureValue getISO100EV() {
+    return lightSensor.getISO100EV();
+  }
+
+  ShutterSpeed calculateShutterSpeed() {
+    return new ShutterSpeed(aperture, lightSensor.getEV());
+  }
+
 }

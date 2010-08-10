@@ -27,6 +27,9 @@ public class MainWindow extends Activity implements LightMeterListener {
   private static final String PREFS_NAME = "LIGHT_METER_PREFS";
   private static final String LIGHT_SENSOR_CALIBRATION = "LightSensorCalibration";
   private static final boolean DEBUG = false;
+  private WorkMode workMode = null;
+  private RadioButton radioAv;
+  private RadioButton radioM;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -54,11 +57,18 @@ public class MainWindow extends Activity implements LightMeterListener {
   }
 
   public void display() {
-    exposureValueTextView.setText(lightMeter.getISO100EV().toString());
-    shutterSpeedTextView.setText(lightMeter.calculateShutterSpeed().toString());
+    exposureValueTextView.setText(workMode.getExposureAtISO100().toString());
+    shutterSpeedTextView.setText(workMode.getShutterSpeed().toString());
     statusTextView.setText("Status: " + lightMeter.getStatus());
-    pauseButton.setVisibility(lightMeter.usingAutoLightSensor() ? View.VISIBLE : View.INVISIBLE);
-    findViewById(R.id.exposureDisplayRow).setVisibility(lightMeter.usingAutoLightSensor() ? View.VISIBLE : View.GONE);
+    boolean usingManualExposureSetting = !lightMeter.usingAutoLightSensor() || !workMode.isExposureValueChangeable();
+    pauseButton.setVisibility(usingManualExposureSetting ? View.INVISIBLE : View.VISIBLE);
+    findViewById(R.id.apertureSpinnerRow).setVisibility(workMode.isApertureChangeable() ? View.VISIBLE : View.GONE);
+    findViewById(R.id.shutterSpeedSpinnerRow).setVisibility(workMode.isShutterSpeedChangeable() ? View.VISIBLE : View.GONE);
+    findViewById(R.id.shutterSpeedResultRow).setVisibility(workMode.isShutterSpeedChangeable() ? View.GONE : View.VISIBLE);
+    int exposureSpinnerVisibility = workMode.isExposureValueChangeable() ? View.VISIBLE : View.GONE;
+    findViewById(R.id.exposureSpinnerRow).setVisibility(exposureSpinnerVisibility);
+    findViewById(R.id.exposureSpinnerTitleRow).setVisibility(exposureSpinnerVisibility);
+    findViewById(R.id.exposureDisplayRow).setVisibility(lightMeter.usingAutoLightSensor() || !workMode.isExposureValueChangeable() ? View.VISIBLE : View.GONE);
   }
 
   private void initializeFields() {
@@ -66,8 +76,6 @@ public class MainWindow extends Activity implements LightMeterListener {
     exposureValueTextView = (TextView) findViewById(R.id.exposureValue);
     shutterSpeedTextView = (TextView) findViewById(R.id.shutterSpeed);
     statusTextView = (TextView) findViewById(R.id.status_text_view);
-
-
     initializeLightMeter();
     apertureSpinner = (Spinner) findViewById(R.id.apertureSpinner);
     isoSpinner = (Spinner) findViewById(R.id.isoSpinner);
@@ -77,6 +85,30 @@ public class MainWindow extends Activity implements LightMeterListener {
     setupSpinner(apertureSpinner, R.array.appertures);
     setupSpinner(exposureSpinner, R.array.exposureValues);
     setupSpinner(shutterSpeedSpinner, R.array.shutterSpeeds);
+
+    radioAv = (RadioButton) findViewById(R.id.radio_Av);
+    radioAv.setOnClickListener(new View.OnClickListener() {
+      public void onClick(View view) {
+        changeToAvMode();
+      }
+    });
+    radioM = (RadioButton) findViewById(R.id.radio_Manual);
+    radioM.setOnClickListener(new View.OnClickListener() {
+      public void onClick(View view) {
+        changeToMMode();
+      }
+    });
+
+  }
+
+  private void changeToMMode() {
+    workMode = new ManualMode(lightMeter);
+    display();
+  }
+
+  private void changeToAvMode() {
+    workMode = new AvMode(lightMeter);
+    display();
   }
 
   private void initializeLightMeter() {
@@ -85,6 +117,7 @@ public class MainWindow extends Activity implements LightMeterListener {
     lightMeter.setCalibration(getSettings().getFloat(LIGHT_SENSOR_CALIBRATION, lightMeter.getCalibration()));
     lightMeter.subscribe(this);
     lightMeter.start();
+    workMode = new AvMode(lightMeter);
   }
 
   private LightSensorFactory getLightSensorFactory() {
@@ -269,5 +302,9 @@ public class MainWindow extends Activity implements LightMeterListener {
 
   public String spinnerPreferenceKey(final Spinner spinner) {
     return "Spinner" + spinner.getId() + "Position";
+  }
+
+  public WorkMode getWorkMode() {
+    return workMode;
   }
 }
