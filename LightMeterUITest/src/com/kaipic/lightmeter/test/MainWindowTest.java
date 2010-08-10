@@ -1,6 +1,7 @@
 package com.kaipic.lightmeter.test;
 
 import android.app.Instrumentation;
+import android.content.SharedPreferences;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.KeyEvent;
 import android.widget.Button;
@@ -149,7 +150,6 @@ public class MainWindowTest extends
       }
     });
   }
-
 
   private void setExposureValueSpinnerTo(final int position) {
     runOnUiThread(new Runnable() {
