@@ -6,7 +6,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,6 +19,7 @@ public class MainWindow extends Activity implements LightMeterListener {
   private Button pauseButton;
   private TextView shutterSpeedTextView;
   private Spinner apertureSpinner;
+  private Spinner shutterSpeedSpinner;
   private Spinner exposureSpinner;
   private Spinner isoSpinner;
   private TextView exposureValueTextView;
@@ -58,6 +58,7 @@ public class MainWindow extends Activity implements LightMeterListener {
     shutterSpeedTextView.setText(lightMeter.calculateShutterSpeed().toString());
     statusTextView.setText("Status: " + lightMeter.getStatus());
     pauseButton.setVisibility(lightMeter.usingAutoLightSensor() ? View.VISIBLE : View.INVISIBLE);
+    findViewById(R.id.exposureDisplayRow).setVisibility(lightMeter.usingAutoLightSensor() ? View.VISIBLE : View.GONE);
   }
 
   private void initializeFields() {
@@ -66,13 +67,16 @@ public class MainWindow extends Activity implements LightMeterListener {
     shutterSpeedTextView = (TextView) findViewById(R.id.shutterSpeed);
     statusTextView = (TextView) findViewById(R.id.status_text_view);
 
+
     initializeLightMeter();
     apertureSpinner = (Spinner) findViewById(R.id.apertureSpinner);
     isoSpinner = (Spinner) findViewById(R.id.isoSpinner);
+    shutterSpeedSpinner = (Spinner) findViewById(R.id.shutterSpeedSpinner);
     exposureSpinner = (Spinner) findViewById(R.id.exposureSpinner);
     setupSpinner(isoSpinner, R.array.isos);
     setupSpinner(apertureSpinner, R.array.appertures);
     setupSpinner(exposureSpinner, R.array.exposureValues);
+    setupSpinner(shutterSpeedSpinner, R.array.shutterSpeeds);
   }
 
   private void initializeLightMeter() {
@@ -103,7 +107,6 @@ public class MainWindow extends Activity implements LightMeterListener {
     }
   }
 
-
   protected Dialog onCreateDialog(int id) {
     Dialog dialog;
     switch (id) {
@@ -129,29 +132,31 @@ public class MainWindow extends Activity implements LightMeterListener {
   private Dialog createCalibrateDialog() {
     AlertDialog.Builder builder = new AlertDialog.Builder(this);
     builder.setMessage("This will use the currently set manual exposure value to calibrate the auto light sensor. Please make sure the light sensor on your phone is getting the light matching that EV value right now and then you can click the calibrate button.")
-      .setPositiveButton("Calibrate", new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int id) {
-          lightMeter.calibrate();
-        }
-      })
-      .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int id) {
-          dialog.cancel();
-        }
-      })
-      .setNeutralButton("Reset Factory", new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int id) {
-          lightMeter.resetCalibration();
-          display();
-        }
-      });
+        .setPositiveButton("Calibrate", new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int id) {
+            lightMeter.calibrate();
+          }
+        })
+        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int id) {
+            dialog.cancel();
+          }
+        })
+        .setNeutralButton("Reset Factory", new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int id) {
+            lightMeter.resetCalibration();
+            display();
+          }
+        });
     return builder.create();
   }
 
   public void updateLightMeterSettings() {
     setAperture((String) apertureSpinner.getSelectedItem());
     lightMeter.setISO(Integer.parseInt((String) isoSpinner.getSelectedItem()));
+    lightMeter.setShutterSpeed(new ShutterSpeed((String) shutterSpeedSpinner.getSelectedItem()));
     lightMeter.setLightSensor(((Integer) exposureSpinner.getSelectedItemPosition()).toString());
+
   }
 
   private Dialog createAboutDialog() {
@@ -167,11 +172,11 @@ public class MainWindow extends Activity implements LightMeterListener {
 
   public void setupSpinner(Spinner spinner, int itemArray) {
     ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(
-      this, itemArray, android.R.layout.simple_spinner_item);
+        this, itemArray, android.R.layout.simple_spinner_item);
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spinner.setAdapter(adapter);
     int savedSelection = getSettings().getInt(spinnerPreferenceKey(spinner), 0);
-    if(savedSelection < adapter.getCount()){
+    if (savedSelection < adapter.getCount()) {
       spinner.setSelection(savedSelection, false);
     }
   }
@@ -197,6 +202,7 @@ public class MainWindow extends Activity implements LightMeterListener {
     registerSpinnerListenner(exposureSpinner, listener);
     registerSpinnerListenner(isoSpinner, listener);
     registerSpinnerListenner(apertureSpinner, listener);
+    registerSpinnerListenner(shutterSpeedSpinner, listener);
   }
 
   private void registerSpinnerListenner(Spinner spinner, final SpinnerItemSelectListenner listener) {

@@ -5,10 +5,10 @@ import java.util.Set;
 
 public class LightMeter implements LightSensorListener {
   private LightSensor lightSensor;
-
   private LightSensorRepo lightSensorRepo;
   private Aperture aperture = new Aperture(8.0f);
   private Set<LightMeterListener> subscribers = new HashSet<LightMeterListener>();
+  private ShutterSpeed shutterSpeed;
 
   public LightMeter(LightSensorRepo lightSensorRepo) {
     this.lightSensorRepo = lightSensorRepo;
@@ -128,5 +128,13 @@ public class LightMeter implements LightSensorListener {
 
   public boolean usingAutoLightSensor() {
     return lightSensor.getType().equals(LightSensorType.AUTO);
+  }
+
+  public ShutterSpeed getShutterSpeed() {
+    return shutterSpeed;
+  }
+
+  public void setShutterSpeed(ShutterSpeed shutterSpeed) {
+    this.shutterSpeed = shutterSpeed;
   }
 }

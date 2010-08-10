@@ -14,6 +14,10 @@ public class ExposureValue {
     this(log2(illumination * iso / calibration));
   }
 
+  public ExposureValue(Aperture aperture, ShutterSpeed shutterSpeed) {
+    this(log2(aperture.getValue() * aperture.getValue() / shutterSpeed.getValue()));
+  }
+
   public float getValue() {
     return value;
   }

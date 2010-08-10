@@ -22,6 +22,18 @@
     <TableRow>
       <TextView
           android:layout_column="1"
+          android:text="Shutter Speed:"
+          android:padding="3dip"/>
+      <Spinner
+          android:id="@+id/shutterSpeedSpinner"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:drawSelectorOnTop="true"
+          android:prompt="@string/shutter_speed_spinner_prompt"/>
+    </TableRow>
+    <TableRow>
+      <TextView
+          android:layout_column="1"
           android:text="ISO:"
           android:padding="3dip"/>
       <Spinner
@@ -47,7 +59,7 @@
           android:prompt="@string/exposure_spinner_prompt"
           android:layout_span="2"/>
     </TableRow>
-    <TableRow>
+    <TableRow android:id="@+id/exposureDisplayRow">
       <TextView
           android:layout_column="1"
           android:text="Exposure Value:"

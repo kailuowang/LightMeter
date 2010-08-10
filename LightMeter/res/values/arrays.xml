@@ -23,6 +23,24 @@
     <item>22</item>
   </string-array>
 
+  <string-array name="shutterSpeeds">
+    <item>4s</item>
+    <item>2s</item>
+    <item>1s</item>
+    <item>1/2</item>
+    <item>1/4</item>
+    <item>1/8</item>
+    <item>1/15</item>
+    <item>1/30</item>
+    <item>1/60</item>
+    <item>1/125</item>
+    <item>1/250</item>
+    <item>1/500</item>
+    <item>1/1000</item>
+    <item>1/2000</item>
+    <item>1/4000</item>
+  </string-array>
+
   <string-array name="isos">
     <item>50</item>
     <item>100</item>

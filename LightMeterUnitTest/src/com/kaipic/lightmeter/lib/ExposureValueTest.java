@@ -33,6 +33,13 @@ public class ExposureValueTest {
   }
 
   @Test
+  public void shouldCreateFromISOShutterSpeedAndAperture() throws Exception {
+    ShutterSpeed shutterSpeed = new ShutterSpeed(1f / 64f);
+    Aperture aperture = new Aperture(4f);
+    assertEVEquals(new ExposureValue(10), new ExposureValue(aperture, shutterSpeed));
+  }
+
+  @Test
   public void shouldConvertToIllumination() throws Exception {
     assertEquals(160f, new ExposureValue(6f).toIllumination(100, 250), 0.0001f);
   }

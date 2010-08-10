@@ -1,7 +1,7 @@
 package com.kaipic.lightmeter.test;
 
 import android.app.Instrumentation;
-import android.content.SharedPreferences;
+import android.app.KeyguardManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.KeyEvent;
 import android.widget.Button;
@@ -20,6 +20,7 @@ public class MainWindowTest extends
   private Spinner mIsoSpinner;
   private Spinner mExposureSpinner;
   private Spinner mApertureSpinner;
+  private Spinner mShutterSpeedSpinner;
 
   public MainWindowTest() {
     super("com.kaipic.lightmeter", MainWindow.class);
@@ -35,7 +36,15 @@ public class MainWindowTest extends
     mIsoSpinner = (Spinner) mActivity.findViewById(R.id.isoSpinner);
     mExposureSpinner = (Spinner) mActivity.findViewById(R.id.exposureSpinner);
     mApertureSpinner = (Spinner) mActivity.findViewById(R.id.apertureSpinner);
+    mShutterSpeedSpinner = (Spinner) mActivity.findViewById(R.id.shutterSpeedSpinner);
+    disableKeyGuardForTesting();
   }
+
+  private void disableKeyGuardForTesting() {
+    KeyguardManager keyGuardManager = (KeyguardManager) mActivity.getSystemService(mActivity.KEYGUARD_SERVICE);
+    keyGuardManager.newKeyguardLock("com.kaipic.lightmeter.MainWindow").disableKeyguard();
+  }
+
 
   protected void tearDown() throws Exception {
     runOnUiThread(new Runnable() {
@@ -92,12 +101,29 @@ public class MainWindowTest extends
       }
     });
     String expectedISO = mActivity.getResources().getStringArray(R.array.isos)[2];
-    assertEquals(expectedISO, String.valueOf(mActivity.getLightMeter().getISO()));
+    String actual = String.valueOf(mActivity.getLightMeter().getISO());
+    assertEquals(expectedISO, actual);
+  }
+
+  public void testSetShutterSpeedShouldSetShutterSpeedToLightMeter() {
+    runOnUiThread(new Runnable() {
+      public void run() {
+        mShutterSpeedSpinner.requestFocus();
+        mShutterSpeedSpinner.setSelection(2);
+      }
+    });
+    ShutterSpeed expected = new ShutterSpeed(mActivity.getResources().getStringArray(R.array.shutterSpeeds)[2]);
+    assertEquals(expected.toString(), mActivity.getLightMeter().getShutterSpeed().toString());
   }
 
   public void testSetExposureValueShouldResultInSuchExposureValueInLightMeter() {
     setExposureValueSpinnerTo(3);
     assertEquals(3f, mActivity.getLightMeter().getISO100EV().getValue(), 0.001f);
+  }
+
+  public void testSetManualExposureValueShouldHideExposureDisplayRow() {
+    setExposureValueSpinnerTo(3);
+    assertFalse(mActivity.findViewById(R.id.exposureDisplayRow).isShown());
   }
 
   public void testSetExposureValueToAutoShouldResultInAutomaticLightSensor() {
