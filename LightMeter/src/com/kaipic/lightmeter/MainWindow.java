@@ -30,6 +30,7 @@ public class MainWindow extends Activity implements LightMeterListener {
   private WorkMode workMode = null;
   private RadioButton radioAv;
   private RadioButton radioM;
+  private RadioButton radioSv;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -57,7 +58,7 @@ public class MainWindow extends Activity implements LightMeterListener {
   }
 
   public void display() {
-    exposureValueTextView.setText(workMode.getExposureAtISO100().toString());
+    exposureValueTextView.setText(workMode.getExposure().toString());
     shutterSpeedTextView.setText(workMode.getShutterSpeed().toString());
     statusTextView.setText("Status: " + lightMeter.getStatus());
     boolean usingManualExposureSetting = !lightMeter.usingAutoLightSensor() || !workMode.isExposureValueChangeable();
@@ -92,6 +93,12 @@ public class MainWindow extends Activity implements LightMeterListener {
         changeToAvMode();
       }
     });
+    radioSv = (RadioButton) findViewById(R.id.radio_Sv);
+    radioSv.setOnClickListener(new View.OnClickListener() {
+      public void onClick(View view) {
+        changeToSvMode();
+      }
+    });
     radioM = (RadioButton) findViewById(R.id.radio_Manual);
     radioM.setOnClickListener(new View.OnClickListener() {
       public void onClick(View view) {
@@ -108,6 +115,11 @@ public class MainWindow extends Activity implements LightMeterListener {
 
   private void changeToAvMode() {
     workMode = new AvMode(lightMeter);
+    display();
+  }
+
+  private void changeToSvMode() {
+    workMode = new SvMode(lightMeter);
     display();
   }
 

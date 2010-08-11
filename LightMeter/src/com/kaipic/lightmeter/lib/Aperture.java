@@ -7,6 +7,10 @@ public class Aperture {
     this.value = value;
   }
 
+  public Aperture(ShutterSpeed shutterSpeed, ExposureValue ev) {
+    this((float) Math.sqrt(shutterSpeed.getValue() * Math.pow(2d, ev.getValue())));
+  }
+
   float getValue() {
     return value;
   }

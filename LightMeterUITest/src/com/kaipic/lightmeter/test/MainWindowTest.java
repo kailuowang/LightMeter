@@ -25,6 +25,7 @@ public class MainWindowTest extends
   private Spinner mShutterSpeedSpinner;
   private RadioButton mAvRadioButton;
   private RadioButton mMRadioButton;
+  private RadioButton mSvRadioButton;
   private View mApertureSpinnerRow;
   private View mShutterSpeedSpinnerRow;
   private View mShutterSpeedResultRow;
@@ -47,6 +48,7 @@ public class MainWindowTest extends
     mApertureSpinner = (Spinner) mActivity.findViewById(R.id.apertureSpinner);
     mShutterSpeedSpinner = (Spinner) mActivity.findViewById(R.id.shutterSpeedSpinner);
     mAvRadioButton = (RadioButton) mActivity.findViewById(R.id.radio_Av);
+    mSvRadioButton = (RadioButton) mActivity.findViewById(R.id.radio_Sv);
     mMRadioButton = (RadioButton) mActivity.findViewById(R.id.radio_Manual);
     mApertureSpinnerRow = mActivity.findViewById(R.id.apertureSpinnerRow);
     mShutterSpeedSpinnerRow = mActivity.findViewById(R.id.shutterSpeedSpinnerRow);
@@ -139,6 +141,8 @@ public class MainWindowTest extends
     assertEquals(mActivity.getWorkMode().getClass(), ManualMode.class);
     click(mAvRadioButton);
     assertEquals(mActivity.getWorkMode().getClass(), AvMode.class);
+    click(mSvRadioButton);
+    assertEquals(mActivity.getWorkMode().getClass(), SvMode.class);
   }
 
   public void testAvMode() {
@@ -161,7 +165,7 @@ public class MainWindowTest extends
 
   public void testSetExposureValueShouldResultInSuchExposureValueInLightMeter() {
     setExposureValueSpinnerTo(3);
-    assertEquals(3f, mActivity.getWorkMode().getExposureAtISO100().getValue(), 0.001f);
+    assertEquals(3f, mActivity.getWorkMode().getExposure().getValue(), 0.001f);
   }
 
   public void testSetManualExposureValueShouldHideExposureDisplayRow() {

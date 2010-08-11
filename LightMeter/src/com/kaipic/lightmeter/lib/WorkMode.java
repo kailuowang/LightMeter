@@ -35,7 +35,7 @@ public abstract class WorkMode {
     return lightMeter.getAperture();
   }
 
-  public ExposureValue getExposureAtISO100() {
+  public ExposureValue getExposure() {
     return lightMeter.getISO100EV();
   }
 }
