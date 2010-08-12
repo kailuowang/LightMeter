@@ -64,10 +64,10 @@
           android:drawSelectorOnTop="true"
           android:prompt="@string/iso_spinner_prompt"/>
     </TableRow>
-    <TableRow android:id="@+id/exposureSpinnerTitleRow">
+    <TableRow>
       <TextView
           android:layout_column="1"
-          android:text="Exposure Setting:"
+          android:text="Exposure Value:"
           android:padding="3dip"/>
     </TableRow>
     <TableRow android:id="@+id/exposureSpinnerRow">
@@ -83,11 +83,22 @@
     </TableRow>
     <TableRow android:id="@+id/exposureDisplayRow">
       <TextView
+          android:id="@+id/exposureValue"
+          android:layout_height="wrap_content"
+          android:layout_width="fill_parent"
+           android:layout_span="2"
+            android:layout_column="1"
+          android:gravity="right"
+          android:padding="3dip"
+          />
+    </TableRow>
+    <TableRow android:id="@+id/apertureDisplayRow">
+      <TextView
           android:layout_column="1"
-          android:text="Exposure Value:"
+          android:text="Aperture:"
           android:padding="3dip"/>
       <TextView
-          android:id="@+id/exposureValue"
+          android:id="@+id/aperture"
           android:gravity="right"
           android:padding="3dip"/>
     </TableRow>

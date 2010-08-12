@@ -3,11 +3,22 @@ package com.kaipic.lightmeter.lib;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ExposureValueTest {
   @Test
   public void shouldGenerateFormattedStringAsToString() throws Exception {
     assertEquals("EV1.1", new ExposureValue(1.10001f).toString());
+  }
+
+  @Test
+  public void shouldGenerateFormattedStringAsToDetailString() throws Exception {
+    assertTrue(new ExposureValue(1.10001f).toDetailString().contains(ExposureValue.DETAIL_STRINGS[1]));
+  }
+
+  @Test
+  public void shouldNotThrewOutOfBoundaryExceptionWhenGenerateFormattedStringAsToDetailString() throws Exception {
+    assertEquals("EV17 Uncommon in nature", new ExposureValue(17).toDetailString());
   }
 
   @Test

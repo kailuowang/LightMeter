@@ -31,6 +31,8 @@ public class MainWindowTest extends
   private View mShutterSpeedResultRow;
   private View mExposureSpinnerRow;
   private View mExposureDisplayRow;
+  private View mApertureDisplayRow;
+  private TextView mApertureTextView;
 
   public MainWindowTest() {
     super("com.kaipic.lightmeter", MainWindow.class);
@@ -43,6 +45,7 @@ public class MainWindowTest extends
     mActivity = getActivity();
     mButton = (Button) mActivity.findViewById(R.id.pause_button);
     mExposureValueView = (TextView) mActivity.findViewById(R.id.exposureValue);
+    mApertureTextView = (TextView) mActivity.findViewById(R.id.aperture);
     mIsoSpinner = (Spinner) mActivity.findViewById(R.id.isoSpinner);
     mExposureSpinner = (Spinner) mActivity.findViewById(R.id.exposureSpinner);
     mApertureSpinner = (Spinner) mActivity.findViewById(R.id.apertureSpinner);
@@ -53,6 +56,7 @@ public class MainWindowTest extends
     mApertureSpinnerRow = mActivity.findViewById(R.id.apertureSpinnerRow);
     mShutterSpeedSpinnerRow = mActivity.findViewById(R.id.shutterSpeedSpinnerRow);
     mShutterSpeedResultRow = mActivity.findViewById(R.id.shutterSpeedResultRow);
+    mApertureDisplayRow = mActivity.findViewById(R.id.apertureDisplayRow);
     mExposureSpinnerRow = mActivity.findViewById(R.id.exposureSpinnerRow);
     mExposureDisplayRow = mActivity.findViewById(R.id.exposureDisplayRow);
     disableKeyGuardForTesting();
@@ -107,8 +111,14 @@ public class MainWindowTest extends
         mActivity.display();
       }
     });
-    assertEquals("EV10.0", ((TextView) mActivity.findViewById(R.id.exposureValue)).getText());
+    assertEquals(new ExposureValue(10).toDetailString(), ((TextView) mActivity.findViewById(R.id.exposureValue)).getText());
     assertTrue(((TextView) mActivity.findViewById(R.id.shutterSpeed)).getText().length() > 0);
+  }
+
+  public void testExposureSpinnerItems(){
+    String[] items = mActivity.exposureSpinnerItems();
+    assertEquals("AUTO", items[0]);
+    assertEquals(new ExposureValue(2).toDetailString(), items[2]);
   }
 
   public void testSetISOShouldSetISOtoLightMeter() {
@@ -151,6 +161,17 @@ public class MainWindowTest extends
     assertTrue(mShutterSpeedResultRow.isShown());
     assertFalse(mShutterSpeedSpinnerRow.isShown());
     assertTrue(mExposureSpinnerRow.isShown());
+    assertFalse(mApertureDisplayRow.isShown());
+  }
+
+  public void testSvMode() {
+    click(mSvRadioButton);
+    assertFalse(mApertureSpinnerRow.isShown());
+    assertFalse(mShutterSpeedResultRow.isShown());
+    assertTrue(mShutterSpeedSpinnerRow.isShown());
+    assertTrue(mApertureDisplayRow.isShown());
+    assertTrue(mExposureSpinnerRow.isShown());
+    assertEquals(mApertureTextView.getText(), mActivity.getWorkMode().getAperture().toString());
   }
 
   public void testMMode() {
@@ -160,6 +181,8 @@ public class MainWindowTest extends
     assertTrue(mShutterSpeedSpinnerRow.isShown());
     assertFalse(mExposureSpinnerRow.isShown());
     assertTrue(mExposureDisplayRow.isShown());
+    assertFalse(mApertureDisplayRow.isShown());
+    
   }
 
 
@@ -204,7 +227,7 @@ public class MainWindowTest extends
         lightSensor.broadcast();
       }
     });
-    assertEquals("EV10.0", mExposureValueView.getText());
+    assertEquals(new ExposureValue(10).toDetailString(), mExposureValueView.getText());
   }
 
   public void testSetupSpinnerShouldRememberLastPosition() {

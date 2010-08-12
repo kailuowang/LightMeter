@@ -31,6 +31,7 @@ public class MainWindow extends Activity implements LightMeterListener {
   private RadioButton radioAv;
   private RadioButton radioM;
   private RadioButton radioSv;
+  private TextView apertureTextView;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -58,17 +59,18 @@ public class MainWindow extends Activity implements LightMeterListener {
   }
 
   public void display() {
-    exposureValueTextView.setText(workMode.getExposure().toString());
+    exposureValueTextView.setText(workMode.getExposure().toDetailString());
     shutterSpeedTextView.setText(workMode.getShutterSpeed().toString());
+    apertureTextView.setText(workMode.getAperture().toString());
     statusTextView.setText("Status: " + lightMeter.getStatus());
     boolean usingManualExposureSetting = !lightMeter.usingAutoLightSensor() || !workMode.isExposureValueChangeable();
     pauseButton.setVisibility(usingManualExposureSetting ? View.INVISIBLE : View.VISIBLE);
     findViewById(R.id.apertureSpinnerRow).setVisibility(workMode.isApertureChangeable() ? View.VISIBLE : View.GONE);
     findViewById(R.id.shutterSpeedSpinnerRow).setVisibility(workMode.isShutterSpeedChangeable() ? View.VISIBLE : View.GONE);
     findViewById(R.id.shutterSpeedResultRow).setVisibility(workMode.isShutterSpeedChangeable() ? View.GONE : View.VISIBLE);
+    findViewById(R.id.apertureDisplayRow).setVisibility(workMode.isApertureChangeable() ? View.GONE : View.VISIBLE);
     int exposureSpinnerVisibility = workMode.isExposureValueChangeable() ? View.VISIBLE : View.GONE;
     findViewById(R.id.exposureSpinnerRow).setVisibility(exposureSpinnerVisibility);
-    findViewById(R.id.exposureSpinnerTitleRow).setVisibility(exposureSpinnerVisibility);
     findViewById(R.id.exposureDisplayRow).setVisibility(lightMeter.usingAutoLightSensor() || !workMode.isExposureValueChangeable() ? View.VISIBLE : View.GONE);
   }
 
@@ -76,6 +78,7 @@ public class MainWindow extends Activity implements LightMeterListener {
     pauseButton = (Button) findViewById(R.id.pause_button);
     exposureValueTextView = (TextView) findViewById(R.id.exposureValue);
     shutterSpeedTextView = (TextView) findViewById(R.id.shutterSpeed);
+    apertureTextView = (TextView) findViewById(R.id.aperture);
     statusTextView = (TextView) findViewById(R.id.status_text_view);
     initializeLightMeter();
     apertureSpinner = (Spinner) findViewById(R.id.apertureSpinner);
@@ -84,7 +87,7 @@ public class MainWindow extends Activity implements LightMeterListener {
     exposureSpinner = (Spinner) findViewById(R.id.exposureSpinner);
     setupSpinner(isoSpinner, R.array.isos);
     setupSpinner(apertureSpinner, R.array.appertures);
-    setupSpinner(exposureSpinner, R.array.exposureValues);
+    setupSpinner(exposureSpinner, (ArrayAdapter<?>) new ArrayAdapter(this, android.R.layout.simple_spinner_item, exposureSpinnerItems()));
     setupSpinner(shutterSpeedSpinner, R.array.shutterSpeeds);
 
     radioAv = (RadioButton) findViewById(R.id.radio_Av);
@@ -106,6 +109,15 @@ public class MainWindow extends Activity implements LightMeterListener {
       }
     });
 
+  }
+
+  public String[] exposureSpinnerItems() {
+    String[] items = new String[ExposureValue.DETAIL_STRINGS.length + 1];
+    items[0] = "AUTO";
+    for(int i = 1; i < items.length; i++) {
+      items[i] = new ExposureValue(i).toDetailString();
+    }
+    return items;
   }
 
   private void changeToMMode() {
@@ -218,6 +230,10 @@ public class MainWindow extends Activity implements LightMeterListener {
   public void setupSpinner(Spinner spinner, int itemArray) {
     ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(
         this, itemArray, android.R.layout.simple_spinner_item);
+    setupSpinner(spinner, adapter);
+  }
+
+  private void setupSpinner(Spinner spinner, ArrayAdapter<?> adapter) {
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spinner.setAdapter(adapter);
     int savedSelection = getSettings().getInt(spinnerPreferenceKey(spinner), 0);

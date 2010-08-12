@@ -1,5 +1,7 @@
 package com.kaipic.lightmeter.lib;
 
+import java.text.DecimalFormat;
+
 public class Aperture {
   private float value;
 
@@ -17,6 +19,11 @@ public class Aperture {
 
   public static Aperture fromString(String value) {
     return new Aperture(Float.valueOf(value));
+  }
+
+  @Override
+  public String toString() {
+    return new DecimalFormat("#.0").format(value);
   }
 
   @Override
