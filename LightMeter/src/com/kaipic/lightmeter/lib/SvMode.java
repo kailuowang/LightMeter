@@ -11,6 +11,6 @@ public class SvMode extends WorkMode {
   }
 
   public Aperture getAperture() {
-    return null;
+    return lightMeter.calculateAperture();
   }
 }

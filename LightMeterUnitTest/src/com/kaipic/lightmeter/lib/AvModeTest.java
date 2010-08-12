@@ -36,7 +36,6 @@ public class AvModeTest {
     Aperture aperture = new Aperture(12f);
     mode.setAperture(aperture);
     verify(lightMeter).setAperture(aperture);
-
   }
 
 }

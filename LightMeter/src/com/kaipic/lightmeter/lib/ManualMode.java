@@ -9,7 +9,7 @@ public class ManualMode extends WorkMode {
     return false;
   }
 
-  public ExposureValue getExposureAtISO100() {
-    return new ExposureValue(getAperture(), getShutterSpeed());
+  public ExposureValue getExposure() {
+    return new ExposureValue(getAperture(), getShutterSpeed()).multiply(lightMeter.getISO() / 100f);
   }
 }

@@ -139,4 +139,7 @@ public class LightMeter implements LightSensorListener {
     return new ShutterSpeed(aperture, lightSensor.getEV());
   }
 
+  Aperture calculateAperture() {
+    return new Aperture(shutterSpeed, lightSensor.getEV());
+  }
 }
