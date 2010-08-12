@@ -14,8 +14,6 @@ public class LightSensorRepo {
   }
 
   public LightSensor getSensor(String sensorInfo) {
-    if ("0".equals(sensorInfo))
-      sensorInfo = LightSensorType.AUTO.toString();
     LightSensorType type = LightSensorType.AUTO.toString().equals(sensorInfo) ? LightSensorType.AUTO : LightSensorType.MANUAL;
     LightSensor sensor = sensors.get(type);
     if (sensor == null) {

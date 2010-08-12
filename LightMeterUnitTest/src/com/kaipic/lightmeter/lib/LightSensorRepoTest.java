@@ -17,15 +17,6 @@ public class LightSensorRepoTest {
   }
 
   @Test
-  public void shouldGetAutoSensorByStringZero() throws Exception {
-    LightSensorFactory factory = mock(LightSensorFactory.class);
-    when(factory.createSensor(LightSensorType.AUTO)).thenReturn(new MockLightSensor());
-    LightSensorRepo repo = new LightSensorRepo(factory);
-    repo.getSensor("0");
-    verify(factory).createSensor(LightSensorType.AUTO);
-  }
-
-  @Test
   public void shouldNotCreateTheSensorWithTheSameTypeMoreThanOnce() throws Exception {
     LightSensorFactory factory = mock(LightSensorFactory.class);
     LightSensor sensor = mock(LightSensor.class);
