@@ -138,9 +138,8 @@ public class MainWindow extends Activity implements LightMeterListener {
   }
 
   public String[] exposureSpinnerItems() {
-    String[] items = new String[ExposureValue.DETAIL_STRINGS.length + 1];
-    items[0] = "AUTO";
-    for (int i = 1; i < items.length; i++) {
+    String[] items = new String[ExposureValue.DETAIL_STRINGS.length];
+    for (int i = 0; i < items.length; i++) {
       items[i] = new ExposureValue(i).toDetailString();
     }
     return items;
@@ -245,7 +244,7 @@ public class MainWindow extends Activity implements LightMeterListener {
   private String lightSensorString() {
     if (radioAutoExposure.isChecked())
       return "AUTO";
-    return ((Integer) exposureSpinner.getSelectedItemPosition()).toString();
+    return ((Integer) (exposureSpinner.getSelectedItemPosition() + 1)).toString();
   }
 
   private Dialog createAboutDialog() {
@@ -269,7 +268,7 @@ public class MainWindow extends Activity implements LightMeterListener {
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spinner.setAdapter(adapter);
     int savedSelection = getSettings().getInt(spinnerPreferenceKey(spinner), 0);
-    if (savedSelection < adapter.getCount()) {
+    if (savedSelection < adapter.getCount() && savedSelection >= 0) {
       spinner.setSelection(savedSelection, false);
     }
   }

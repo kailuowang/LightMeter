@@ -9,7 +9,7 @@
   <string name="exposure_spinner_prompt">Please set EV setting</string>
   <string name="shutter_speed_spinner_prompt">Please set Shutter Speed</string>
   <string name="copyright">copyright © 2010 Kailuo Wang</string>
-  <string name="version">Version 1.01a</string>
+  <string name="version">Version 1.1Beta</string>
   <string name="about">About</string>
   <string name="ok">OK</string>
   <string name="photo_website">Website: http://kaipic.com</string>

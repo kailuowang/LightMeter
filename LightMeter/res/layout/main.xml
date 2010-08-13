@@ -9,13 +9,15 @@
     <TableRow>
         <TextView
           android:layout_column="1"
+          android:layout_width="wrap_content"
           android:text="Mode:"
           android:padding="3dip"/>
       <RadioGroup
           android:layout_width="fill_parent"
           android:layout_height="wrap_content"
           android:orientation="horizontal"
-          android:layout_column="2">
+          android:layout_column="2"
+          android:gravity="right" >
         <RadioButton android:id="@+id/radio_Av"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"

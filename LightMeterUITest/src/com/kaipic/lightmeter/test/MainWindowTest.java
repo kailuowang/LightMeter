@@ -119,7 +119,6 @@ public class MainWindowTest extends
 
   public void testExposureSpinnerItems(){
     String[] items = mActivity.exposureSpinnerItems();
-    assertEquals("AUTO", items[0]);
     assertEquals(new ExposureValue(2).toDetailString(), items[2]);
   }
 
@@ -190,7 +189,7 @@ public class MainWindowTest extends
 
   public void testSetExposureValueShouldResultInSuchExposureValueInLightMeter() {
     setExposureValueSpinnerTo(3);
-    assertEquals(3f, mActivity.getWorkMode().getExposure().getValue(), 0.001f);
+    assertEquals(4f, mActivity.getWorkMode().getExposure().getValue(), 0.001f);
   }
 
   public void testSetManualExposureValueShouldHideExposureDisplayRow() {
