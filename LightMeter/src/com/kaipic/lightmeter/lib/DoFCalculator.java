@@ -4,22 +4,46 @@ public class DoFCalculator {
   private Length focalLength;
   private Length circleOfConfusion;
   private Aperture aperture;
+  private Length subjectDistance;
 
-  public void setFocalLength(Length focalLength) {
+  public DoFCalculator setFocalLength(Length focalLength) {
     this.focalLength = focalLength;
+    return this;
   }
 
-  public void setCircleOfConfusion(Length circleOfConfusion) {
+  public DoFCalculator setCircleOfConfusion(Length circleOfConfusion) {
     this.circleOfConfusion = circleOfConfusion;
+    return this;
   }
 
-  public void setAperture(Aperture aperture) {
+  public DoFCalculator setAperture(Aperture aperture) {
     this.aperture = aperture;
+    return this;
   }
 
-  public Length calculateHyperFocalDistance() {
-    float value = focalLength.getValue() + focalLength.getValue() * focalLength.getValue()
-                                          /(aperture.getValue() * circleOfConfusion.getValue());
-    return new Length(value);
+  public DoFCalculator setSubjectDistance(Length subjectDistance) {
+    this.subjectDistance = subjectDistance;
+    return this;
+  }
+
+  public Length hyperFocalDistance() {
+    float f = focalLength.getValue();
+    float N = aperture.getValue();
+    float c = circleOfConfusion.getValue();
+    return new Length(f + f * f / (N * c));
+  }
+
+  public Length nearLimit() {
+    float H = hyperFocalDistance().getValue();
+    float f = focalLength.getValue();
+    float s = subjectDistance.getValue();
+    return new Length(s * (H - f) / (H + s - 2 * f));
+  }
+
+  public Length farLimit() {
+    float H = hyperFocalDistance().getValue();
+    float f = focalLength.getValue();
+    float s = subjectDistance.getValue();
+    return new Length(s * (H - f) / (H - s));
   }
 }
