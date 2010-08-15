@@ -10,4 +10,8 @@ public class Length {
   float getValue() {
     return value;
   }
+
+  public String toString() {
+    return Util.format(value) + "mm";
+  }
 }

@@ -22,6 +22,7 @@ public class MainWindow extends Activity implements LightMeterListener {
   private Spinner shutterSpeedSpinner;
   private Spinner exposureSpinner;
   private Spinner isoSpinner;
+  private Spinner focalLengthSpinner;
   private TextView exposureValueTextView;
   private TextView statusTextView;
   private static final String PREFS_NAME = "LIGHT_METER_PREFS";
@@ -79,6 +80,7 @@ public class MainWindow extends Activity implements LightMeterListener {
   private void setVisible(final int viewId, final boolean visible) {
     setVisible(findViewById(viewId), visible);
   }
+
   private void setVisible(View view, final boolean visible) {
     view.setVisibility(visible ? View.VISIBLE : View.GONE);
   }
@@ -93,15 +95,18 @@ public class MainWindow extends Activity implements LightMeterListener {
     apertureSpinner = (Spinner) findViewById(R.id.apertureSpinner);
     isoSpinner = (Spinner) findViewById(R.id.isoSpinner);
     shutterSpeedSpinner = (Spinner) findViewById(R.id.shutterSpeedSpinner);
+    focalLengthSpinner = (Spinner) findViewById(R.id.focalLengthSpinner);
     exposureSpinner = (Spinner) findViewById(R.id.exposureSpinner);
     setupSpinner(isoSpinner, R.array.isos);
     setupSpinner(apertureSpinner, R.array.appertures);
-    setupSpinner(exposureSpinner, (ArrayAdapter<?>) new ArrayAdapter(this, android.R.layout.simple_spinner_item, exposureSpinnerItems()));
+    setupSpinner(exposureSpinner, exposureSpinnerItems());
+    setupSpinner(focalLengthSpinner, CameraSettingsRepository.focalLengths);
     setupSpinner(shutterSpeedSpinner, R.array.shutterSpeeds);
 
     initializeWorkMode();
     initializeExposureSettings();
   }
+
 
   private void initializeWorkMode() {
     radioAv = (RadioButton) findViewById(R.id.radio_Av);
@@ -271,6 +276,10 @@ public class MainWindow extends Activity implements LightMeterListener {
     if (savedSelection < adapter.getCount() && savedSelection >= 0) {
       spinner.setSelection(savedSelection, false);
     }
+  }
+
+  private void setupSpinner(final Spinner spinner, final Object[] itemArray) {
+    setupSpinner(spinner, (ArrayAdapter<?>) new ArrayAdapter(this, android.R.layout.simple_spinner_item, itemArray));
   }
 
   public SharedPreferences getSettings() {

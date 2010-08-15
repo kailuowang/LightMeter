@@ -2,7 +2,7 @@ package com.kaipic.lightmeter.lib;
 
 public class DoFCalculator {
   private Length focalLength;
-  private Length circleOfConfusion;
+  private CirclesOfConfusion circleOfConfusion;
   private Aperture aperture;
   private Length subjectDistance;
 
@@ -11,7 +11,7 @@ public class DoFCalculator {
     return this;
   }
 
-  public DoFCalculator setCircleOfConfusion(Length circleOfConfusion) {
+  public DoFCalculator setCircleOfConfusion(CirclesOfConfusion circleOfConfusion) {
     this.circleOfConfusion = circleOfConfusion;
     return this;
   }
@@ -29,7 +29,7 @@ public class DoFCalculator {
   public Length hyperFocalDistance() {
     float f = focalLength.getValue();
     float N = aperture.getValue();
-    float c = circleOfConfusion.getValue();
+    float c = circleOfConfusion.getValue().getValue();
     return new Length(f + f * f / (N * c));
   }
 

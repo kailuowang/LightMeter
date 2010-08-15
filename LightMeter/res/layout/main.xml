@@ -7,7 +7,7 @@
                android:layout_height="wrap_content"
                android:stretchColumns="1">
     <TableRow>
-        <TextView
+      <TextView
           android:layout_column="1"
           android:layout_width="wrap_content"
           android:text="Mode:"
@@ -17,7 +17,7 @@
           android:layout_height="wrap_content"
           android:orientation="horizontal"
           android:layout_column="2"
-          android:gravity="right" >
+          android:gravity="right">
         <RadioButton android:id="@+id/radio_Av"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
           android:layout_column="1"
           android:text="Exposure Value:"
           android:padding="3dip"/>
-       <RadioGroup
+      <RadioGroup
           android:id="@+id/exposureSettingRadioGroup"
           android:layout_width="fill_parent"
           android:layout_height="wrap_content"
@@ -109,7 +109,7 @@
           android:layout_span="2"
           android:layout_column="1"
           android:gravity="right"
-          android:padding="3dip" />
+          android:padding="3dip"/>
     </TableRow>
     <TableRow>
       <Button
@@ -139,6 +139,19 @@
           android:id="@+id/shutterSpeed"
           android:gravity="right"
           android:padding="3dip"/>
+    </TableRow>
+    <TableRow>
+      <TextView
+          android:layout_column="1"
+          android:text="Focal Length:"
+          android:padding="3dip"/>
+      <Spinner
+          android:id="@+id/focalLengthSpinner"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:drawSelectorOnTop="true"
+          android:prompt="@string/focal_length_spinner_prompt"
+          android:layout_column="2"/>
     </TableRow>
 
     <TableRow>

@@ -22,7 +22,6 @@
     <item>19</item>
     <item>22</item>
   </string-array>
-
   <string-array name="shutterSpeeds">
     <item>4s</item>
     <item>2s</item>
@@ -50,25 +49,5 @@
     <item>800</item>
     <item>1600</item>
     <item>3200</item>
-  </string-array>
-
-  <string-array name="exposureValues">
-    <item>AUTO</item>
-    <item>EV1 Distant view of lighted skyline.</item>
-    <item>EV2 Lightning (with time exposure).</item>
-    <item>EV3 Fireworks (with time exposure).</item>
-    <item>EV4 Subjects under bright street lamps.</item>
-    <item>EV5 Night home interiors, average light.</item>
-    <item>EV6 Brightly lit home interiors at night.</item>
-    <item>EV7 Bottom of rainforest canopy.</item>
-    <item>EV8 Las Vegas or Times Square at night.</item>
-    <item>EV9 Landscapes 10 minutes after sunset.</item>
-    <item>EV10 Landscapes immediately after sunset.</item>
-    <item>EV11 Sunsets. Subjects in open shade.</item>
-    <item>EV12 Subject in heavy overcast.</item>
-    <item>EV13 Subjects in cloudy-bright light.</item>
-    <item>EV14 Subjects in weak, hazy sun.</item>
-    <item>EV15 Subjects in bright or hazy sun.</item>
-    <item>EV16 Subjects in bright daylight on sand.</item>
   </string-array>
 </resources>
