@@ -33,6 +33,11 @@
                      android:text="Sv"/>
       </RadioGroup>
     </TableRow>
+  </TableLayout>
+  <TableLayout android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:stretchColumns="1">
+
     <TableRow android:id="@+id/apertureSpinnerRow">
       <TextView
           android:layout_column="1"
@@ -43,7 +48,8 @@
           android:layout_width="fill_parent"
           android:layout_height="wrap_content"
           android:drawSelectorOnTop="true"
-          android:prompt="@string/aperture_spinner_prompt"/>
+          android:prompt="@string/aperture_spinner_prompt"
+          android:layout_column="2"/>
     </TableRow>
     <TableRow android:id="@+id/shutterSpeedSpinnerRow">
       <TextView
@@ -67,6 +73,7 @@
           android:layout_width="fill_parent"
           android:layout_height="wrap_content"
           android:drawSelectorOnTop="true"
+          android:layout_column="2"
           android:prompt="@string/iso_spinner_prompt"/>
     </TableRow>
     <TableRow>
@@ -117,6 +124,7 @@
           android:text="@string/pause"
           android:layout_column="2"
           android:layout_width="wrap_content"
+          android:layout_height="40dip"
           android:gravity="right">
       </Button>
     </TableRow>
@@ -140,6 +148,21 @@
           android:gravity="right"
           android:padding="3dip"/>
     </TableRow>
+  </TableLayout>
+  <View
+      android:layout_width="fill_parent"
+      android:layout_height="2dip"
+      android:background="#FF909090"/>
+  <TextView
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:padding="3dip"
+      android:textStyle="italic"
+      android:textAppearance="@style/SmallerLightTextAppearance"
+      android:text="Depth Of Field Calculation:"/>
+  <TableLayout android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:stretchColumns="1">
     <TableRow>
       <TextView
           android:layout_column="1"
@@ -153,15 +176,35 @@
           android:prompt="@string/focal_length_spinner_prompt"
           android:layout_column="2"/>
     </TableRow>
+    <TableRow>
 
+      <TextView
+          android:layout_column="1"
+          android:text="Subject distance:"
+          android:padding="3dip"/>
+      <EditText
+          android:id="@+id/editTextSubjectDistance"
+          android:padding="3dip"
+          android:layout_column="2"
+          />
+    </TableRow>
     <TableRow>
       <TextView
-          android:id="@+id/status_text_view"
+          android:layout_column="1"
+          android:text="Camera Format:"
+          android:padding="3dip"/>
+      <Spinner
+          android:id="@+id/circlesOfConfusionSpinner"
           android:layout_width="fill_parent"
           android:layout_height="wrap_content"
-          android:padding="3dip"
-          android:layout_span="2"
-          android:layout_column="1"/>
+          android:drawSelectorOnTop="true"
+          android:prompt="@string/circle_of_confusion_spinner_prompt"
+          android:layout_column="2"/>
     </TableRow>
   </TableLayout>
+  <TextView
+      android:id="@+id/status_text_view"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:padding="3dip"/>
 </LinearLayout>

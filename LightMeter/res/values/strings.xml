@@ -60,4 +60,5 @@
   </string>
   <string name="help_menu_title">Help</string>
   <string name="road_map">Road map: http://wiki.github.com/kailuowang/LightMeter/road-map</string>
+  <string name="circle_of_confusion_spinner_prompt">Please select format of the camera</string>
 </resources>

@@ -35,6 +35,7 @@ public class MainWindow extends Activity implements LightMeterListener {
   private TextView apertureTextView;
   private RadioButton radioManualExposure;
   private RadioButton radioAutoExposure;
+  private Spinner circlesOfConfusionSpinner;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -96,12 +97,14 @@ public class MainWindow extends Activity implements LightMeterListener {
     isoSpinner = (Spinner) findViewById(R.id.isoSpinner);
     shutterSpeedSpinner = (Spinner) findViewById(R.id.shutterSpeedSpinner);
     focalLengthSpinner = (Spinner) findViewById(R.id.focalLengthSpinner);
+    circlesOfConfusionSpinner = (Spinner) findViewById(R.id.circlesOfConfusionSpinner);
     exposureSpinner = (Spinner) findViewById(R.id.exposureSpinner);
     setupSpinner(isoSpinner, R.array.isos);
     setupSpinner(apertureSpinner, R.array.appertures);
     setupSpinner(exposureSpinner, exposureSpinnerItems());
     setupSpinner(focalLengthSpinner, CameraSettingsRepository.focalLengths);
     setupSpinner(shutterSpeedSpinner, R.array.shutterSpeeds);
+    setupSpinner(circlesOfConfusionSpinner, CirclesOfConfusion.Values());
 
     initializeWorkMode();
     initializeExposureSettings();
