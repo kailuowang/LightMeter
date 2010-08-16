@@ -27,14 +27,11 @@ public class MainWindowTest extends
   private RadioButton mAvRadioButton;
   private RadioButton mMRadioButton;
   private RadioButton mSvRadioButton;
-  private View mApertureSpinnerRow;
-  private View mShutterSpeedSpinnerRow;
-  private View mShutterSpeedResultRow;
-  private View mApertureDisplayRow;
   private TextView mApertureTextView;
   private RadioButton mAutoExposureRadioButton;
   private RadioButton mManualExposureRadioButton;
   private View mExposureSettingRadioGroup;
+  private TextView mShutterSpeedTextView;
 
   public MainWindowTest() {
     super("com.kaipic.lightmeter", MainWindow.class);
@@ -48,6 +45,7 @@ public class MainWindowTest extends
     mButton = (Button) mActivity.findViewById(R.id.pause_button);
     mExposureValueView = (TextView) mActivity.findViewById(R.id.exposureValue);
     mApertureTextView = (TextView) mActivity.findViewById(R.id.aperture);
+    mShutterSpeedTextView = (TextView) mActivity.findViewById(R.id.shutterSpeed);
     mIsoSpinner = (Spinner) mActivity.findViewById(R.id.isoSpinner);
     mExposureSpinner = (Spinner) mActivity.findViewById(R.id.exposureSpinner);
     mApertureSpinner = (Spinner) mActivity.findViewById(R.id.apertureSpinner);
@@ -57,10 +55,6 @@ public class MainWindowTest extends
     mMRadioButton = (RadioButton) mActivity.findViewById(R.id.radio_Manual);
     mAutoExposureRadioButton = (RadioButton) mActivity.findViewById(R.id.radioAutoExposure);
     mManualExposureRadioButton = (RadioButton) mActivity.findViewById(R.id.radioManualExposure);
-    mApertureSpinnerRow = mActivity.findViewById(R.id.apertureSpinnerRow);
-    mShutterSpeedSpinnerRow = mActivity.findViewById(R.id.shutterSpeedSpinnerRow);
-    mShutterSpeedResultRow = mActivity.findViewById(R.id.shutterSpeedResultRow);
-    mApertureDisplayRow = mActivity.findViewById(R.id.apertureDisplayRow);
     mExposureSettingRadioGroup = mActivity.findViewById(R.id.exposureSettingRadioGroup);
     disableKeyGuardForTesting();
   }
@@ -96,7 +90,7 @@ public class MainWindowTest extends
     click(mButton);
     assertTrue(sensor.isPaused());
   }
-  
+
   public void testPauseButtonClickShouldToggleButtonLabel() {
     mActivity.getLightMeter().setLightSensor(new MockLightSensor());
     assertEquals(getString(R.string.pause), mButton.getText());
@@ -117,7 +111,7 @@ public class MainWindowTest extends
     assertTrue(((TextView) mActivity.findViewById(R.id.shutterSpeed)).getText().length() > 0);
   }
 
-  public void testExposureSpinnerItems(){
+  public void testExposureSpinnerItems() {
     String[] items = mActivity.exposureSpinnerItems();
     assertEquals(new ExposureValue(2).toDetailString(), items[2]);
   }
@@ -158,33 +152,33 @@ public class MainWindowTest extends
 
   public void testAvMode() {
     click(mAvRadioButton);
-    assertTrue(mApertureSpinnerRow.isShown());
-    assertTrue(mShutterSpeedResultRow.isShown());
-    assertFalse(mShutterSpeedSpinnerRow.isShown());
+    assertTrue(mApertureSpinner.isShown());
+    assertTrue(mShutterSpeedTextView.isShown());
+    assertFalse(mShutterSpeedSpinner.isShown());
     assertTrue(mExposureSettingRadioGroup.isShown());
-    assertFalse(mApertureDisplayRow.isShown());
+    assertFalse(mApertureTextView.isShown());
   }
 
   public void testSvMode() {
     click(mSvRadioButton);
-    assertFalse(mApertureSpinnerRow.isShown());
-    assertFalse(mShutterSpeedResultRow.isShown());
-    assertTrue(mShutterSpeedSpinnerRow.isShown());
-    assertTrue(mApertureDisplayRow.isShown());
+    assertFalse(mApertureSpinner.isShown());
+    assertFalse(mShutterSpeedTextView.isShown());
+    assertTrue(mShutterSpeedSpinner.isShown());
+    assertTrue(mApertureTextView.isShown());
     assertTrue(mExposureSettingRadioGroup.isShown());
     assertEquals(mApertureTextView.getText(), mActivity.getWorkMode().getAperture().toString());
   }
 
   public void testMMode() {
     click(mMRadioButton);
-    assertTrue(mApertureSpinnerRow.isShown());
-    assertFalse(mShutterSpeedResultRow.isShown());
-    assertTrue(mShutterSpeedSpinnerRow.isShown());
+    assertTrue(mApertureSpinner.isShown());
+    assertFalse(mShutterSpeedTextView.isShown());
+    assertTrue(mShutterSpeedSpinner.isShown());
     assertFalse(mExposureSpinner.isShown());
     assertFalse(mExposureSettingRadioGroup.isShown());
 
     assertTrue(mExposureValueView.isShown());
-    assertFalse(mApertureDisplayRow.isShown());
+    assertFalse(mApertureTextView.isShown());
   }
 
   public void testSetExposureValueShouldResultInSuchExposureValueInLightMeter() {
@@ -202,7 +196,7 @@ public class MainWindowTest extends
     assertEquals(LightSensorType.AUTO, mActivity.getLightMeter().getLightSensor().getType());
     assertFalse(mExposureSpinner.isShown());
     assertTrue(mExposureValueView.isShown());
-    assertTrue(mShutterSpeedResultRow.isShown());
+    assertTrue(mShutterSpeedTextView.isShown());
   }
 
   public void testSetExposureValueToManualShouldResultInManualLightSensor() {

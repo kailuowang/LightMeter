@@ -69,10 +69,10 @@ public class MainWindow extends Activity implements LightMeterListener {
     statusTextView.setText("Status: " + lightMeter.getStatus());
     boolean usingAutoExposureSetting = lightMeter.usingAutoLightSensor() && workMode.isExposureValueChangeable();
     setVisible(pauseButton, usingAutoExposureSetting);
-    setVisible(R.id.apertureSpinnerRow, workMode.isApertureChangeable());
-    setVisible(R.id.apertureDisplayRow, !workMode.isApertureChangeable());
-    setVisible(R.id.shutterSpeedSpinnerRow, workMode.isShutterSpeedChangeable());
-    setVisible(R.id.shutterSpeedResultRow, !workMode.isShutterSpeedChangeable());
+    setVisible(apertureSpinner, workMode.isApertureChangeable());
+    setVisible(apertureTextView, !workMode.isApertureChangeable());
+    setVisible(shutterSpeedSpinner, workMode.isShutterSpeedChangeable());
+    setVisible(shutterSpeedTextView, !workMode.isShutterSpeedChangeable());
     setVisible(exposureSpinner, !lightMeter.usingAutoLightSensor() && workMode.isExposureValueChangeable());
     setVisible(exposureValueTextView, lightMeter.usingAutoLightSensor() || !workMode.isExposureValueChangeable());
     setVisible(R.id.exposureSettingRadioGroup, workMode.isExposureValueChangeable());

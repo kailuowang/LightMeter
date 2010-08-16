@@ -7,21 +7,18 @@
                android:layout_height="wrap_content"
                android:stretchColumns="1">
     <TableRow>
-      <TextView
-          android:layout_column="1"
-          android:layout_width="wrap_content"
-          android:text="Mode:"
-          android:padding="3dip"/>
+
       <RadioGroup
           android:layout_width="fill_parent"
           android:layout_height="wrap_content"
           android:orientation="horizontal"
-          android:layout_column="2"
-          android:gravity="right">
+          android:layout_column="1"
+          android:gravity="left">
         <RadioButton android:id="@+id/radio_Av"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:text="Av"
+
                      android:checked="true"/>
         <RadioButton android:id="@+id/radio_Manual"
                      android:layout_width="wrap_content"
@@ -32,55 +29,15 @@
                      android:layout_height="wrap_content"
                      android:text="Sv"/>
       </RadioGroup>
-    </TableRow>
-  </TableLayout>
-  <TableLayout android:layout_width="fill_parent"
-               android:layout_height="wrap_content"
-               android:stretchColumns="1">
 
-    <TableRow android:id="@+id/apertureSpinnerRow">
-      <TextView
-          android:layout_column="1"
-          android:text="Aperture:"
-          android:padding="3dip"/>
-      <Spinner
-          android:id="@+id/apertureSpinner"
-          android:layout_width="fill_parent"
-          android:layout_height="wrap_content"
-          android:drawSelectorOnTop="true"
-          android:prompt="@string/aperture_spinner_prompt"
-          android:layout_column="2"/>
-    </TableRow>
-    <TableRow android:id="@+id/shutterSpeedSpinnerRow">
-      <TextView
-          android:layout_column="1"
-          android:text="Shutter Speed:"
-          android:padding="3dip"/>
-      <Spinner
-          android:id="@+id/shutterSpeedSpinner"
-          android:layout_width="fill_parent"
-          android:layout_height="wrap_content"
-          android:drawSelectorOnTop="true"
-          android:prompt="@string/shutter_speed_spinner_prompt"/>
-    </TableRow>
-    <TableRow>
-      <TextView
-          android:layout_column="1"
-          android:text="ISO:"
-          android:padding="3dip"/>
-      <Spinner
-          android:id="@+id/isoSpinner"
-          android:layout_width="fill_parent"
-          android:layout_height="wrap_content"
-          android:drawSelectorOnTop="true"
-          android:layout_column="2"
-          android:prompt="@string/iso_spinner_prompt"/>
-    </TableRow>
-    <TableRow>
-      <TextView
-          android:layout_column="1"
-          android:text="Exposure Value:"
-          android:padding="3dip"/>
+      <!--<Spinner-->
+      <!--android:id="@+id/evSettingSpinner"-->
+      <!--android:layout_width="fill_parent"-->
+      <!--android:layout_height="wrap_content"-->
+      <!--android:drawSelectorOnTop="true"-->
+      <!--android:layout_column="2"-->
+      <!--android:gravity="left"-->
+      <!--android:prompt="@string/iso_spinner_prompt"/>-->
       <RadioGroup
           android:id="@+id/exposureSettingRadioGroup"
           android:layout_width="fill_parent"
@@ -91,34 +48,99 @@
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:text="Auto EV"
+                     android:textAppearance="@style/SmallerLightTextAppearance"
                      android:checked="true"/>
         <RadioButton android:id="@+id/radioManualExposure"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
-                     android:text="Manual EV"/>
+                     android:text="Manual EV"
+                     android:textAppearance="@style/SmallerLightTextAppearance"/>
       </RadioGroup>
     </TableRow>
+  </TableLayout>
+  <TableLayout android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:stretchColumns="4">
+
     <TableRow>
-      <Spinner
-          android:id="@+id/exposureSpinner"
+      <TextView
           android:layout_column="1"
-          android:layout_span="2"
+          android:layout_width="wrap_content"
+          android:text="ISO:"
+          android:padding="3dip"/>
+      <Spinner
+          android:id="@+id/isoSpinner"
           android:layout_width="fill_parent"
           android:layout_height="wrap_content"
           android:drawSelectorOnTop="true"
-          android:prompt="@string/exposure_spinner_prompt"/>
+          android:layout_column="2"
+          android:gravity="left"
+          android:prompt="@string/iso_spinner_prompt"/>
+      <TextView
+          android:layout_column="3"
+          android:text="Aperture:"
+          android:padding="3dip"/>
+      <Spinner
+          android:id="@+id/apertureSpinner"
+          android:layout_height="wrap_content"
+          android:drawSelectorOnTop="true"
+          android:gravity="left"
+          android:prompt="@string/aperture_spinner_prompt"
+          android:layout_column="4"/>
+      <TextView
+          android:id="@+id/aperture"
+          android:gravity="left"
+          android:padding="3dip"
+          android:layout_column="4"
+          android:visibility="gone"/>
+
     </TableRow>
+    <TableRow>
+      <TextView
+          android:layout_column="1"
+          android:layout_width="wrap_content"
+          android:text="Shutter Speed:"
+          android:padding="3dip"/>
+      <Spinner
+          android:id="@+id/shutterSpeedSpinner"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:drawSelectorOnTop="true"
+          android:gravity="left"
+          android:prompt="@string/shutter_speed_spinner_prompt"
+          android:visibility="gone"/>
+      <TextView
+          android:id="@+id/shutterSpeed"
+          android:gravity="right"
+          android:padding="3dip"/>
+    </TableRow>
+  </TableLayout>
+  <TextView
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:padding="3dip"
+      android:textStyle="italic"
+      android:textAppearance="@style/SmallerLightTextAppearance"
+      android:text="Exposure Value:"/>
+  <Spinner
+      android:id="@+id/exposureSpinner"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:drawSelectorOnTop="true"
+      android:prompt="@string/exposure_spinner_prompt"/>
+
+
+  <TableLayout android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:stretchColumns="1">
     <TableRow>
       <TextView
           android:id="@+id/exposureValue"
           android:layout_height="wrap_content"
           android:layout_width="fill_parent"
-          android:layout_span="2"
           android:layout_column="1"
-          android:gravity="right"
+          android:gravity="left"
           android:padding="3dip"/>
-    </TableRow>
-    <TableRow>
       <Button
           android:id="@+id/pause_button"
           android:text="@string/pause"
@@ -128,26 +150,7 @@
           android:gravity="right">
       </Button>
     </TableRow>
-    <TableRow android:id="@+id/apertureDisplayRow">
-      <TextView
-          android:layout_column="1"
-          android:text="Aperture:"
-          android:padding="3dip"/>
-      <TextView
-          android:id="@+id/aperture"
-          android:gravity="right"
-          android:padding="3dip"/>
-    </TableRow>
-    <TableRow android:id="@+id/shutterSpeedResultRow">
-      <TextView
-          android:layout_column="1"
-          android:text="Shutter Speed:"
-          android:padding="3dip"/>
-      <TextView
-          android:id="@+id/shutterSpeed"
-          android:gravity="right"
-          android:padding="3dip"/>
-    </TableRow>
+
   </TableLayout>
   <View
       android:layout_width="fill_parent"
