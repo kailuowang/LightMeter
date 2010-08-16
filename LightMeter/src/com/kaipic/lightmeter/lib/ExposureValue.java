@@ -47,7 +47,7 @@ public class ExposureValue {
 
   public String toString() {
     if (tooLowLight())
-      return "N/A";
+      return "Exposure Value Not Available";
     return "EV" + Util.format(value);
   }
 
