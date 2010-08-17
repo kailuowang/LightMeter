@@ -84,17 +84,13 @@
           android:drawSelectorOnTop="true"
           android:gravity="left"
           android:layout_column="2"
-
           android:prompt="@string/shutter_speed_spinner_prompt"
           android:visibility="gone"/>
       <TextView
           android:id="@+id/shutterSpeed"
           android:layout_column="2"
-
           android:gravity="right"
           android:padding="3dip"/>
-
-
     </TableRow>
   </TableLayout>
   <RadioGroup
@@ -122,8 +118,6 @@
       android:layout_height="wrap_content"
       android:drawSelectorOnTop="true"
       android:prompt="@string/exposure_spinner_prompt"/>
-
-
   <TableLayout android:layout_width="fill_parent"
                android:layout_height="wrap_content"
                android:stretchColumns="1">
@@ -144,7 +138,6 @@
           android:gravity="right">
       </Button>
     </TableRow>
-
   </TableLayout>
   <View
       android:layout_width="fill_parent"
@@ -161,7 +154,6 @@
                android:layout_height="wrap_content"
                android:stretchColumns="1">
     <TableRow>
-
       <TextView
           android:layout_column="1"
           android:text="Subject distance:"
@@ -197,6 +189,31 @@
           android:drawSelectorOnTop="true"
           android:prompt="@string/circle_of_confusion_spinner_prompt"
           android:layout_column="2"/>
+    </TableRow>
+  </TableLayout>
+  <TableLayout android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:stretchColumns="1">
+    <TableRow>
+       <TextView
+          android:layout_column="1"
+          android:text="New Limit:"
+          android:padding="3dip"/>
+      <TextView
+          android:id="@+id/nearLimitTextView"
+          android:layout_column="2"
+           android:text="10m"
+          android:padding="3dip"/>
+       <TextView
+          android:layout_column="3"
+          android:text="Far Limit:"
+          android:padding="3dip"/>
+      <TextView
+          android:id="@+id/farLimitTextView"
+          android:layout_column="4"
+          android:text="20m"
+          android:padding="3dip"/>
+
     </TableRow>
   </TableLayout>
   <TextView

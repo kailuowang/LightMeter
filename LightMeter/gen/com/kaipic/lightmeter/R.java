@@ -22,18 +22,20 @@ public final class R {
         public static final int tag=0x7f020003;
     }
     public static final class id {
-        public static final int about=0x7f080013;
+        public static final int about=0x7f080015;
         public static final int aperture=0x7f080006;
         public static final int apertureSpinner=0x7f080005;
-        public static final int calibrate=0x7f080014;
+        public static final int calibrate=0x7f080016;
         public static final int circlesOfConfusionSpinner=0x7f080011;
         public static final int editTextSubjectDistance=0x7f08000f;
         public static final int exposureSettingRadioGroup=0x7f080009;
         public static final int exposureSpinner=0x7f08000c;
         public static final int exposureValue=0x7f08000d;
+        public static final int farLimitTextView=0x7f080013;
         public static final int focalLengthSpinner=0x7f080010;
-        public static final int help=0x7f080015;
+        public static final int help=0x7f080017;
         public static final int isoSpinner=0x7f080004;
+        public static final int nearLimitTextView=0x7f080012;
         public static final int pause_button=0x7f08000e;
         public static final int radioAutoExposure=0x7f08000a;
         public static final int radioManualExposure=0x7f08000b;
@@ -42,7 +44,7 @@ public final class R {
         public static final int radio_Sv=0x7f080003;
         public static final int shutterSpeed=0x7f080008;
         public static final int shutterSpeedSpinner=0x7f080007;
-        public static final int status_text_view=0x7f080012;
+        public static final int status_text_view=0x7f080014;
         public static final int textAboutVersion=0x7f080000;
     }
     public static final class layout {
