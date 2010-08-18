@@ -37,7 +37,7 @@ public class CirclesOfConfusion {
     return value;
   }
 
-  public static CirclesOfConfusion[] Values() {
+  public static CirclesOfConfusion[] values() {
     return Collections.unmodifiableList(values).toArray(new CirclesOfConfusion[0]);
   }
 }

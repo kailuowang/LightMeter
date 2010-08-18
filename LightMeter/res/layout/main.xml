@@ -5,20 +5,23 @@
               android:layout_height="fill_parent">
   <TableLayout android:layout_width="fill_parent"
                android:layout_height="wrap_content"
-               android:stretchColumns="1">
+               android:stretchColumns="2">
     <TableRow>
-
+      <TextView
+          android:layout_column="1"
+          android:layout_width="wrap_content"
+          android:text="Mode:"
+          android:padding="3dip"/>
       <RadioGroup
           android:layout_width="fill_parent"
           android:layout_height="wrap_content"
           android:orientation="horizontal"
-          android:layout_column="1"
-          android:gravity="left">
+          android:layout_column="2"
+          android:gravity="right">
         <RadioButton android:id="@+id/radio_Av"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:text="Av"
-
                      android:checked="true"/>
         <RadioButton android:id="@+id/radio_Manual"
                      android:layout_width="wrap_content"
@@ -29,14 +32,12 @@
                      android:layout_height="wrap_content"
                      android:text="Sv"/>
       </RadioGroup>
-
-
     </TableRow>
   </TableLayout>
   <TableLayout android:layout_width="fill_parent"
                android:layout_height="wrap_content"
-               android:stretchColumns="4">
-
+               android:stretchColumns="3"
+               android:padding="3dip">
     <TableRow>
       <TextView
           android:layout_column="1"
@@ -54,6 +55,8 @@
       <TextView
           android:layout_column="3"
           android:text="Aperture:"
+          android:gravity="right"
+
           android:padding="3dip"/>
       <Spinner
           android:id="@+id/apertureSpinner"
@@ -70,6 +73,11 @@
           android:visibility="gone"/>
 
     </TableRow>
+  </TableLayout>
+  <TableLayout android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:stretchColumns="3"
+               android:padding="3dip">
     <TableRow>
 
       <TextView
@@ -89,7 +97,7 @@
       <TextView
           android:id="@+id/shutterSpeed"
           android:layout_column="2"
-          android:gravity="right"
+          android:gravity="left"
           android:padding="3dip"/>
     </TableRow>
   </TableLayout>
@@ -144,12 +152,13 @@
       android:layout_height="2dip"
       android:background="#FF909090"/>
   <TextView
+      android:id="@+id/depthOfFieldTitleTextView"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       android:padding="3dip"
       android:textStyle="italic"
       android:textAppearance="@style/SmallerLightTextAppearance"
-      android:text="Depth Of Field Calculation:"/>
+      android:text="Enter subject distance for Depth Of Field:"/>
   <TableLayout android:layout_width="fill_parent"
                android:layout_height="wrap_content"
                android:stretchColumns="1">
@@ -159,11 +168,24 @@
           android:text="Subject distance:"
           android:padding="3dip"/>
       <EditText
-          android:id="@+id/editTextSubjectDistance"
+          android:id="@+id/subjectDistanceEditText"
           android:padding="3dip"
           android:numeric="decimal"
-          android:layout_column="2"/>
+          android:layout_column="2"
+          android:layout_width="80dip"/>
+      <Spinner
+          android:id="@+id/lengthUnitSpinner"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:drawSelectorOnTop="true"
+          android:prompt="@string/lengthUnitSpinner_prompt"
+          android:layout_column="3"/>
+
     </TableRow>
+  </TableLayout>
+  <TableLayout android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:stretchColumns="1">
     <TableRow>
       <TextView
           android:layout_column="1"
@@ -177,6 +199,10 @@
           android:prompt="@string/focal_length_spinner_prompt"
           android:layout_column="2"/>
     </TableRow>
+  </TableLayout>
+  <TableLayout android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:stretchColumns="1">
     <TableRow>
       <TextView
           android:layout_column="1"
@@ -191,28 +217,49 @@
           android:layout_column="2"/>
     </TableRow>
   </TableLayout>
-  <TableLayout android:layout_width="fill_parent"
-               android:layout_height="wrap_content"
-               android:stretchColumns="1">
+  <TableLayout
+      android:id="@+id/depthOfFieldResultTable"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:stretchColumns="5"
+      android:visibility="gone">
     <TableRow>
-       <TextView
+      <TextView
           android:layout_column="1"
-          android:text="New Limit:"
+          android:text="Near Limit:"
+          android:textAppearance="@style/SmallerLightTextAppearance"
           android:padding="3dip"/>
       <TextView
           android:id="@+id/nearLimitTextView"
           android:layout_column="2"
-           android:text="10m"
-          android:padding="3dip"/>
-       <TextView
+          android:text="10m"
+          android:padding="3dip"
+          android:gravity="left"/>
+      <TextView
           android:layout_column="3"
           android:text="Far Limit:"
-          android:padding="3dip"/>
+          android:textAppearance="@style/SmallerLightTextAppearance"
+
+          android:padding="3dip"
+          android:gravity="right"/>
       <TextView
           android:id="@+id/farLimitTextView"
           android:layout_column="4"
           android:text="20m"
-          android:padding="3dip"/>
+          android:padding="3dip"
+          android:gravity="left"/>
+      <TextView
+          android:layout_column="5"
+          android:text="Hyperfocal:"
+          android:textAppearance="@style/SmallerLightTextAppearance"
+          android:padding="3dip"
+          android:gravity="right"/>
+      <TextView
+          android:id="@+id/hyperfocalTextView"
+          android:layout_column="6"
+          android:text="20m"
+          android:padding="3dip"
+          android:gravity="left"/>
 
     </TableRow>
   </TableLayout>

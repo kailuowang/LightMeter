@@ -6,6 +6,8 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,6 +25,7 @@ public class MainWindow extends Activity implements LightMeterListener {
   private Spinner exposureSpinner;
   private Spinner isoSpinner;
   private Spinner focalLengthSpinner;
+  private EditText subjectDistanceEditText;
   private TextView exposureValueTextView;
   private TextView statusTextView;
   private static final String PREFS_NAME = "LIGHT_METER_PREFS";
@@ -36,15 +39,24 @@ public class MainWindow extends Activity implements LightMeterListener {
   private RadioButton radioManualExposure;
   private RadioButton radioAutoExposure;
   private Spinner circlesOfConfusionSpinner;
+  private Spinner lengthUnitSpinner;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
-    initializeFields();
+    initialize();
     updateLightMeterSettings();
     registerEvents();
     display();
+  }
+
+  private void initialize() {
+    initializeFields();
+    initializeLightMeter();
+    initializeSpinners();
+    initializeWorkMode();
+    initializeExposureSettings();
   }
 
   @Override
@@ -86,28 +98,31 @@ public class MainWindow extends Activity implements LightMeterListener {
     view.setVisibility(visible ? View.VISIBLE : View.GONE);
   }
 
+
   private void initializeFields() {
     pauseButton = (Button) findViewById(R.id.pause_button);
     exposureValueTextView = (TextView) findViewById(R.id.exposureValue);
     shutterSpeedTextView = (TextView) findViewById(R.id.shutterSpeed);
     apertureTextView = (TextView) findViewById(R.id.aperture);
+    subjectDistanceEditText = (EditText) findViewById(R.id.subjectDistanceEditText);
     statusTextView = (TextView) findViewById(R.id.status_text_view);
-    initializeLightMeter();
     apertureSpinner = (Spinner) findViewById(R.id.apertureSpinner);
     isoSpinner = (Spinner) findViewById(R.id.isoSpinner);
     shutterSpeedSpinner = (Spinner) findViewById(R.id.shutterSpeedSpinner);
     focalLengthSpinner = (Spinner) findViewById(R.id.focalLengthSpinner);
     circlesOfConfusionSpinner = (Spinner) findViewById(R.id.circlesOfConfusionSpinner);
     exposureSpinner = (Spinner) findViewById(R.id.exposureSpinner);
+    lengthUnitSpinner = (Spinner) findViewById(R.id.lengthUnitSpinner);
+  }
+
+  private void initializeSpinners() {
     setupSpinner(isoSpinner, R.array.isos);
     setupSpinner(apertureSpinner, R.array.appertures);
     setupSpinner(exposureSpinner, exposureSpinnerItems());
     setupSpinner(focalLengthSpinner, CameraSettingsRepository.focalLengths);
     setupSpinner(shutterSpeedSpinner, R.array.shutterSpeeds);
-    setupSpinner(circlesOfConfusionSpinner, CirclesOfConfusion.Values());
-
-    initializeWorkMode();
-    initializeExposureSettings();
+    setupSpinner(circlesOfConfusionSpinner, CirclesOfConfusion.values());
+    setupSpinner(lengthUnitSpinner, LengthUnit.values());
   }
 
 
@@ -222,22 +237,22 @@ public class MainWindow extends Activity implements LightMeterListener {
   private Dialog createCalibrateDialog() {
     AlertDialog.Builder builder = new AlertDialog.Builder(this);
     builder.setMessage("This will use the currently set manual exposure value to calibrate the auto light sensor. Please make sure the light sensor on your phone is getting the light matching that EV value right now and then you can click the calibrate button.")
-        .setPositiveButton("Calibrate", new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int id) {
-            lightMeter.calibrate();
-          }
-        })
-        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int id) {
-            dialog.cancel();
-          }
-        })
-        .setNeutralButton("Reset Factory", new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int id) {
-            lightMeter.resetCalibration();
-            display();
-          }
-        });
+      .setPositiveButton("Calibrate", new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int id) {
+          lightMeter.calibrate();
+        }
+      })
+      .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int id) {
+          dialog.cancel();
+        }
+      })
+      .setNeutralButton("Reset Factory", new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int id) {
+          lightMeter.resetCalibration();
+          display();
+        }
+      });
     return builder.create();
   }
 
@@ -268,7 +283,7 @@ public class MainWindow extends Activity implements LightMeterListener {
 
   public void setupSpinner(Spinner spinner, int itemArray) {
     ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(
-        this, itemArray, android.R.layout.simple_spinner_item);
+      this, itemArray, android.R.layout.simple_spinner_item);
     setupSpinner(spinner, adapter);
   }
 
@@ -294,6 +309,19 @@ public class MainWindow extends Activity implements LightMeterListener {
       public void onClick(View v) {
         toggleLock();
         display();
+      }
+    });
+
+    subjectDistanceEditText.addTextChangedListener(new TextWatcher() {
+      public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+      }
+
+      public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+      }
+
+      public void afterTextChanged(Editable editable) {
+        setVisible(R.id.depthOfFieldTitleTextView, false);
+        setVisible(R.id.depthOfFieldResultTable, true);
       }
     });
 
@@ -363,6 +391,10 @@ public class MainWindow extends Activity implements LightMeterListener {
     saveSpinnerSetting(editor, isoSpinner);
     saveSpinnerSetting(editor, exposureSpinner);
     saveSpinnerSetting(editor, apertureSpinner);
+    saveSpinnerSetting(editor, focalLengthSpinner);
+    saveSpinnerSetting(editor, shutterSpeedSpinner);
+    saveSpinnerSetting(editor, circlesOfConfusionSpinner);
+    saveSpinnerSetting(editor, lengthUnitSpinner);
     editor.putFloat(LIGHT_SENSOR_CALIBRATION, lightMeter.getCalibration());
     editor.commit();
   }

@@ -23,7 +23,7 @@ public class ExposureValueTest {
 
   @Test
   public void shouldGenerateReasonableStringIfValueIsTooLow() throws Exception {
-    assertEquals("N/A", new ExposureValue(-5f).toString());
+    assertEquals("Exposure Value Not Available", new ExposureValue(-5f).toString());
   }
 
   @Test

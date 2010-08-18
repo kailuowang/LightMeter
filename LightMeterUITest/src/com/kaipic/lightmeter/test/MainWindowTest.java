@@ -5,16 +5,13 @@ import android.app.KeyguardManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.RadioButton;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.*;
 import com.kaipic.lightmeter.MainWindow;
 import com.kaipic.lightmeter.R;
 import com.kaipic.lightmeter.lib.*;
 
 public class MainWindowTest extends
-    ActivityInstrumentationTestCase2<MainWindow> {
+  ActivityInstrumentationTestCase2<MainWindow> {
 
   private Instrumentation mInstrumentation;
   private MainWindow mActivity;
@@ -176,7 +173,6 @@ public class MainWindowTest extends
     assertTrue(mShutterSpeedSpinner.isShown());
     assertFalse(mExposureSpinner.isShown());
     assertFalse(mExposureSettingRadioGroup.isShown());
-
     assertTrue(mExposureValueView.isShown());
     assertFalse(mApertureTextView.isShown());
   }
@@ -251,6 +247,20 @@ public class MainWindowTest extends
         mIsoSpinner.setSelection(0);
       }
     });
+  }
+
+  public void testTypeInSubjectDistanceShouldHideTitle() {
+    assertTrue(mActivity.findViewById(R.id.depthOfFieldTitleTextView).isShown());
+    assertFalse(mActivity.findViewById(R.id.depthOfFieldResultTable).isShown());
+    runOnUiThread(new Runnable() {
+      public void run() {
+        EditText subjectDistanceEditText = (EditText) mActivity.findViewById(R.id.subjectDistanceEditText);
+        subjectDistanceEditText.setText("343.3");
+      }
+    });
+    assertFalse(mActivity.findViewById(R.id.depthOfFieldTitleTextView).isShown());
+    assertTrue(mActivity.findViewById(R.id.depthOfFieldResultTable).isShown());
+
   }
 
   private void setExposureValueSpinnerTo(final int position) {
