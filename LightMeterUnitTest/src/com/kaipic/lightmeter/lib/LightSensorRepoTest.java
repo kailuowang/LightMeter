@@ -42,7 +42,7 @@ public class LightSensorRepoTest {
     LightSensorRepo repo = new LightSensorRepo(new LightSensorFactory(null));
     LightSensor sensor = repo.getSensor("13");
     assertTrue(sensor instanceof ManualLightSensor);
-    sensor.setISO(100);
+    sensor.setISO(new Iso(100));
     assertEVEquals(new ExposureValue(13f), sensor.getEV());
   }
 

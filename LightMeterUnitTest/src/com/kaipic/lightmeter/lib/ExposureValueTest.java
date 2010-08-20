@@ -35,12 +35,12 @@ public class ExposureValueTest {
   @Test
   public void shouldGetEV100Value() throws Exception {
     ExposureValue ev = new ExposureValue(8f);
-    assertEVEquals(new ExposureValue(7f), ev.getISO100EV(200));
+    assertEVEquals(new ExposureValue(7f), ev.getISO100EV(new Iso(200)));
   }
 
   @Test
   public void shouldCreateEVfromISOCalibrationAndIllumination() throws Exception {
-    assertEVEquals(new ExposureValue(6f), new ExposureValue(160f, 100, 250));
+    assertEVEquals(new ExposureValue(6f), new ExposureValue(160f, new Iso(100), 250));
   }
 
   @Test
@@ -52,7 +52,7 @@ public class ExposureValueTest {
 
   @Test
   public void shouldConvertToIllumination() throws Exception {
-    assertEquals(160f, new ExposureValue(6f).toIllumination(100, 250), 0.0001f);
+    assertEquals(160f, new ExposureValue(6f).toIllumination(new Iso(100), 250), 0.0001f);
   }
 
   public static void assertEVEquals(ExposureValue expected, ExposureValue actual) throws Exception {

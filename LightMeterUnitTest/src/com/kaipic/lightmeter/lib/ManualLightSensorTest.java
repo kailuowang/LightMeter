@@ -9,7 +9,7 @@ public class ManualLightSensorTest {
   @Test
   public void shouldBeAbleToSetEVbyEVAt100() throws Exception {
     ManualLightSensor sensor = new ManualLightSensor();
-    sensor.setISO(200);
+    sensor.setISO(new Iso(200));
     sensor.setEVByEVAt100(new ExposureValue(10f));
     assertEVEquals(new ExposureValue(11f), sensor.getEV());
   }

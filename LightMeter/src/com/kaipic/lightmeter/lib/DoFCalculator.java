@@ -4,6 +4,7 @@ public class DoFCalculator {
   private Length focalLength;
   private CirclesOfConfusion circleOfConfusion;
   private Aperture aperture;
+
   private Length subjectDistance;
 
   public DoFCalculator setFocalLength(Length focalLength) {
@@ -45,5 +46,21 @@ public class DoFCalculator {
     float f = focalLength.getValue();
     float s = subjectDistance.getValue();
     return new Length(s * (H - f) / (H - s));
+  }
+
+  public Length getFocalLength() {
+    return focalLength;
+  }
+
+  public Aperture getAperture() {
+    return aperture;
+  }
+
+  public CirclesOfConfusion getCirclesOfConfusion() {
+    return circleOfConfusion;
+  }
+
+  public Length getSubjectDistance() {
+    return subjectDistance;
   }
 }
