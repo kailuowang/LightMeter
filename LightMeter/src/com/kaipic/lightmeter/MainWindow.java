@@ -117,11 +117,11 @@ public class MainWindow extends Activity implements LightMeterListener {
   }
 
   private void initializeSpinners() {
-    setupSpinner(isoSpinner, R.array.isos);
+    setupSpinner(isoSpinner, CameraSettingsRepository.isos);
     setupSpinner(apertureSpinner, CameraSettingsRepository.apertures);
     setupSpinner(exposureSpinner, exposureSpinnerItems());
     setupSpinner(focalLengthSpinner, CameraSettingsRepository.focalLengths);
-    setupSpinner(shutterSpeedSpinner, R.array.shutterSpeeds);
+    setupSpinner(shutterSpeedSpinner, CameraSettingsRepository.shutterSpeeds);
     setupSpinner(circlesOfConfusionSpinner, CirclesOfConfusion.values());
     setupSpinner(lengthUnitSpinner, LengthUnit.values());
   }
@@ -260,8 +260,8 @@ public class MainWindow extends Activity implements LightMeterListener {
 
   public void updateLightMeterSettings() {
     lightMeter.setAperture((Aperture) apertureSpinner.getSelectedItem());
-    lightMeter.setISO(Integer.parseInt((String) isoSpinner.getSelectedItem()));
-    lightMeter.setShutterSpeed(new ShutterSpeed((String) shutterSpeedSpinner.getSelectedItem()));
+    lightMeter.setISO((Iso) isoSpinner.getSelectedItem());
+    lightMeter.setShutterSpeed((ShutterSpeed) shutterSpeedSpinner.getSelectedItem());
     lightMeter.setLightSensor(lightSensorString());
 
   }
@@ -298,7 +298,7 @@ public class MainWindow extends Activity implements LightMeterListener {
     }
   }
 
-  private void setupSpinner(final Spinner spinner, final Object[] itemArray) {
+  public void setupSpinner(final Spinner spinner, final Object[] itemArray) {
     setupSpinner(spinner, (ArrayAdapter<?>) new ArrayAdapter(this, android.R.layout.simple_spinner_item, itemArray));
   }
 

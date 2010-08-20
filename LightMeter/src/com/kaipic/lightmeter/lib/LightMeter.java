@@ -46,7 +46,7 @@ public class LightMeter implements LightSensorListener {
     return setAperture(new Aperture(apertureValue));
   }
 
-  public LightMeter setISO(int iso) {
+  public LightMeter setISO(Iso iso) {
     lightSensor.setISO(iso);
     return this;
   }
@@ -73,7 +73,7 @@ public class LightMeter implements LightSensorListener {
     lightSensorRepo.start();
   }
 
-  public int getISO() {
+  public Iso getISO() {
     return lightSensor.getISO();
   }
 

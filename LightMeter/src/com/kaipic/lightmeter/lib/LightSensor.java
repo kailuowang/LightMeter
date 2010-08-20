@@ -8,11 +8,11 @@ public abstract class LightSensor {
   private static final int DEFAULT_CALIBRATION = 100;
   private boolean paused = false;
   private float lastRead = 0;
-  private int iso = 100;
+  private Iso iso = new Iso(100);
   Set<LightSensorListener> listeners = new HashSet<LightSensorListener>();
   private float calibration = DEFAULT_CALIBRATION;
 
-  public LightSensor setISO(int iso) {
+  public LightSensor setISO(Iso iso) {
     this.iso = iso;
     return this;
   }
@@ -62,7 +62,7 @@ public abstract class LightSensor {
   }
 
 
-  public int getISO() {
+  public Iso getISO() {
     return iso;
   }
 

@@ -8,7 +8,7 @@ public class ManualLightSensor extends LightSensor {
   }
 
   public void setEVByEVAt100(ExposureValue exposureValue) {
-    read = exposureValue.multiply(getISO() / 100f).toIllumination(getISO(), getCalibration());
+    read = exposureValue.multiply(getISO().getValue() / 100f).toIllumination(getISO(), getCalibration());
   }
 
   public String getStatus() {

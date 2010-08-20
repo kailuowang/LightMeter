@@ -4,10 +4,15 @@ public class CameraSettingsRepository {
   public static final Length[] focalLengths = initFocalLengths();
   public static final Aperture[] apertures = initApertures();
   public static final ShutterSpeed[] shutterSpeeds = initShutterSpeed();
-  public static final int[] isos = initISOs();
+  public static final Iso[] isos = initISOs();
 
-  private static int[] initISOs() {
-    return new int[]{50, 100, 160, 200, 400, 800, 1600, 3200};
+  private static Iso[] initISOs() {
+    int[] values = new int[]{50, 100, 160, 200, 400, 800, 1600, 3200};
+    Iso[] list = new Iso[values.length];
+    for (int i = 0; i < values.length; i++) {
+      list[i] = new Iso(values[i]);
+    }
+    return list;
   }
 
   private static ShutterSpeed[] initShutterSpeed() {

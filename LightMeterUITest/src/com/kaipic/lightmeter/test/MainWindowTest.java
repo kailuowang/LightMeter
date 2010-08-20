@@ -98,7 +98,7 @@ public class MainWindowTest extends
   public void testDisplayShouldDisplayLightMeter() {
     LightMeter lightMeter = mActivity.getLightMeter();
     lightMeter.setLightSensor(createMockLightSensor(10f));
-    lightMeter.setAperture(3.5f).setCalibration(250).setISO(100);
+    lightMeter.setAperture(3.5f).setCalibration(250).setISO(new Iso(100));
     runOnUiThread(new Runnable() {
       public void run() {
         mActivity.display();
@@ -120,8 +120,8 @@ public class MainWindowTest extends
         mIsoSpinner.setSelection(2);
       }
     });
-    String expectedISO = mActivity.getResources().getStringArray(R.array.isos)[2];
-    String actual = String.valueOf(mActivity.getLightMeter().getISO());
+    Iso expectedISO = CameraSettingsRepository.isos[2];
+    Iso actual = mActivity.getLightMeter().getISO();
     assertEquals(expectedISO, actual);
   }
 
@@ -131,10 +131,10 @@ public class MainWindowTest extends
     runOnUiThread(new Runnable() {
       public void run() {
         mShutterSpeedSpinner.requestFocus();
-        mShutterSpeedSpinner.setSelection(2);
+        mShutterSpeedSpinner.setSelection(3);
       }
     });
-    ShutterSpeed expected = new ShutterSpeed(mActivity.getResources().getStringArray(R.array.shutterSpeeds)[2]);
+    ShutterSpeed expected = CameraSettingsRepository.shutterSpeeds[3];
     assertEquals(expected.toString(), mActivity.getWorkMode().getShutterSpeed().toString());
   }
 
@@ -250,7 +250,7 @@ public class MainWindowTest extends
     mActivity.saveSettings();
     runOnUiThread(new Runnable() {
       public void run() {
-        mActivity.setupSpinner(mIsoSpinner, R.array.isos);
+        mActivity.setupSpinner(mIsoSpinner, CameraSettingsRepository.isos);
         assertEquals(2, mIsoSpinner.getSelectedItemPosition());
         mIsoSpinner.setSelection(0);
       }
