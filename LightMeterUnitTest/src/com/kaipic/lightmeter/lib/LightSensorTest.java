@@ -13,7 +13,7 @@ public class LightSensorTest {
       public float read() {
         return 160f;
       }
-    }.setISO(100)
+    }.setISO(new Iso(100))
         .setCalibration(250);
     assertEVEquals(new ExposureValue(6f), sensor.getEV());
   }
@@ -21,7 +21,7 @@ public class LightSensorTest {
   @Test
   public void shouldGetEV100ValuefromISOCalibrationAndIlluminationRead() throws Exception {
     LightSensor sensor = mockSensor();
-    sensor.setISO(200);
+    sensor.setISO(new Iso(200));
     when(sensor.getEV()).thenReturn(new ExposureValue(6f));
     assertEVEquals(new ExposureValue(5f), sensor.getISO100EV());
   }
@@ -33,13 +33,13 @@ public class LightSensorTest {
         return 0;
       }
     };
-    assertTrue(sensor.getISO() > 0);
+    assertTrue(sensor.getISO() != null);
     assertTrue(sensor.getCalibration() > 0);
   }
 
   @Test
   public void shouldLockEVWhenPaused() throws Exception {
-    LightSensor lightSensor = mockSensor().setCalibration(250).setISO(100);
+    LightSensor lightSensor = mockSensor().setCalibration(250).setISO(new Iso(100));
     when(lightSensor.read()).thenReturn(160f, 320f, 640f);
     assertEVEquals(new ExposureValue(6f), lightSensor.getEV());
     assertEVEquals(new ExposureValue(7f), lightSensor.getEV());
