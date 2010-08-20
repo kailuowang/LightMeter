@@ -18,6 +18,7 @@ import com.kaipic.lightmeter.lib.*;
 
 public class MainWindow extends Activity implements LightMeterListener {
   private LightMeter lightMeter;
+  private DoFCalculator doFCalculator;
   private Button pauseButton;
   private TextView shutterSpeedTextView;
   private Spinner apertureSpinner;
@@ -117,7 +118,7 @@ public class MainWindow extends Activity implements LightMeterListener {
 
   private void initializeSpinners() {
     setupSpinner(isoSpinner, R.array.isos);
-    setupSpinner(apertureSpinner, R.array.appertures);
+    setupSpinner(apertureSpinner, CameraSettingsRepository.apertures);
     setupSpinner(exposureSpinner, exposureSpinnerItems());
     setupSpinner(focalLengthSpinner, CameraSettingsRepository.focalLengths);
     setupSpinner(shutterSpeedSpinner, R.array.shutterSpeeds);
@@ -190,6 +191,7 @@ public class MainWindow extends Activity implements LightMeterListener {
     lightMeter.subscribe(this);
     lightMeter.start();
     workMode = new AvMode(lightMeter);
+    doFCalculator = new DoFCalculator();
   }
 
   private LightSensorFactory getLightSensorFactory() {
@@ -257,7 +259,7 @@ public class MainWindow extends Activity implements LightMeterListener {
   }
 
   public void updateLightMeterSettings() {
-    setAperture((String) apertureSpinner.getSelectedItem());
+    lightMeter.setAperture((Aperture) apertureSpinner.getSelectedItem());
     lightMeter.setISO(Integer.parseInt((String) isoSpinner.getSelectedItem()));
     lightMeter.setShutterSpeed(new ShutterSpeed((String) shutterSpeedSpinner.getSelectedItem()));
     lightMeter.setLightSensor(lightSensorString());
@@ -350,9 +352,6 @@ public class MainWindow extends Activity implements LightMeterListener {
     });
   }
 
-  public void setAperture(String aperture) {
-    lightMeter.setAperture(Aperture.fromString(aperture));
-  }
 
   private void toggleLock() {
     lightMeter.togglePause();

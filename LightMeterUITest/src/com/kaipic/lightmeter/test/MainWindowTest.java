@@ -138,6 +138,18 @@ public class MainWindowTest extends
     assertEquals(expected.toString(), mActivity.getWorkMode().getShutterSpeed().toString());
   }
 
+  public void testSetApertureSpinnerShouldSetApertureToLightMeter() {
+    click(mMRadioButton);
+    runOnUiThread(new Runnable() {
+      public void run() {
+        mApertureSpinner.requestFocus();
+        mApertureSpinner.setSelection(2);
+      }
+    });
+    Aperture expected = CameraSettingsRepository.apertures[2];
+    assertEquals(expected.toString(), mActivity.getWorkMode().getAperture().toString());
+  }
+
   public void testSwitchModeUsingRadioButton() {
     click(mMRadioButton);
     assertEquals(mActivity.getWorkMode().getClass(), ManualMode.class);
@@ -213,10 +225,6 @@ public class MainWindowTest extends
     assertFalse(mButton.isShown());
   }
 
-  public void testSetAperture() {
-    mActivity.setAperture("5.6");
-    assertEquals(new Aperture(5.6f), mActivity.getLightMeter().getAperture());
-  }
 
   public void testListenToSensorAndDisplayRead() {
     final ManualLightSensor lightSensor = new ManualLightSensor();
