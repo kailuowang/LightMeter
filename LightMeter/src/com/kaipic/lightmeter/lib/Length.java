@@ -4,7 +4,7 @@ public class Length {
   private final LengthUnit defaultUnit = LengthUnit.mm;
   private final float value;
 
-  Length(float valueInmm) {
+  public Length(float valueInmm) {
     this.value = valueInmm;
   }
 

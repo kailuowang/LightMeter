@@ -10,6 +10,8 @@ import com.kaipic.lightmeter.MainWindow;
 import com.kaipic.lightmeter.R;
 import com.kaipic.lightmeter.lib.*;
 
+import java.util.Arrays;
+
 public class MainWindowTest extends
   ActivityInstrumentationTestCase2<MainWindow> {
 
@@ -29,6 +31,9 @@ public class MainWindowTest extends
   private RadioButton mManualExposureRadioButton;
   private View mExposureSettingRadioGroup;
   private TextView mShutterSpeedTextView;
+  private EditText mSubjectDistanceEditText;
+  private Spinner mFocalLengthSpinner;
+  private Spinner mCirclesOfConfusionSpinner;
 
   public MainWindowTest() {
     super("com.kaipic.lightmeter", MainWindow.class);
@@ -46,13 +51,16 @@ public class MainWindowTest extends
     mIsoSpinner = (Spinner) mActivity.findViewById(R.id.isoSpinner);
     mExposureSpinner = (Spinner) mActivity.findViewById(R.id.exposureSpinner);
     mApertureSpinner = (Spinner) mActivity.findViewById(R.id.apertureSpinner);
+    mFocalLengthSpinner = (Spinner) mActivity.findViewById(R.id.focalLengthSpinner);
     mShutterSpeedSpinner = (Spinner) mActivity.findViewById(R.id.shutterSpeedSpinner);
+    mCirclesOfConfusionSpinner = (Spinner) mActivity.findViewById(R.id.circlesOfConfusionSpinner);
     mAvRadioButton = (RadioButton) mActivity.findViewById(R.id.radio_Av);
     mSvRadioButton = (RadioButton) mActivity.findViewById(R.id.radio_Sv);
     mMRadioButton = (RadioButton) mActivity.findViewById(R.id.radio_Manual);
     mAutoExposureRadioButton = (RadioButton) mActivity.findViewById(R.id.radioAutoExposure);
     mManualExposureRadioButton = (RadioButton) mActivity.findViewById(R.id.radioManualExposure);
     mExposureSettingRadioGroup = mActivity.findViewById(R.id.exposureSettingRadioGroup);
+    mSubjectDistanceEditText = (EditText) mActivity.findViewById(R.id.subjectDistanceEditText);
     disableKeyGuardForTesting();
   }
 
@@ -63,14 +71,9 @@ public class MainWindowTest extends
 
 
   protected void tearDown() throws Exception {
-    runOnUiThread(new Runnable() {
-      public void run() {
-        mIsoSpinner.setSelection(0, false);
-        mExposureSpinner.setSelection(0, false);
-        mApertureSpinner.setSelection(0, false);
-      }
-    });
-
+    setSpinnerSelection(mApertureSpinner, 0);
+    setSpinnerSelection(mExposureSpinner, 0);
+    setSpinnerSelection(mIsoSpinner, 0);
     super.tearDown();
   }
 
@@ -128,24 +131,14 @@ public class MainWindowTest extends
 
   public void testSetShutterSpeedShouldSetShutterSpeedToLightMeter() {
     click(mMRadioButton);
-    runOnUiThread(new Runnable() {
-      public void run() {
-        mShutterSpeedSpinner.requestFocus();
-        mShutterSpeedSpinner.setSelection(3);
-      }
-    });
+    setSpinnerSelection(mShutterSpeedSpinner, 3);
     ShutterSpeed expected = CameraSettingsRepository.shutterSpeeds[3];
     assertEquals(expected.toString(), mActivity.getWorkMode().getShutterSpeed().toString());
   }
 
   public void testSetApertureSpinnerShouldSetApertureToLightMeter() {
     click(mMRadioButton);
-    runOnUiThread(new Runnable() {
-      public void run() {
-        mApertureSpinner.requestFocus();
-        mApertureSpinner.setSelection(2);
-      }
-    });
+    setSpinnerSelection(mApertureSpinner, 2);
     Aperture expected = CameraSettingsRepository.apertures[2];
     assertEquals(expected.toString(), mActivity.getWorkMode().getAperture().toString());
   }
@@ -241,12 +234,7 @@ public class MainWindowTest extends
   }
 
   public void testSetupSpinnerShouldRememberLastPosition() {
-    runOnUiThread(new Runnable() {
-      public void run() {
-        mIsoSpinner.requestFocus();
-        mIsoSpinner.setSelection(2);
-      }
-    });
+    setSpinnerSelection(mIsoSpinner, 2);
     mActivity.saveSettings();
     runOnUiThread(new Runnable() {
       public void run() {
@@ -257,13 +245,13 @@ public class MainWindowTest extends
     });
   }
 
+
   public void testTypeInSubjectDistanceShouldHideTitle() {
     assertTrue(mActivity.findViewById(R.id.depthOfFieldTitleTextView).isShown());
     assertFalse(mActivity.findViewById(R.id.depthOfFieldResultTable).isShown());
     runOnUiThread(new Runnable() {
       public void run() {
-        EditText subjectDistanceEditText = (EditText) mActivity.findViewById(R.id.subjectDistanceEditText);
-        subjectDistanceEditText.setText("343.3");
+        mSubjectDistanceEditText.setText("343.3");
       }
     });
     assertFalse(mActivity.findViewById(R.id.depthOfFieldTitleTextView).isShown());
@@ -271,12 +259,36 @@ public class MainWindowTest extends
 
   }
 
+  public void testSetFocalLengthShouldSetItInDoFCalculator() {
+    Length focalLength = new Length(35);
+    setSpinnerSelection(mFocalLengthSpinner, indexOf(CameraSettingsRepository.focalLengths, focalLength));
+    assertEquals(focalLength, mActivity.getDoFCalculator().getFocalLength());
+  }
+
+  public void testSetCameraFormatShouldSetItInDoFCalculator() {
+    CirclesOfConfusion coc = CirclesOfConfusion.LF4x5;
+    setSpinnerSelection(mCirclesOfConfusionSpinner, indexOf(CirclesOfConfusion.values(), coc));
+    assertEquals(coc, mActivity.getDoFCalculator().getCirclesOfConfusion());
+  }
+
+  public void testIndexOf() {
+    assertTrue(indexOf(CameraSettingsRepository.focalLengths, new Length(35)) > 0);
+  }
+
+  private int indexOf(Object[] items, Object item) {
+    return Arrays.asList(items).indexOf(item);
+  }
+
   private void setExposureValueSpinnerTo(final int position) {
     click(mManualExposureRadioButton);
+    setSpinnerSelection(mExposureSpinner, position);
+  }
+
+  private void setSpinnerSelection(final Spinner spinner, final int position) {
     runOnUiThread(new Runnable() {
       public void run() {
-        mExposureSpinner.requestFocus();
-        mExposureSpinner.setSelection(position);
+        spinner.requestFocus();
+        spinner.setSelection(position);
       }
     });
   }

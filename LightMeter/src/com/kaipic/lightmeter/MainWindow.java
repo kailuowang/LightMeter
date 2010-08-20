@@ -47,7 +47,7 @@ public class MainWindow extends Activity implements LightMeterListener {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
     initialize();
-    updateLightMeterSettings();
+    updateSettingsToDomain();
     registerEvents();
     display();
   }
@@ -69,6 +69,10 @@ public class MainWindow extends Activity implements LightMeterListener {
 
   public LightMeter getLightMeter() {
     return lightMeter;
+  }
+
+  public DoFCalculator getDoFCalculator() {
+    return doFCalculator;
   }
 
   public void onLightMeterChange() {
@@ -151,7 +155,7 @@ public class MainWindow extends Activity implements LightMeterListener {
   private void initializeExposureSettings() {
     View.OnClickListener onExposureSettingChange = new View.OnClickListener() {
       public void onClick(View view) {
-        updateLightMeterSettings();
+        updateSettingsToDomain();
         display();
       }
     };
@@ -258,11 +262,13 @@ public class MainWindow extends Activity implements LightMeterListener {
     return builder.create();
   }
 
-  public void updateLightMeterSettings() {
+  public void updateSettingsToDomain() {
     lightMeter.setAperture((Aperture) apertureSpinner.getSelectedItem());
     lightMeter.setISO((Iso) isoSpinner.getSelectedItem());
     lightMeter.setShutterSpeed((ShutterSpeed) shutterSpeedSpinner.getSelectedItem());
     lightMeter.setLightSensor(lightSensorString());
+    doFCalculator.setFocalLength((Length) focalLengthSpinner.getSelectedItem());
+    doFCalculator.setCircleOfConfusion((CirclesOfConfusion) circlesOfConfusionSpinner.getSelectedItem());
 
   }
 
@@ -327,22 +333,22 @@ public class MainWindow extends Activity implements LightMeterListener {
       }
     });
 
-    SpinnerItemSelectListenner listener = new SpinnerItemSelectListenner() {
+    SpinnerItemSelectListenner displayListener = new SpinnerItemSelectListenner() {
       public void onSpinnerItemSelected(Object selectedValue, int position) {
-        updateLightMeterSettings();
+        updateSettingsToDomain();
         display();
       }
     };
-    registerSpinnerListenner(exposureSpinner, listener);
-    registerSpinnerListenner(isoSpinner, listener);
-    registerSpinnerListenner(apertureSpinner, listener);
-    registerSpinnerListenner(shutterSpeedSpinner, listener);
+    registerSpinnerListenner(exposureSpinner, displayListener);
+    registerSpinnerListenner(isoSpinner, displayListener);
+    registerSpinnerListenner(apertureSpinner, displayListener);
+    registerSpinnerListenner(shutterSpeedSpinner, displayListener);
+    registerSpinnerListenner(focalLengthSpinner, displayListener);
   }
 
   private void registerSpinnerListenner(Spinner spinner, final SpinnerItemSelectListenner listener) {
     spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-      public void onItemSelected(AdapterView<?> arg0, View arg1,
-                                 int arg2, long arg3) {
+      public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
         Object selectedItem = arg0.getItemAtPosition(arg2);
         listener.onSpinnerItemSelected(selectedItem, arg2);
       }

@@ -46,4 +46,12 @@ public class DoFCalculator {
     float s = subjectDistance.getValue();
     return new Length(s * (H - f) / (H - s));
   }
+
+  public Length getFocalLength() {
+    return focalLength;
+  }
+
+  public CirclesOfConfusion getCirclesOfConfusion() {
+    return circleOfConfusion;
+  }
 }
