@@ -27,7 +27,7 @@ public class CameraSettingsRepository {
   }
 
   private static ShutterSpeed[] initShutterSpeed() {
-    float[] values = new float[]{4, 2, 1, 1f / 2, 1f / 4, 1f / 8, 1f / 15, 1f / 30, 1f / 60, 1f / 125, 1f / 250, 1f / 500, 1f / 1000, 1f / 2000, 1f / 4000};
+    float[] values = new float[]{4, 2, 1, 1f / 2f, 1f / 4f, 1f / 8, 1f / 15, 1f / 30, 1f / 60, 1f / 125f, 1f / 250f, 1f / 500f, 1f / 1000f, 1f / 2000f, 1f / 4000f};
     ShutterSpeed[] list = new ShutterSpeed[values.length];
     for (int i = 0; i < values.length; i++) {
       list[i] = new ShutterSpeed(values[i]);

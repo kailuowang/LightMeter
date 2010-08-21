@@ -11,6 +11,12 @@ public class ShutterSpeedTest {
   }
 
   @Test
+  public void shouldToStringMatchesFromString() throws Exception {
+    String stringVal = "1/250";
+    assertEquals(stringVal, new ShutterSpeed(stringVal).toString());    
+  }
+
+  @Test
   public void shouldConvertToNAStringIfItIsTooLong() throws Exception {
     assertEquals("N/A", new ShutterSpeed(2000f).toString());
   }
@@ -23,7 +29,7 @@ public class ShutterSpeedTest {
 
   @Test
   public void shouldCreateFromString() throws Exception {
-    assertShutterSpeedEquals(new ShutterSpeed(1f / 50f), new ShutterSpeed("1/50"));
+    assertShutterSpeedEquals(new ShutterSpeed(1f / 50), new ShutterSpeed("1/50"));
   }
 
   @Test

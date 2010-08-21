@@ -32,7 +32,7 @@ public class ShutterSpeed {
 
   public String toString() {
     if (value < 1)
-      return "1/" + (int) (1f / value);
+      return "1/" + Math.round (1f / value);
     else if (value > UNREASONABLY_LARGE_VALUE)
       return "N/A";
     else
