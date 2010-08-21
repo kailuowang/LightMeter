@@ -120,4 +120,12 @@ public abstract class AbstractMainWindowTestCase extends ActivityInstrumentation
   protected String getString(int name) {
     return mActivity.getString(name);
   }
+
+  protected void setSubjectDistance(final String value) {
+    runOnUiThread(new Runnable() {
+      public void run() {
+        mSubjectDistanceEditText.setText(value);
+      }
+    });
+  }
 }
