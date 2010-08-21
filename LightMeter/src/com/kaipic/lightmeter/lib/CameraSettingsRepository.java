@@ -5,7 +5,17 @@ public class CameraSettingsRepository {
   public static final Aperture[] apertures = initApertures();
   public static final ShutterSpeed[] shutterSpeeds = initShutterSpeed();
   public static final Iso[] isos = initISOs();
+  public static final ExposureValue[] exposureValues = initExposureValues();
   public static Length defaultFocalLength = new Length(50);
+
+
+  private static ExposureValue[] initExposureValues() {
+    ExposureValue[] items = new ExposureValue[ExposureValue.DETAIL_STRINGS.length];
+    for (int i = 0; i < items.length; i++) {
+      items[i] = new ExposureValue(i);
+    }
+    return items;
+  }
 
   private static Iso[] initISOs() {
     int[] values = new int[]{50, 100, 160, 200, 400, 800, 1600, 3200};

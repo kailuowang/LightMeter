@@ -99,7 +99,6 @@ public class MainWindow extends Activity implements LightMeterListener {
     setVisible(exposureSpinner, !lightMeter.usingAutoLightSensor() && workMode.isExposureValueChangeable());
     setVisible(exposureValueTextView, lightMeter.usingAutoLightSensor() || !workMode.isExposureValueChangeable());
     setVisible(R.id.exposureSettingRadioGroup, workMode.isExposureValueChangeable());
-
     setVisible(R.id.depthOfFieldTitleTextView, !doFCalculator.isValid());
     setVisible(R.id.depthOfFieldResultTable, doFCalculator.isValid());
     LengthUnit unit = getSelectedLengthUnit();
@@ -142,7 +141,7 @@ public class MainWindow extends Activity implements LightMeterListener {
   private void initializeSpinners() {
     setupSpinner(isoSpinner, CameraSettingsRepository.isos);
     setupSpinner(apertureSpinner, CameraSettingsRepository.apertures);
-    setupSpinner(exposureSpinner, exposureSpinnerItems());
+    setupSpinner(exposureSpinner, CameraSettingsRepository.exposureValues);
     setupSpinner(focalLengthSpinner, CameraSettingsRepository.focalLengths, CameraSettingsRepository.defaultFocalLength);
     setupSpinner(shutterSpeedSpinner, CameraSettingsRepository.shutterSpeeds);
     setupSpinner(circlesOfConfusionSpinner, CirclesOfConfusion.values(), CirclesOfConfusion.defaultCirclesOfConfusion);
@@ -183,13 +182,6 @@ public class MainWindow extends Activity implements LightMeterListener {
     radioAutoExposure.setOnClickListener(onExposureSettingChange);
   }
 
-  public String[] exposureSpinnerItems() {
-    String[] items = new String[ExposureValue.DETAIL_STRINGS.length];
-    for (int i = 0; i < items.length; i++) {
-      items[i] = new ExposureValue(i).toDetailString();
-    }
-    return items;
-  }
 
   private void changeWorkMode(WorkMode workMode) {
     this.workMode = workMode;
@@ -296,7 +288,7 @@ public class MainWindow extends Activity implements LightMeterListener {
   private String lightSensorString() {
     if (radioAutoExposure.isChecked())
       return "AUTO";
-    return ((Integer) (exposureSpinner.getSelectedItemPosition() + 1)).toString();
+    return ((Integer) (exposureSpinner.getSelectedItemPosition())).toString();
   }
 
   private Dialog createAboutDialog() {

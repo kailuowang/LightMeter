@@ -6,7 +6,7 @@
   <TableLayout android:layout_width="fill_parent"
                android:layout_height="wrap_content"
                android:stretchColumns="2">
-    <TableRow>
+    <TableRow android:gravity="center_vertical">
       <TextView
           android:layout_column="1"
           android:layout_width="wrap_content"
@@ -38,7 +38,7 @@
                android:layout_height="wrap_content"
                android:stretchColumns="3"
                android:padding="3dip">
-    <TableRow>
+    <TableRow android:gravity="center_vertical">
       <TextView
           android:layout_column="1"
           android:layout_width="wrap_content"
@@ -78,7 +78,7 @@
                android:layout_height="wrap_content"
                android:stretchColumns="3"
                android:padding="3dip">
-    <TableRow>
+    <TableRow android:gravity="center_vertical">
 
       <TextView
           android:layout_column="1"
@@ -113,25 +113,37 @@
           android:gravity="left"/>
     </TableRow>
   </TableLayout>
-  <RadioGroup
-      android:id="@+id/exposureSettingRadioGroup"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal"
-      android:layout_column="3"
-      android:layout_span="2">
-    <RadioButton android:id="@+id/radioAutoExposure"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:text="Auto EV"
-                 android:textAppearance="@style/SmallerLightTextAppearance"/>
-    <RadioButton android:id="@+id/radioManualExposure"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:text="Man EV"
-                 android:textAppearance="@style/SmallerLightTextAppearance"
-                 android:checked="true"/>
-  </RadioGroup>
+  <TableLayout android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:stretchColumns="1"
+               android:padding="3dip">
+    <TableRow android:gravity="center_vertical">
+      <TextView
+          android:layout_column="1"
+          android:layout_width="wrap_content"
+          android:text="Exposure Value:"
+          android:padding="3dip"/>
+      <RadioGroup
+          android:id="@+id/exposureSettingRadioGroup"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          android:layout_column="2"
+          android:gravity="right">
+        <RadioButton android:id="@+id/radioAutoExposure"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Auto EV"
+                     android:textAppearance="@style/SmallerLightTextAppearance"/>
+        <RadioButton android:id="@+id/radioManualExposure"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Man EV"
+                     android:textAppearance="@style/SmallerLightTextAppearance"
+                     android:checked="true"/>
+      </RadioGroup>
+    </TableRow>
+  </TableLayout>
   <Spinner
       android:id="@+id/exposureSpinner"
       android:layout_width="fill_parent"
@@ -140,13 +152,15 @@
       android:prompt="@string/exposure_spinner_prompt"/>
   <TableLayout android:layout_width="fill_parent"
                android:layout_height="wrap_content"
-               android:stretchColumns="1">
+               android:stretchColumns="1"
+               android:padding="3dip">
     <TableRow>
       <TextView
           android:id="@+id/exposureValue"
           android:layout_height="wrap_content"
           android:layout_width="fill_parent"
           android:layout_column="1"
+          android:textAppearance="@style/SmallerLightTextAppearance"
           android:gravity="left"
           android:padding="3dip"/>
       <Button

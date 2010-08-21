@@ -57,7 +57,6 @@ public class ExposureValue {
 
 
   public String toDetailString() {
-
     if (tooLowLight())
       return toString();
     String detailString = "Uncommon in nature";
@@ -65,7 +64,6 @@ public class ExposureValue {
       detailString = DETAIL_STRINGS[(int) value];
     }
     return toString() + " " + detailString;
-
   }
 
   public ExposureValue getISO100EV(Iso currentISO) {

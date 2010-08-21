@@ -8,7 +8,6 @@ import static com.kaipic.lightmeter.lib.Util.indexOf;
 
 public class MainWindowTest extends AbstractMainWindowTestCase {
 
-
   public void testCreateActivity() {
     assertNotNull(mActivity);
     assertNotNull(mLockButton);
@@ -38,13 +37,8 @@ public class MainWindowTest extends AbstractMainWindowTestCase {
     LightMeter lightMeter = mActivity.getLightMeter();
     lightMeter.setAperture(3.5f).setCalibration(250).setISO(new Iso(100));
     setExposureValueSpinnerTo(9);
-    assertEquals("ExposureString", new ExposureValue(10).toDetailString(), getTextViewText(R.id.exposureValue));
+    assertEquals("ExposureString", new ExposureValue(9).toDetailString(), getTextViewText(R.id.exposureValue));
     assertTrue(((TextView) mActivity.findViewById(R.id.shutterSpeed)).getText().length() > 0);
-  }
-
-  public void testExposureSpinnerItems() {
-    String[] items = mActivity.exposureSpinnerItems();
-    assertEquals(new ExposureValue(2).toDetailString(), items[2]);
   }
 
   public void testSetISOShouldSetISOtoLightMeter() {
@@ -110,7 +104,7 @@ public class MainWindowTest extends AbstractMainWindowTestCase {
 
   public void testSetExposureValueShouldResultInSuchExposureValueInLightMeter() {
     setExposureValueSpinnerTo(3);
-    assertEquals(4f, mActivity.getWorkMode().getExposure().getValue(), 0.001f);
+    assertEquals(3f, mActivity.getWorkMode().getExposure().getValue(), 0.001f);
   }
 
   public void testSetManualExposureValueShouldHideExposureDisplayRow() {
@@ -245,19 +239,6 @@ public class MainWindowTest extends AbstractMainWindowTestCase {
   public void testIndexOf() {
     assertTrue(indexOf(CameraSettingsRepository.focalLengths, new Length(35)) > 1);
     assertTrue(indexOf(CirclesOfConfusion.values(), null) < 0);
-  }
-
-
-  private LightSensor createMockLightSensor(final float ev) {
-    return new LightSensor() {
-      public float read() {
-        return 0;
-      }
-
-      public ExposureValue getEV() {
-        return new ExposureValue(ev);
-      }
-    };
   }
 
 }
