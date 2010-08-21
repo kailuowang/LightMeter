@@ -2,36 +2,75 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-    >
+            android:layout_height="fill_parent">
+
   <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
                android:layout_width="fill_parent"
                android:layout_height="wrap_content">
     <TextView android:layout_width="fill_parent"
               android:layout_height="wrap_content"
+              android:text="@string/help_introduction_title"
+              android:padding="3dip" android:textAppearance="@style/HelpTitleAppearance"/>
+
+    <TextView android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
               android:text="@string/help_introduction"
-              android:maxLines="3"
-              android:padding="3dip"
-              android:textAppearance="@style/SmallerLightTextAppearance"/>
+              android:padding="10dip"
+              android:textAppearance="@style/HelpContentAppearance"/>
+
+    <TextView android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:text="@string/help_disclaimer_title"
+              android:padding="3dip" android:textAppearance="@style/HelpTitleAppearance"/>
+
     <TextView android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:text="@string/help_disclaimer"
-              android:textAppearance="@style/SmallerLightTextAppearance"
-              android:padding="3dip"/>
+              android:textAppearance="@style/HelpContentAppearance"
+              android:padding="10dip"/>
+
+    <TextView android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:text="@string/help_work_mode_title"
+              android:padding="3dip" android:textAppearance="@style/HelpTitleAppearance"/>
+
+    <TextView android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:text="@string/help_work_modes"
+              android:textAppearance="@style/HelpContentAppearance"
+              android:padding="10dip"/>
+
+    <TextView android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:text="@string/help_auto_exposure_title"
+              android:padding="3dip" android:textAppearance="@style/HelpTitleAppearance"/>
+
     <TextView android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:text="@string/help_usage_auto"
-              android:textAppearance="@style/SmallerLightTextAppearance"
-              android:padding="3dip"/>
+              android:textAppearance="@style/HelpContentAppearance"
+              android:padding="10dip"/>
+
+
+    <TextView android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:text="@string/help_manual_exposure_title"
+              android:padding="3dip" android:textAppearance="@style/HelpTitleAppearance"/>
+
     <TextView android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:text="@string/help_usage_manual"
-              android:textAppearance="@style/SmallerLightTextAppearance"
-              android:padding="3dip"/>
+              android:textAppearance="@style/HelpContentAppearance"
+              android:padding="10dip"/>
+
+    <TextView android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:text="@string/help_calibrate_title"
+              android:padding="3dip" android:textAppearance="@style/HelpTitleAppearance"/>
     <TextView android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:text="@string/help_usage_calibration"
-              android:textAppearance="@style/SmallerLightTextAppearance"
-              android:padding="3dip"/>
+              android:textAppearance="@style/HelpContentAppearance"
+              android:padding="10dip"/>
   </TableLayout>
 </ScrollView>

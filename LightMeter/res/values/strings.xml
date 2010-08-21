@@ -3,7 +3,7 @@
   <string name="hello">Welcome!</string>
   <string name="pause">Lock</string>
   <string name="continue_btn">Unlock</string>
-  <string name="app_name">Photography Assistant</string>
+  <string name="app_name">Photography Assistant (Beta)</string>
   <string name="aperture_spinner_prompt">Please set aperture</string>
   <string name="iso_spinner_prompt">Please set ISO</string>
   <string name="exposure_spinner_prompt">Please set EV setting</string>
@@ -18,16 +18,13 @@
   <string name="blog_website">Blog: http://kailuowang.com</string>
   <string name="twitter">Twitter: @kailuowang</string>
   <string name="calibrate">Calibrate</string>
-  <string name="help_introduction">Light Meter uses the built-in ambient light sensor reading
-    or manually set values to get Exposure Values and thus
-    calculates the shutter speed based on ISO and aperture
-    set by user.
+  <string name="help_introduction">Photography Assistant provides exposure setting calculation and depth of field calculation.
+    It can use the built-in ambient light sensor reading or manually set values to get Exposure Values.
   </string>
-  <string name="help_disclaimer">Disclaimer: Ambient light sensor, if your phone has one,
+  <string name="help_disclaimer">Ambient light sensor, if your phone has one,
     could be very inaccurate. Manual exposure setting is preferred for accuracy.
   </string>
-  <string name="help_usage_auto">Usage of Auto exposure setting: to use the built-in light sensor, select \"Auto\" as
-    Exposure Setting
+  <string name="help_usage_auto">To use the built-in light sensor, click the \"Auto EV\" radio button
     and check the status message, it will say something like "Using CM3602 Light sensor" if you have ambient light
     sensor on the phone.
     Then if you place the cell phone as you would place an incident light sensor, the screen is the front side. The
@@ -38,16 +35,12 @@
     You can use the lock button to lock the exposure value read from the ambient light sensor,
     just like what you can do with an incident light meter.
   </string>
-  <string name="help_usage_manual">Usage of manual exposure settings: The status message may tell you that no ambient
-    light sensor found on the phone.
-    In that case you can only use the manual exposure settings.
-    The manual exposure settings is actually more useful than the auto one.
-    Ambient light sensors are usually not accurate enough.
+  <string name="help_usage_manual">The manual exposure settings is actually more useful than the auto one.
+    Because ambient light sensor, if your phone has one, is usually not accurate enough.
     With the help of the textual description,
     you probably can do a better job than the built-in ambient light sensors.
-    After you select the exposure setting, shutter speed will be calculated.
   </string>
-  <string name="help_usage_calibration">Calibration:
+  <string name="help_usage_calibration">
     You can also calibrate the ambient light sensor.
     There is a calibration constant that affects how Exposure value is calculated
     from the illumination value read from the ambient light sensor.
@@ -62,4 +55,14 @@
   <string name="road_map">Road map: http://wiki.github.com/kailuowang/LightMeter/road-map</string>
   <string name="circle_of_confusion_spinner_prompt">Please select format of the camera</string>
   <string name="lengthUnitSpinner_prompt">Please select the unit for distance</string>
+  <string name="help_introduction_title">Introduction</string>
+  <string name="help_disclaimer_title">Disclaimer</string>
+  <string name="help_auto_exposure_title">Usage of Auto EV (Exposure Value)</string>
+  <string name="help_manual_exposure_title">Usage of Manual EV (Exposure Value)</string>
+  <string name="help_calibrate_title">Calibrate Ambient Light Sensor</string>
+  <string name="help_work_mode_title">Work Modes</string>
+  <string name="help_work_modes">There are 3 modes you can select to work with. Av (Aperture Priority), Sv (Shutter Priority) and M (Manual).
+  Av is the very basic that we probably use most often. Sv can be used when shooting video.
+    M is developed so that this app can work with other light meters. In M mode, this App is mainly for depth of field calculation.
+  </string>
 </resources>

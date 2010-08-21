@@ -38,8 +38,8 @@ public final class R {
         public static final int radioAutoExposure=0x7f07000b;
         public static final int radioManualExposure=0x7f07000c;
         public static final int radio_Av=0x7f070001;
-        public static final int radio_Manual=0x7f070002;
-        public static final int radio_Sv=0x7f070003;
+        public static final int radio_Manual=0x7f070003;
+        public static final int radio_Sv=0x7f070002;
         public static final int shutterSpeed=0x7f070008;
         public static final int shutterSpeedSpinner=0x7f070007;
         public static final int status_text_view=0x7f070018;
@@ -66,12 +66,19 @@ public final class R {
         public static final int exposure_spinner_prompt=0x7f040006;
         public static final int focal_length_spinner_prompt=0x7f040008;
         public static final int hello=0x7f040000;
+        public static final int help_auto_exposure_title=0x7f04001c;
+        public static final int help_calibrate_title=0x7f04001e;
         public static final int help_disclaimer=0x7f040012;
+        public static final int help_disclaimer_title=0x7f04001b;
         public static final int help_introduction=0x7f040011;
+        public static final int help_introduction_title=0x7f04001a;
+        public static final int help_manual_exposure_title=0x7f04001d;
         public static final int help_menu_title=0x7f040016;
         public static final int help_usage_auto=0x7f040013;
         public static final int help_usage_calibration=0x7f040015;
         public static final int help_usage_manual=0x7f040014;
+        public static final int help_work_mode_title=0x7f04001f;
+        public static final int help_work_modes=0x7f040020;
         public static final int iso_spinner_prompt=0x7f040005;
         public static final int lengthUnitSpinner_prompt=0x7f040019;
         public static final int ok=0x7f04000c;
@@ -83,12 +90,14 @@ public final class R {
         public static final int version=0x7f04000a;
     }
     public static final class style {
+        public static final int HelpContentAppearance=0x7f050006;
+        public static final int HelpTitleAppearance=0x7f050007;
         public static final int MySpinnerDropDownItemView=0x7f050002;
         public static final int MySpinnerItemView=0x7f050001;
         public static final int MySpinnerView=0x7f050003;
         public static final int MyTheme=0x7f050000;
         public static final int SmallTextAppearance=0x7f050004;
-        public static final int SmallerLightTextAppearance=0x7f050006;
+        public static final int SmallerLightTextAppearance=0x7f050008;
         public static final int SmallerTextAppearance=0x7f050005;
     }
 }
