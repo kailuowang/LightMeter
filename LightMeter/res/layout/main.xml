@@ -124,13 +124,13 @@
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:text="Auto EV"
-                 android:textAppearance="@style/SmallerLightTextAppearance"
-                 android:checked="true"/>
+                 android:textAppearance="@style/SmallerLightTextAppearance"/>
     <RadioButton android:id="@+id/radioManualExposure"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:text="Man EV"
-                 android:textAppearance="@style/SmallerLightTextAppearance"/>
+                 android:textAppearance="@style/SmallerLightTextAppearance"
+                 android:checked="true"/>
   </RadioGroup>
   <Spinner
       android:id="@+id/exposureSpinner"
@@ -171,7 +171,7 @@
       android:textStyle="italic"
       android:textAppearance="@style/SmallerLightTextAppearance"
       android:text="Enter subject distance for Depth Of Field:"/>
-   <TableLayout
+  <TableLayout
       android:id="@+id/depthOfFieldResultTable"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
@@ -226,7 +226,7 @@
           android:layout_height="wrap_content"
           android:drawSelectorOnTop="true"
           android:prompt="@string/lengthUnitSpinner_prompt"
-          android:layout_column="3" />
+          android:layout_column="3"/>
 
     </TableRow>
   </TableLayout>

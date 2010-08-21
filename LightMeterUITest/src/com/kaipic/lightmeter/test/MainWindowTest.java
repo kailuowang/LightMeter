@@ -1,128 +1,44 @@
 package com.kaipic.lightmeter.test;
 
-import android.app.Instrumentation;
-import android.app.KeyguardManager;
-import android.test.ActivityInstrumentationTestCase2;
-import android.view.KeyEvent;
-import android.view.View;
-import android.widget.*;
-import com.kaipic.lightmeter.MainWindow;
+import android.widget.TextView;
 import com.kaipic.lightmeter.R;
 import com.kaipic.lightmeter.lib.*;
 
-import java.util.Arrays;
-
 import static com.kaipic.lightmeter.lib.Util.indexOf;
 
-public class MainWindowTest extends
-  ActivityInstrumentationTestCase2<MainWindow> {
+public class MainWindowTest extends AbstractMainWindowTestCase {
 
-  private Instrumentation mInstrumentation;
-  private MainWindow mActivity;
-  private Button mButton;
-  private TextView mExposureValueView;
-  private Spinner mIsoSpinner;
-  private Spinner mExposureSpinner;
-  private Spinner mApertureSpinner;
-  private Spinner mShutterSpeedSpinner;
-  private RadioButton mAvRadioButton;
-  private RadioButton mMRadioButton;
-  private RadioButton mSvRadioButton;
-  private TextView mApertureTextView;
-  private RadioButton mAutoExposureRadioButton;
-  private RadioButton mManualExposureRadioButton;
-  private View mExposureSettingRadioGroup;
-  private TextView mShutterSpeedTextView;
-  private EditText mSubjectDistanceEditText;
-  private Spinner mFocalLengthSpinner;
-  private Spinner mCirclesOfConfusionSpinner;
-  private Spinner mLengthUnitSpinner;
-
-  public MainWindowTest() {
-    super("com.kaipic.lightmeter", MainWindow.class);
-  }
-
-  protected void setUp() throws Exception {
-    super.setUp();
-    mInstrumentation = getInstrumentation();
-    setActivityInitialTouchMode(false);
-    mActivity = getActivity();
-    mButton = (Button) mActivity.findViewById(R.id.pause_button);
-    mExposureValueView = (TextView) mActivity.findViewById(R.id.exposureValue);
-    mApertureTextView = (TextView) mActivity.findViewById(R.id.aperture);
-    mShutterSpeedTextView = (TextView) mActivity.findViewById(R.id.shutterSpeed);
-    mIsoSpinner = (Spinner) mActivity.findViewById(R.id.isoSpinner);
-    mExposureSpinner = (Spinner) mActivity.findViewById(R.id.exposureSpinner);
-    mApertureSpinner = (Spinner) mActivity.findViewById(R.id.apertureSpinner);
-    mFocalLengthSpinner = (Spinner) mActivity.findViewById(R.id.focalLengthSpinner);
-    mShutterSpeedSpinner = (Spinner) mActivity.findViewById(R.id.shutterSpeedSpinner);
-    mCirclesOfConfusionSpinner = (Spinner) mActivity.findViewById(R.id.circlesOfConfusionSpinner);
-    mLengthUnitSpinner = (Spinner) mActivity.findViewById(R.id.lengthUnitSpinner);
-    mAvRadioButton = (RadioButton) mActivity.findViewById(R.id.radio_Av);
-    mSvRadioButton = (RadioButton) mActivity.findViewById(R.id.radio_Sv);
-    mMRadioButton = (RadioButton) mActivity.findViewById(R.id.radio_Manual);
-    mAutoExposureRadioButton = (RadioButton) mActivity.findViewById(R.id.radioAutoExposure);
-    mManualExposureRadioButton = (RadioButton) mActivity.findViewById(R.id.radioManualExposure);
-    mExposureSettingRadioGroup = mActivity.findViewById(R.id.exposureSettingRadioGroup);
-    mSubjectDistanceEditText = (EditText) mActivity.findViewById(R.id.subjectDistanceEditText);
-    disableKeyGuardForTesting();
-    mActivity.clearSettings();
-  }
-
-  private void disableKeyGuardForTesting() {
-    KeyguardManager keyGuardManager = (KeyguardManager) mActivity.getSystemService(mActivity.KEYGUARD_SERVICE);
-    keyGuardManager.newKeyguardLock("com.kaipic.lightmeter.MainWindow").disableKeyguard();
-  }
-
-
-  protected void tearDown() throws Exception {
-    setSpinnerSelection(mApertureSpinner, 0);
-    setSpinnerSelection(mExposureSpinner, 0);
-    setSpinnerSelection(mIsoSpinner, 0);
-    setSpinnerSelection(mLengthUnitSpinner, 0);
-    setSpinnerSelection(mFocalLengthSpinner, 0);
-    setSpinnerSelection(mCirclesOfConfusionSpinner, 0);
-    setSubjectDistance("");
-    click(mAvRadioButton);
-  
-    super.tearDown();
-  }
 
   public void testCreateActivity() {
     assertNotNull(mActivity);
-    assertNotNull(mButton);
+    assertNotNull(mLockButton);
     assertNotNull(mExposureValueView);
   }
 
   public void testPauseButtonClickShouldPauseSensor() {
-    MockLightSensor sensor = new MockLightSensor();
-    mActivity.getLightMeter().setLightSensor(sensor);
+    switchToAv();
+    switchToAutoExposure();
+    LightSensor sensor = mActivity.getLightMeter().getLightSensor();
     assertFalse(sensor.isPaused());
-    click(mButton);
+    click(mLockButton);
     assertTrue(sensor.isPaused());
   }
 
   public void testPauseButtonClickShouldToggleButtonLabel() {
-    mActivity.getLightMeter().setLightSensor(new MockLightSensor());
-    assertEquals(getString(R.string.pause), mButton.getText());
-    click(mButton);
-    assertEquals(getString(R.string.continue_btn), mButton.getText());
+    switchToAv();
+    switchToAutoExposure();
+    assertEquals(getString(R.string.pause), mLockButton.getText());
+    click(mLockButton);
+    assertEquals(getString(R.string.continue_btn), mLockButton.getText());
   }
 
   public void testDisplayShouldDisplayLightMeter() {
-    click(mAvRadioButton);
+    switchToAv();
+    switchToManualExposure();
     LightMeter lightMeter = mActivity.getLightMeter();
-    lightMeter.setLightSensor(createMockLightSensor(10f));
     lightMeter.setAperture(3.5f).setCalibration(250).setISO(new Iso(100));
-    runOnUiThread(new Runnable() {
-      public void run() {
-        mActivity.display();
-      }
-    });
-//    assertEquals(new Iso(100), lightMeter.getISO());
-    assertEquals(new Aperture(3.5f), lightMeter.getAperture());
+    setExposureValueSpinnerTo(9);
     assertEquals("ExposureString", new ExposureValue(10).toDetailString(), getTextViewText(R.id.exposureValue));
-    
     assertTrue(((TextView) mActivity.findViewById(R.id.shutterSpeed)).getText().length() > 0);
   }
 
@@ -132,15 +48,10 @@ public class MainWindowTest extends
   }
 
   public void testSetISOShouldSetISOtoLightMeter() {
-    runOnUiThread(new Runnable() {
-      public void run() {
-        mIsoSpinner.requestFocus();
-        mIsoSpinner.setSelection(2);
-      }
-    });
-    Iso expectedISO = CameraSettingsRepository.isos[2];
+    Iso iso = new Iso(200);
+    setSpinnerSelection(mIsoSpinner, indexOf(CameraSettingsRepository.isos, iso));
     Iso actual = mActivity.getLightMeter().getISO();
-    assertEquals(expectedISO, actual);
+    assertEquals(iso, actual);
   }
 
 
@@ -161,14 +72,14 @@ public class MainWindowTest extends
   public void testSwitchModeUsingRadioButton() {
     click(mMRadioButton);
     assertEquals(mActivity.getWorkMode().getClass(), ManualMode.class);
-    click(mAvRadioButton);
+    switchToAv();
     assertEquals(mActivity.getWorkMode().getClass(), AvMode.class);
     click(mSvRadioButton);
     assertEquals(mActivity.getWorkMode().getClass(), SvMode.class);
   }
 
   public void testAvMode() {
-    click(mAvRadioButton);
+    switchToAv();
     assertTrue(mApertureSpinner.isShown());
     assertTrue(mShutterSpeedTextView.isShown());
     assertFalse(mShutterSpeedSpinner.isShown());
@@ -208,7 +119,7 @@ public class MainWindowTest extends
   }
 
   public void testSetExposureValueToAutoShouldResultInAutomaticLightSensor() {
-    click(mAutoExposureRadioButton);
+    switchToAutoExposure();
     assertEquals(LightSensorType.AUTO, mActivity.getLightMeter().getLightSensor().getType());
     assertFalse(mExposureSpinner.isShown());
     assertTrue(mExposureValueView.isShown());
@@ -224,23 +135,22 @@ public class MainWindowTest extends
   }
 
   public void testSetExposureValueToAutoShouldShowLockButton() {
-    click(mAutoExposureRadioButton);
-    assertTrue(mButton.isShown());
+    switchToAutoExposure();
+    assertTrue(mLockButton.isShown());
   }
 
   public void testSetExposureValueToManualShouldHideLockButton() {
     setExposureValueSpinnerTo(1);
-    assertFalse(mButton.isShown());
+    assertFalse(mLockButton.isShown());
   }
 
 
   public void testListenToSensorAndDisplayRead() {
 
-    click(mAvRadioButton);
-    click(mAutoExposureRadioButton);
+    switchToAv();
+    switchToAutoExposure();
     setSpinnerSelection(mIsoSpinner, indexOf(CameraSettingsRepository.isos, new Iso(100)));
     final MockLightSensor lightSensor = (MockLightSensor) mActivity.getLightMeter().getLightSensor();
-
     lightSensor.setRead(new ExposureValue(10f).toIllumination(new Iso(100), lightSensor.getCalibration()));
     runOnUiThread(new Runnable() {
       public void run() {
@@ -332,29 +242,11 @@ public class MainWindowTest extends
     assertEquals("hyperfocal", "20.9m", getTextViewText(R.id.hyperfocalTextView));
   }
 
-  private String getTextViewText(int viewId) {
-    return ((TextView) mActivity.findViewById(viewId)).getText().toString();
-  }
-
   public void testIndexOf() {
     assertTrue(indexOf(CameraSettingsRepository.focalLengths, new Length(35)) > 1);
     assertTrue(indexOf(CirclesOfConfusion.values(), null) < 0);
   }
 
-
-  private void setExposureValueSpinnerTo(final int position) {
-    click(mManualExposureRadioButton);
-    setSpinnerSelection(mExposureSpinner, position);
-  }
-
-  private void setSpinnerSelection(final Spinner spinner, final int position) {
-    runOnUiThread(new Runnable() {
-      public void run() {
-        spinner.requestFocus();
-        spinner.setSelection(position);
-      }
-    });
-  }
 
   private LightSensor createMockLightSensor(final float ev) {
     return new LightSensor() {
@@ -368,23 +260,4 @@ public class MainWindowTest extends
     };
   }
 
-  private void runOnUiThread(Runnable runnable) {
-    mActivity.runOnUiThread(runnable);
-    mInstrumentation.waitForIdleSync();
-  }
-
-  private String getString(int name) {
-    return mActivity.getString(name);
-  }
-
-  private void click(final View button) {
-    mActivity.runOnUiThread(new Runnable() {
-      public void run() {
-        button.requestFocus();
-      }
-    });
-
-    mInstrumentation.waitForIdleSync();
-    this.sendKeys(KeyEvent.KEYCODE_DPAD_CENTER);
-  }
 }
