@@ -235,10 +235,13 @@ public class MainWindowTest extends
 
 
   public void testListenToSensorAndDisplayRead() {
-    final ManualLightSensor lightSensor = new ManualLightSensor();
-    lightSensor.setEVByEVAt100(new ExposureValue(9f));
-    mActivity.getLightMeter().setLightSensor(lightSensor);
-    lightSensor.setEVByEVAt100(new ExposureValue(10f));
+
+    click(mAvRadioButton);
+    click(mAutoExposureRadioButton);
+    setSpinnerSelection(mIsoSpinner, indexOf(CameraSettingsRepository.isos, new Iso(100)));
+    final MockLightSensor lightSensor = (MockLightSensor) mActivity.getLightMeter().getLightSensor();
+
+    lightSensor.setRead(new ExposureValue(10f).toIllumination(new Iso(100), lightSensor.getCalibration()));
     runOnUiThread(new Runnable() {
       public void run() {
         lightSensor.broadcast();

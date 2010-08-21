@@ -10,6 +10,10 @@ public class SvMode extends WorkMode {
     return false;
   }
 
+  public void setAperture(Aperture aperture) {
+    
+  }
+
   public Aperture getAperture() {
     return lightMeter.calculateAperture();
   }

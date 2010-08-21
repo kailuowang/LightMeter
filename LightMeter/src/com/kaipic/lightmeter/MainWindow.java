@@ -81,7 +81,7 @@ public class MainWindow extends Activity implements LightMeterListener {
   }
 
   public void onLightMeterChange() {
-    display();
+    updateSettings();
   }
 
   public void display() {
@@ -273,7 +273,7 @@ public class MainWindow extends Activity implements LightMeterListener {
   public void updateSettings() {
     workMode.setAperture((Aperture) apertureSpinner.getSelectedItem());
     lightMeter.setISO((Iso) isoSpinner.getSelectedItem());
-    lightMeter.setShutterSpeed((ShutterSpeed) shutterSpeedSpinner.getSelectedItem());
+    workMode.setShutterSpeed((ShutterSpeed) shutterSpeedSpinner.getSelectedItem());
     lightMeter.setLightSensor(lightSensorString());
     doFCalculator.setFocalLength((Length) focalLengthSpinner.getSelectedItem());
     doFCalculator.setCircleOfConfusion((CirclesOfConfusion) circlesOfConfusionSpinner.getSelectedItem());

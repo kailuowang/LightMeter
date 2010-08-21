@@ -14,4 +14,7 @@ public class AvMode extends WorkMode {
     return lightMeter.calculateShutterSpeed();
   }
 
+  public void setShutterSpeed(ShutterSpeed shutterSpeed) {
+    
+  }
 }
