@@ -35,7 +35,7 @@ public class MainWindow extends Activity implements LightMeterListener {
   private TextView statusTextView;
   private static final String PREFS_NAME = "LIGHT_METER_PREFS";
   private static final String LIGHT_SENSOR_CALIBRATION = "LightSensorCalibration";
-  private static final boolean DEBUG = true;
+  private static final boolean DEBUG_ENABLED = true;
   private RadioButton radioAv;
   private RadioButton radioM;
   private RadioButton radioSv;
@@ -207,7 +207,7 @@ public class MainWindow extends Activity implements LightMeterListener {
   }
 
   private LightSensorFactory getLightSensorFactory() {
-    return DEBUG ? new TestLightSensorFactory(getApplicationContext()) : new LightSensorFactory(getApplicationContext());
+    return DEBUG_ENABLED ? new TestLightSensorFactory(getApplicationContext()) : new LightSensorFactory(getApplicationContext());
   }
 
   public boolean onOptionsItemSelected(MenuItem item) {
