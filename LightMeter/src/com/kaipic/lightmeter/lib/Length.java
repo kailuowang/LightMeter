@@ -23,6 +23,8 @@ public class Length {
   public String toString(LengthUnit unit) {
     if(value < 0)
       return "Infinity";
+    if(Float.isNaN(value))
+      return "N/A";
     return unit.toString(this);
   }
 

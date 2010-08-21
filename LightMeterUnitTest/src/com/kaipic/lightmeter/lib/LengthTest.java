@@ -26,6 +26,12 @@ public class LengthTest {
   }
 
   @Test
+  public void shouldToNAIfNaN() throws Exception {
+    assertEquals("N/A", new Length(Float.NaN).toString());
+  }
+
+
+  @Test
   public void shouldToUnitStringWith2Digits() throws Exception {
       assertEquals("1.5m", new Length(1500.001f).toString(LengthUnit.m));      
   }
