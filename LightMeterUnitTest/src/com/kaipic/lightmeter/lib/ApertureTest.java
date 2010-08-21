@@ -16,6 +16,12 @@ public class ApertureTest {
     assertApertureEquals(new Aperture(4f), new Aperture(new ShutterSpeed(1f / 64f), new ExposureValue(10f)));
   }
 
+  @Test
+  public void shouldReturn0_95AsString() throws Exception {
+    assertEquals("0.95", new Aperture(0.95f).toString());
+  }
+
+
   public static void assertApertureEquals(Aperture expected, Aperture actual) {
     assertEquals(expected.getValue(), actual.getValue(), 0.0001f);
   }

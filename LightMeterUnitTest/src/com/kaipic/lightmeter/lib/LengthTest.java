@@ -20,6 +20,17 @@ public class LengthTest {
   }
 
   @Test
+  public void shouldToInfinityIfLessThan0String() throws Exception {
+    assertEquals("Infinity", new Length(-1500).toString(LengthUnit.m));
+
+  }
+
+  @Test
+  public void shouldToUnitStringWith2Digits() throws Exception {
+      assertEquals("1.5m", new Length(1500.001f).toString(LengthUnit.m));      
+  }
+
+  @Test
   public void shouldCreateFromStringAndUnit() throws Exception {
     assertEquals(new Length(1500), Length.from("1.5", LengthUnit.m));
   }

@@ -2,6 +2,7 @@ package com.kaipic.lightmeter.lib;
 
 public class ShutterSpeed {
   private float value;
+  private static final float UNREASONABLY_LARGE_VALUE = 1999f;
 
   public ShutterSpeed(float value) {
     this.value = value;
@@ -32,6 +33,8 @@ public class ShutterSpeed {
   public String toString() {
     if (value < 1)
       return "1/" + (int) (1f / value);
+    else if (value > UNREASONABLY_LARGE_VALUE)
+      return "N/A";
     else
       return ((int) value) + "s";
   }

@@ -10,6 +10,10 @@ public class ShutterSpeedTest {
     assertEquals("1/50", new ShutterSpeed(1f / 50f).toString());
   }
 
+  @Test
+  public void shouldConvertToNAStringIfItIsTooLong() throws Exception {
+    assertEquals("N/A", new ShutterSpeed(2000f).toString());
+  }
 
   @Test
   public void shouldConvertToCorrectFormatForValueLagerThan1() throws Exception {

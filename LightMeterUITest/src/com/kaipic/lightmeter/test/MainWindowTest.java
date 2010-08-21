@@ -12,6 +12,8 @@ import com.kaipic.lightmeter.lib.*;
 
 import java.util.Arrays;
 
+import static com.kaipic.lightmeter.lib.Util.indexOf;
+
 public class MainWindowTest extends
   ActivityInstrumentationTestCase2<MainWindow> {
 
@@ -64,6 +66,7 @@ public class MainWindowTest extends
     mExposureSettingRadioGroup = mActivity.findViewById(R.id.exposureSettingRadioGroup);
     mSubjectDistanceEditText = (EditText) mActivity.findViewById(R.id.subjectDistanceEditText);
     disableKeyGuardForTesting();
+    mActivity.clearSettings();
   }
 
   private void disableKeyGuardForTesting() {
@@ -76,6 +79,12 @@ public class MainWindowTest extends
     setSpinnerSelection(mApertureSpinner, 0);
     setSpinnerSelection(mExposureSpinner, 0);
     setSpinnerSelection(mIsoSpinner, 0);
+    setSpinnerSelection(mLengthUnitSpinner, 0);
+    setSpinnerSelection(mFocalLengthSpinner, 0);
+    setSpinnerSelection(mCirclesOfConfusionSpinner, 0);
+    setSubjectDistance("");
+    click(mAvRadioButton);
+  
     super.tearDown();
   }
 
@@ -101,6 +110,7 @@ public class MainWindowTest extends
   }
 
   public void testDisplayShouldDisplayLightMeter() {
+    click(mAvRadioButton);
     LightMeter lightMeter = mActivity.getLightMeter();
     lightMeter.setLightSensor(createMockLightSensor(10f));
     lightMeter.setAperture(3.5f).setCalibration(250).setISO(new Iso(100));
@@ -109,7 +119,10 @@ public class MainWindowTest extends
         mActivity.display();
       }
     });
-    assertEquals(new ExposureValue(10).toDetailString(), ((TextView) mActivity.findViewById(R.id.exposureValue)).getText());
+//    assertEquals(new Iso(100), lightMeter.getISO());
+    assertEquals(new Aperture(3.5f), lightMeter.getAperture());
+    assertEquals("ExposureString", new ExposureValue(10).toDetailString(), getTextViewText(R.id.exposureValue));
+    
     assertTrue(((TextView) mActivity.findViewById(R.id.shutterSpeed)).getText().length() > 0);
   }
 
@@ -241,30 +254,50 @@ public class MainWindowTest extends
       public void run() {
         mActivity.setupSpinner(mIsoSpinner, CameraSettingsRepository.isos);
         assertEquals(2, mIsoSpinner.getSelectedItemPosition());
-        mIsoSpinner.setSelection(0);
       }
     });
+  }
+
+  public void testSetupSpinnerWithDefaultItemShouldRememberLastPosition() {
+    setSpinnerSelection(mIsoSpinner, 2);
+    mActivity.saveSettings();
+    runOnUiThread(new Runnable() {
+      public void run() {
+        mActivity.setupSpinner(mIsoSpinner, CameraSettingsRepository.isos, new Iso(1600));
+        assertEquals(2, mIsoSpinner.getSelectedItemPosition());
+      }
+    });
+  }
+
+  public void testSetupSpinnerWithDefaultItem() {
+    runOnUiThread(new Runnable() {
+      public void run() {
+        mActivity.setupSpinner(mCirclesOfConfusionSpinner, CirclesOfConfusion.values(), CirclesOfConfusion.APS_C);
+      }
+    });
+    assertEquals(CirclesOfConfusion.APS_C, mCirclesOfConfusionSpinner.getSelectedItem());
   }
 
   public void testTypeInSubjectDistanceShouldHideTitle() {
     assertTrue(mActivity.findViewById(R.id.depthOfFieldTitleTextView).isShown());
     assertFalse(mActivity.findViewById(R.id.depthOfFieldResultTable).isShown());
-    runOnUiThread(new Runnable() {
-      public void run() {
-        mSubjectDistanceEditText.setText("343.3");
-      }
-    });
+    setSubjectDistance("343.3");
     assertFalse(mActivity.findViewById(R.id.depthOfFieldTitleTextView).isShown());
     assertTrue(mActivity.findViewById(R.id.depthOfFieldResultTable).isShown());
   }
+
   public void testSubjectDistanceAndUnitShouldSetInDofCalculator() {
+    setSubjectDistance("1.2");
+    setSpinnerSelection(mLengthUnitSpinner, indexOf(LengthUnit.selectableUnits(), LengthUnit.m));
+    assertEquals(new Length(1200), mActivity.getDoFCalculator().getSubjectDistance());
+  }
+
+  private void setSubjectDistance(final String value) {
     runOnUiThread(new Runnable() {
       public void run() {
-        mSubjectDistanceEditText.setText("1.2");
+        mSubjectDistanceEditText.setText(value);
       }
     });
-    setSpinnerSelection(mLengthUnitSpinner, indexOf(LengthUnit.values(), LengthUnit.m));
-    assertEquals(new Length(1200), mActivity.getDoFCalculator().getSubjectDistance());
   }
 
   public void testSetFocalLengthShouldSetItInDoFCalculator() {
@@ -285,13 +318,26 @@ public class MainWindowTest extends
     assertEquals(coc, mActivity.getDoFCalculator().getCirclesOfConfusion());
   }
 
-  public void testIndexOf() {
-    assertTrue(indexOf(CameraSettingsRepository.focalLengths, new Length(35)) > 1);
+  public void testDoFCalculation() {
+    setSpinnerSelection(mApertureSpinner, indexOf(CameraSettingsRepository.apertures, new Aperture(4f)));
+    setSpinnerSelection(mCirclesOfConfusionSpinner, indexOf(CirclesOfConfusion.values(), CirclesOfConfusion.FULL_FRAME_35MM));
+    setSpinnerSelection(mFocalLengthSpinner, indexOf(CameraSettingsRepository.focalLengths, new Length(50)));
+    setSpinnerSelection(mLengthUnitSpinner, indexOf(LengthUnit.selectableUnits(), LengthUnit.m));
+    setSubjectDistance("5");
+    assertEquals("nearfield" + getTextViewText(R.id.nearLimitTextView), "4m", getTextViewText(R.id.nearLimitTextView));
+    assertEquals("farfield", "6.6m", getTextViewText(R.id.farLimitTextView));
+    assertEquals("hyperfocal", "20.9m", getTextViewText(R.id.hyperfocalTextView));
   }
 
-  private int indexOf(Object[] items, Object item) {
-    return Arrays.asList(items).indexOf(item);
+  private String getTextViewText(int viewId) {
+    return ((TextView) mActivity.findViewById(viewId)).getText().toString();
   }
+
+  public void testIndexOf() {
+    assertTrue(indexOf(CameraSettingsRepository.focalLengths, new Length(35)) > 1);
+    assertTrue(indexOf(CirclesOfConfusion.values(), null) < 0);
+  }
+
 
   private void setExposureValueSpinnerTo(final int position) {
     click(mManualExposureRadioButton);

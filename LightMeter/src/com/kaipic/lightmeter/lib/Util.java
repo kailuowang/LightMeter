@@ -1,6 +1,7 @@
 package com.kaipic.lightmeter.lib;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
 
 public class Util {
   public static float log2(float x) {
@@ -11,4 +12,9 @@ public class Util {
     DecimalFormat df = new DecimalFormat("#.#");
     return df.format(value);
   }
+
+  public static int indexOf(Object[] items, Object item) {
+    return Arrays.asList(items).indexOf(item);
+  }
+
 }

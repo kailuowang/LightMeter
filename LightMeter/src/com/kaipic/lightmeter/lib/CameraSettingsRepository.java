@@ -5,6 +5,7 @@ public class CameraSettingsRepository {
   public static final Aperture[] apertures = initApertures();
   public static final ShutterSpeed[] shutterSpeeds = initShutterSpeed();
   public static final Iso[] isos = initISOs();
+  public static Length defaultFocalLength = new Length(50);
 
   private static Iso[] initISOs() {
     int[] values = new int[]{50, 100, 160, 200, 400, 800, 1600, 3200};

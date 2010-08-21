@@ -23,6 +23,8 @@ public class Aperture {
 
   @Override
   public String toString() {
+    if(value < 1.0)
+      return new DecimalFormat("#.##").format(value);
     return new DecimalFormat("#.0").format(value);
   }
 

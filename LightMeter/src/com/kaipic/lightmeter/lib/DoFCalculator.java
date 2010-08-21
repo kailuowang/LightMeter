@@ -63,4 +63,10 @@ public class DoFCalculator {
   public Length getSubjectDistance() {
     return subjectDistance;
   }
+
+  public boolean isValid() {
+    return subjectDistance != null && focalLength != null && circleOfConfusion != null && aperture != null;
+  }
+
+
 }

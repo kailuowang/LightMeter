@@ -12,7 +12,6 @@ public class Length {
     return unit.toLength(Float.parseFloat(stringVal));
   }
 
-
   float getValue() {
     return value;
   }
@@ -22,6 +21,8 @@ public class Length {
   }
 
   public String toString(LengthUnit unit) {
+    if(value < 0)
+      return "Infinity";
     return unit.toString(this);
   }
 

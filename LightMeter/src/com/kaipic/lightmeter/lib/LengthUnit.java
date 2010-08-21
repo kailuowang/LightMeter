@@ -1,11 +1,13 @@
 package com.kaipic.lightmeter.lib;
 
 public enum LengthUnit {
-
   mm(1f),
   m(1000f),
   ft(304.8f);
 
+  public static LengthUnit[] selectableUnits() {
+    return new LengthUnit[]{m, ft};
+  }
   private float ratio_to_mm;
 
   private LengthUnit(float ratio_to_mm) {
@@ -18,7 +20,8 @@ public enum LengthUnit {
   }
 
   public String toString(Length length) {
-    return length.getValue() / ratio_to_mm + toString();
+
+    return Util.format( length.getValue() / ratio_to_mm ) + toString();
   }
 
 

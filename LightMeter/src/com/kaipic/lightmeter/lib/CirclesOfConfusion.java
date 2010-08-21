@@ -9,7 +9,7 @@ public class CirclesOfConfusion {
 
   public final static CirclesOfConfusion FOUR_THIRDS = new CirclesOfConfusion(new Length(0.015f), "4/3");
   public final static CirclesOfConfusion APS_C = new CirclesOfConfusion(new Length(0.018f), "APS-C");
-  public final static CirclesOfConfusion FULL_FRAME_35MM = new CirclesOfConfusion(new Length(0.029f), "35mm Full-frame");
+  public final static CirclesOfConfusion FULL_FRAME_35MM = new CirclesOfConfusion(new Length(0.03f), "35mm Full-frame");
   public final static CirclesOfConfusion MF6x45 = new CirclesOfConfusion(new Length(0.047f), "Medium Format 6x4.5");
   public final static CirclesOfConfusion MF6x6 = new CirclesOfConfusion(new Length(0.053f), "Medium Format 6x6");
   public final static CirclesOfConfusion MF6x7 = new CirclesOfConfusion(new Length(0.059f), "Medium Format 6x7");
@@ -22,6 +22,7 @@ public class CirclesOfConfusion {
 
   private final String stringValue;
   private final Length value;
+  public static CirclesOfConfusion defaultCirclesOfConfusion = FULL_FRAME_35MM;
 
   private CirclesOfConfusion(Length value, String stringValue) {
     this.value = value;
