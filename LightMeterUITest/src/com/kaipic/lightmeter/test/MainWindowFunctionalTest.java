@@ -44,7 +44,7 @@ public class MainWindowFunctionalTest extends AbstractMainWindowTestCase {
     mActivity.saveSettings();
     runOnUiThread(new Runnable() {
       public void run() {
-        mActivity.setupSpinner(mIsoSpinner, CameraSettingsRepository.isos);
+        mActivity.getSpinnerHelper().setupSpinner(mIsoSpinner, CameraSettingsRepository.isos);
         assertEquals(2, mIsoSpinner.getSelectedItemPosition());
       }
     });
@@ -55,7 +55,7 @@ public class MainWindowFunctionalTest extends AbstractMainWindowTestCase {
     mActivity.saveSettings();
     runOnUiThread(new Runnable() {
       public void run() {
-        mActivity.setupSpinner(mIsoSpinner, CameraSettingsRepository.isos, new Iso(1600));
+        mActivity.getSpinnerHelper().setupSpinner(mIsoSpinner, CameraSettingsRepository.isos, new Iso(1600));
         assertEquals(2, mIsoSpinner.getSelectedItemPosition());
       }
     });

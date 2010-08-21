@@ -119,7 +119,7 @@ public class MainWindowUnitTest extends AbstractMainWindowTestCase {
   public void testSetupSpinnerWithDefaultItem() {
     runOnUiThread(new Runnable() {
       public void run() {
-        mActivity.setupSpinner(mCirclesOfConfusionSpinner, CirclesOfConfusion.values(), CirclesOfConfusion.APS_C);
+        mActivity.getSpinnerHelper().setupSpinner(mCirclesOfConfusionSpinner, CirclesOfConfusion.values(), CirclesOfConfusion.APS_C);
       }
     });
     assertEquals(CirclesOfConfusion.APS_C, mCirclesOfConfusionSpinner.getSelectedItem());
