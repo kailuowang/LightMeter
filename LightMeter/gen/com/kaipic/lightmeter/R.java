@@ -55,6 +55,7 @@ public final class R {
         public static final int option_menu=0x7f060000;
     }
     public static final class string {
+        public static final int Author=0x7f040021;
         public static final int about=0x7f04000b;
         public static final int aperture_spinner_prompt=0x7f040004;
         public static final int app_name=0x7f040003;

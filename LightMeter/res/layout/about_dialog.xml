@@ -16,19 +16,18 @@
                 android:text="@string/version"
                 android:padding="3dip"/>
     </TableRow>
-    <TextView android:layout_width="fill_parent"
-              android:layout_height="wrap_content"
-              android:text="@string/road_map"
-              android:padding="3dip"
-              android:autoLink="web"/>
-    <TableRow>
-      <TextView
-          android:layout_width="fill_parent"
-          android:layout_height="wrap_content"
-          android:padding="3dip"
-          android:text="@string/photo_website"
-          android:autoLink="web"/>
-    </TableRow>
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="3dip"
+        android:text="@string/Author"
+        android:autoLink="web"/>
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="3dip"
+        android:text="@string/photo_website"
+        android:autoLink="web"/>
     <TableRow>
       <TextView
           android:layout_width="fill_parent"
@@ -51,6 +50,6 @@
           android:padding="3dip"
           android:text="@string/copyright"/>
     </TableRow>
-    
+
   </TableLayout>
 </LinearLayout>

@@ -13,6 +13,9 @@ import android.view.View;
 import android.widget.*;
 import com.kaipic.lightmeter.lib.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainWindow extends Activity implements LightMeterListener {
   private LightMeter lightMeter;
   private DoFCalculator doFCalculator;
@@ -185,13 +188,20 @@ public class MainWindow extends Activity implements LightMeterListener {
   private void initializeSpinners() {
     spinnerHelper.setupSpinner(isoSpinner, CameraSettingsRepository.isos);
     spinnerHelper.setupSpinner(apertureSpinner, CameraSettingsRepository.apertures);
-    spinnerHelper.setupSpinner(exposureSpinner, CameraSettingsRepository.exposureValues);
+    spinnerHelper.setupSpinner(exposureSpinner, exposureValueSpinnerItems());
     spinnerHelper.setupSpinner(focalLengthSpinner, CameraSettingsRepository.focalLengths, CameraSettingsRepository.defaultFocalLength);
     spinnerHelper.setupSpinner(shutterSpeedSpinner, CameraSettingsRepository.shutterSpeeds);
     spinnerHelper.setupSpinner(circlesOfConfusionSpinner, CirclesOfConfusion.values(), CirclesOfConfusion.defaultCirclesOfConfusion);
     spinnerHelper.setupSpinner(lengthUnitSpinner, LengthUnit.selectableUnits());
   }
 
+  public String[] exposureValueSpinnerItems() {
+    List<String> items = new ArrayList<String>();
+    for (ExposureValue exposureValue : CameraSettingsRepository.exposureValues) {
+      items.add(exposureValue.toDetailString());
+    }
+    return items.toArray(new String[0]);
+  }
 
   private void initializeWorkModeRadioGroup() {
     radioAv.setOnClickListener(createWorkModeListener(new AvMode(lightMeter)));
