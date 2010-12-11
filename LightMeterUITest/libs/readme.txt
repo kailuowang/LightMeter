@@ -1,0 +1,1 @@
+This folder is here as a work around for an IntelliJ Android plugin bug which requires the libs folder in the module, otherwise it will throw a nullpointerror which is hard to trace.
