@@ -73,4 +73,19 @@ public class ExposureValue {
   public float toIllumination(Iso iso, float calibration) {
     return (float) (Math.pow(2, value) * calibration / iso.getValue());
   }
+
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    ExposureValue that = (ExposureValue) o;
+
+    if (Float.compare(that.value, value) != 0) return false;
+
+    return true;
+  }
+
+  public int hashCode() {
+    return (value != +0.0f ? Float.floatToIntBits(value) : 0);
+  }
 }

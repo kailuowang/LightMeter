@@ -17,6 +17,6 @@ public class ManualModeTest {
     ShutterSpeed shutterSpeed = new ShutterSpeed(1f / 64f);
     when(lightMeter.getShutterSpeed()).thenReturn(shutterSpeed);
     ManualMode manualMode = new ManualMode(lightMeter);
-    assertEVEquals(new ExposureValue(11), manualMode.getExposure());
+    assertEVEquals(new ExposureValue(9), manualMode.getExposure());
   }
 }
