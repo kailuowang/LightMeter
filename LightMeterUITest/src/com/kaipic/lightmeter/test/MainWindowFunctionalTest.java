@@ -19,10 +19,13 @@ public class MainWindowFunctionalTest extends AbstractMainWindowTestCase {
     switchToManualExposure();
     LightMeter lightMeter = mActivity.getLightMeter();
     lightMeter.setAperture(3.5f).setCalibration(250).setISO(new Iso(100));
-    setExposureValueSpinnerTo(9);
-    assertEquals("ExposureString", new ExposureValue(9).toDetailString(), getTextViewText(com.kaipic.lightmeter.R.id.exposureValue));
+    ExposureValue exposureValue = new ExposureValue(9);
+    setExposureValueSpinnerTo(exposureValue);
+    assertEquals("ExposureString",  exposureValue.toDetailString(), getTextViewText(com.kaipic.lightmeter.R.id.exposureValue));
     assertTrue(((TextView) mActivity.findViewById(R.id.shutterSpeed)).getText().length() > 0);
   }
+
+
 
   public void testListenToSensorAndDisplayRead() {
     switchToAv();

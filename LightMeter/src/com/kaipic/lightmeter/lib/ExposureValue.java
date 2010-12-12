@@ -29,19 +29,10 @@ public class ExposureValue implements Comparable<ExposureValue>{
   }
 
   public String toString() {
-    if (tooLowLight())
-      return "Exposure Value Not Available";
     return "EV" + Util.format(value);
   }
 
-  private boolean tooLowLight() {
-    return value < -4.9;
-  }
-
-
   public String toDetailString() {
-    if (tooLowLight())
-      return toString();
 
     String detailString = "Unknown EV";
     List<LightScenario> scenarios = LightScenario.find(this);

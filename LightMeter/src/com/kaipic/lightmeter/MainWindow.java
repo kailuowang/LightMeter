@@ -11,8 +11,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
+import android.widget.Button;
 import com.kaipic.lightmeter.lib.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +23,7 @@ public class MainWindow extends Activity implements LightMeterListener {
   private DoFCalculator doFCalculator;
   private WorkMode workMode = null;
   private SpinnerHelper spinnerHelper;
-
+  private LightValueSelector lightValueSelector;
   private Button pauseButton;
   private TextView shutterSpeedTextView;
   private Spinner apertureSpinner;
@@ -46,6 +48,8 @@ public class MainWindow extends Activity implements LightMeterListener {
   private TextView nearLimitTextView;
   private TextView farLimitTextView;
   private TextView hyperfocalTextView;
+  private TableLayout lightValueSelectorTable;
+
 
   public LightMeter getLightMeter() {
     return lightMeter;
@@ -74,6 +78,7 @@ public class MainWindow extends Activity implements LightMeterListener {
 
   private void initialize() {
     spinnerHelper = new SpinnerHelper(this, getSettings());
+    lightValueSelector = new LightValueSelector(this, spinnerHelper);
     initializeSubViewFields();
     initializeLightMeter();
     initializeSpinners();
@@ -93,10 +98,12 @@ public class MainWindow extends Activity implements LightMeterListener {
 
   private void registerEvents() {
     registerLockButtonListener();
+    lightValueSelector.registerEvents();
 
     registerSubjectDistanceChangeEvent();
     registerUpdateSettingListenerForSpinners();
   }
+
 
   private void registerLockButtonListener() {
     pauseButton.setOnClickListener(new View.OnClickListener() {
@@ -148,7 +155,7 @@ public class MainWindow extends Activity implements LightMeterListener {
     setVisible(apertureTextView, !workMode.isApertureChangeable());
     setVisible(shutterSpeedSpinner, workMode.isShutterSpeedChangeable());
     setVisible(shutterSpeedTextView, !workMode.isShutterSpeedChangeable());
-    setVisible(exposureSpinner, !lightMeter.usingAutoLightSensor() && workMode.isExposureValueChangeable());
+    setVisible(lightValueSelectorTable, !lightMeter.usingAutoLightSensor() && workMode.isExposureValueChangeable());
     setVisible(exposureValueTextView, lightMeter.usingAutoLightSensor() || !workMode.isExposureValueChangeable());
     setVisible(R.id.exposureSettingRadioGroup, workMode.isExposureValueChangeable());
     setVisible(R.id.depthOfFieldTitleTextView, !doFCalculator.isValid());
@@ -163,6 +170,7 @@ public class MainWindow extends Activity implements LightMeterListener {
 
   private void initializeSubViewFields() {
     pauseButton = (Button) findViewById(R.id.pause_button);
+    lightValueSelectorTable = (TableLayout) findViewById(R.id.lightValueSelectorTable);
     exposureValueTextView = (TextView) findViewById(R.id.exposureValue);
     shutterSpeedTextView = (TextView) findViewById(R.id.shutterSpeed);
     apertureTextView = (TextView) findViewById(R.id.aperture);
@@ -188,19 +196,10 @@ public class MainWindow extends Activity implements LightMeterListener {
   private void initializeSpinners() {
     spinnerHelper.setupSpinner(isoSpinner, CameraSettingsRepository.isos);
     spinnerHelper.setupSpinner(apertureSpinner, CameraSettingsRepository.apertures);
-    spinnerHelper.setupSpinner(exposureSpinner, exposureValueSpinnerItems());
     spinnerHelper.setupSpinner(focalLengthSpinner, CameraSettingsRepository.focalLengths, CameraSettingsRepository.defaultFocalLength);
     spinnerHelper.setupSpinner(shutterSpeedSpinner, CameraSettingsRepository.shutterSpeeds);
     spinnerHelper.setupSpinner(circlesOfConfusionSpinner, CirclesOfConfusion.values(), CirclesOfConfusion.defaultCirclesOfConfusion);
     spinnerHelper.setupSpinner(lengthUnitSpinner, LengthUnit.selectableUnits());
-  }
-
-  public String[] exposureValueSpinnerItems() {
-    List<String> items = new ArrayList<String>();
-    for (ExposureValue exposureValue : CameraSettingsRepository.exposureValues) {
-      items.add(exposureValue.toDetailString());
-    }
-    return items.toArray(new String[0]);
   }
 
   private void initializeWorkModeRadioGroup() {
@@ -289,7 +288,7 @@ public class MainWindow extends Activity implements LightMeterListener {
   private String lightSensorString() {
     if (radioAutoExposure.isChecked())
       return "AUTO";
-    return ((Integer) (exposureSpinner.getSelectedItemPosition())).toString();
+    return lightValueSelector.getLightValueString();
   }
 
   
@@ -356,4 +355,7 @@ public class MainWindow extends Activity implements LightMeterListener {
     view.setVisibility(visible ? View.VISIBLE : View.GONE);
   }
 
+  public LightValueSelector getLightValueSelector() {
+    return lightValueSelector;
+  }
 }

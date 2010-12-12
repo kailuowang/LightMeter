@@ -25,12 +25,6 @@ public class ExposureValueTest {
     assertEquals("EV10 testScene", ev.toDetailString());
   }
 
-
-  @Test
-  public void shouldGenerateReasonableStringIfValueIsTooLow() throws Exception {
-    assertEquals("Exposure Value Not Available", new ExposureValue(-5f).toString());
-  }
-
   @Test
   public void shouldBeAbleToMultiplyToFloatLargerThan1() throws Exception {
     ExposureValue ev = new ExposureValue(2f);

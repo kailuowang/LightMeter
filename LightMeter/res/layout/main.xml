@@ -144,12 +144,27 @@
       </RadioGroup>
     </TableRow>
   </TableLayout>
-  <Spinner
-      android:id="@+id/exposureSpinner"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:drawSelectorOnTop="true"
-      android:prompt="@string/exposure_spinner_prompt"/>
+  <TableLayout
+              android:id="@+id/lightValueSelectorTable"
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:stretchColumns="1"
+               android:padding="3dip">
+    <TableRow android:gravity="center_vertical">
+      <Spinner
+          android:id="@+id/exposureSpinner"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:drawSelectorOnTop="true"
+          android:layout_column="1"
+          android:prompt="@string/exposure_spinner_prompt"/>
+      <Button android:id="@+id/selectLightValueFromScenarioButton"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:text ="from scenarios"
+              android:layout_column="2" />
+    </TableRow>
+  </TableLayout>
   <TableLayout android:layout_width="fill_parent"
                android:layout_height="wrap_content"
                android:stretchColumns="1"

@@ -22,6 +22,9 @@ public class MainWindowDialogFactory {
        case R.id.calibrate:
          dialog = createCalibrateDialog();
          break;
+       case R.layout.light_value_selector_dialog:
+         dialog = mainWindow.getLightValueSelector().getDialog();
+         break;
        default:
          dialog = null;
      }

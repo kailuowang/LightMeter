@@ -8,6 +8,10 @@ import android.view.View;
 import android.widget.*;
 import com.kaipic.lightmeter.MainWindow;
 import com.kaipic.lightmeter.R;
+import com.kaipic.lightmeter.lib.CameraSettingsRepository;
+import com.kaipic.lightmeter.lib.ExposureValue;
+
+import java.util.Arrays;
 
 public abstract class AbstractMainWindowTestCase extends ActivityInstrumentationTestCase2<MainWindow> {
   private Instrumentation mInstrumentation;
@@ -90,6 +94,10 @@ public abstract class AbstractMainWindowTestCase extends ActivityInstrumentation
   protected void setExposureValueSpinnerTo(final int position) {
     click(mManualExposureRadioButton);
     setSpinnerSelection(mExposureSpinner, position);
+  }
+
+  protected void setExposureValueSpinnerTo(ExposureValue exposureValue) {
+    setExposureValueSpinnerTo(Arrays.asList(CameraSettingsRepository.exposureValues).indexOf(exposureValue));
   }
 
   protected void setSpinnerSelection(final Spinner spinner, final int position) {

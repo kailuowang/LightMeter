@@ -85,10 +85,6 @@ public class MainWindowUnitTest extends AbstractMainWindowTestCase {
     assertFalse(mApertureTextView.isShown());
   }
 
-  public void testSetExposureValueShouldResultInSuchExposureValueInLightMeter() {
-    setExposureValueSpinnerTo(3);
-    assertEquals(3f, mActivity.getWorkMode().getExposure().getValue(), 0.001f);
-  }
 
   public void testSetAutoExposureShouldResultInAutomaticLightSensor() {
     switchToAutoExposure();
@@ -162,12 +158,6 @@ public class MainWindowUnitTest extends AbstractMainWindowTestCase {
     assertTrue(indexOf(CirclesOfConfusion.values(), null) < 0);
   }
 
-  public void testExposureValueSpinnerItems(){
-    String[] items = mActivity.exposureValueSpinnerItems();
-    assertEquals(CameraSettingsRepository.exposureValues.length, items.length);
-    for (int i = 0; i < items.length; i++) {
-      assertEquals(CameraSettingsRepository.exposureValues[i].toDetailString(), items[i]);
-    }
-  }
+
 
 }
