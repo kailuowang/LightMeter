@@ -21,13 +21,23 @@ public class LightScenario {
     scenarios.add(this);
   }
 
-  public static Collection<LightScenario> find(final ExposureValue ev) {
-    return CollectionUtils.select(scenarios, new Predicate() {
+  public static List<LightScenario> all() {
+    return scenarios;
+  }
+
+  public static List<LightScenario> find(final ExposureValue ev) {
+    return new ArrayList<LightScenario>(CollectionUtils.select(scenarios, new Predicate() {
       public boolean evaluate(Object o) {
         return ((LightScenario) o).lightValues.contains(ev);
       }
-    });
+    }));
+  }
 
+  public String getDescription() {
+    return description;
+  }
 
+  public List<ExposureValue> getLightValues() {
+    return lightValues;
   }
 }

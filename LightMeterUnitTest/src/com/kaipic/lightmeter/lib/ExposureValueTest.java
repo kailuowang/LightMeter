@@ -1,6 +1,7 @@
 package com.kaipic.lightmeter.lib;
 
 import org.junit.Test;
+import org.junit.internal.ExactComparisonCriteria;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -11,15 +12,19 @@ public class ExposureValueTest {
     assertEquals("EV1.1", new ExposureValue(1.10001f).toString());
   }
 
+
   @Test
-  public void shouldGenerateFormattedStringAsToDetailString() throws Exception {
-    assertTrue(new ExposureValue(1.10001f).toDetailString().contains(ExposureValue.DETAIL_STRINGS[1]));
+  public void detailStringShouldHandleEVWithoutLightScenario() throws Exception {
+    assertEquals("EV39 Unknown EV", new ExposureValue(39).toDetailString());
   }
 
   @Test
-  public void shouldNotThrewOutOfBoundaryExceptionWhenGenerateFormattedStringAsToDetailString() throws Exception {
-    assertEquals("EV17 Uncommon in nature", new ExposureValue(17).toDetailString());
+  public void shouldUseLightScenarioToGenerateDetailString() {
+    ExposureValue ev = new ExposureValue(10);
+    new LightScenario("testScene", null, ev);
+    assertEquals("EV10 testScene", ev.toDetailString());
   }
+
 
   @Test
   public void shouldGenerateReasonableStringIfValueIsTooLow() throws Exception {

@@ -1,29 +1,12 @@
 package com.kaipic.lightmeter.lib;
 
+import java.util.Collection;
+import java.util.List;
+
 import static com.kaipic.lightmeter.lib.Util.log2;
 
-public class ExposureValue {
+public class ExposureValue implements Comparable<ExposureValue>{
   private float value;
-
-  public static final String[] DETAIL_STRINGS = new String[]{
-    "Dim interior.",
-    "Distant view of lighted skyline.",
-    "Lightning (with time exposure).",
-    "Fireworks (with time exposure).",
-    "Subjects under bright street lamps.",
-    "Night home interiors, average light.",
-    "Brightly lit home interiors at night.",
-    "Bottom of rainforest canopy.",
-    "Las Vegas or Times Square at night.",
-    "Landscapes 10 minutes after sunset.",
-    "Landscapes immediately after sunset.",
-    "Sunsets. Subjects in open shade.",
-    "Subject in heavy overcast.",
-    "Subjects in cloudy-bright light.",
-    "Subjects in weak, hazy sun.",
-    "Subjects in bright or hazy sun.",
-    "Subjects in bright daylight on sand."
-  };
 
   public ExposureValue(float value) {
     this.value = value;
@@ -59,9 +42,11 @@ public class ExposureValue {
   public String toDetailString() {
     if (tooLowLight())
       return toString();
-    String detailString = "Uncommon in nature";
-    if (value >= 0 && (int) value < DETAIL_STRINGS.length) {
-      detailString = DETAIL_STRINGS[(int) value];
+
+    String detailString = "Unknown EV";
+    List<LightScenario> scenarios = LightScenario.find(this);
+    if(scenarios.size() > 0){
+      detailString = scenarios.get(0).getDescription();
     }
     return toString() + " " + detailString;
   }
@@ -87,5 +72,10 @@ public class ExposureValue {
 
   public int hashCode() {
     return (value != +0.0f ? Float.floatToIntBits(value) : 0);
+  }
+
+  @Override
+  public int compareTo(ExposureValue that) {
+    return new Float(this.getValue()).compareTo(new Float(that.getValue()));
   }
 }

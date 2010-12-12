@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 
 public class LightScenarioTest {
 
-
   @Test
   public void testFindLightScenarioByExposureValue(){
     LightScenario scene14 = new LightScenario("testScene14", null, new ExposureValue(14));
@@ -15,5 +14,4 @@ public class LightScenarioTest {
     assertEquals(1, LightScenario.find(new ExposureValue(14)).size());
     assertTrue(LightScenario.find(new ExposureValue(14)).contains(scene14));
   }
-
 }

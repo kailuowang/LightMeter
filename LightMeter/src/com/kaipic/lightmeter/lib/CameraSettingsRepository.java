@@ -1,24 +1,24 @@
 package com.kaipic.lightmeter.lib;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class CameraSettingsRepository {
   public static final Length[] focalLengths = initFocalLengths();
   public static final Aperture[] apertures = initApertures();
   public static final ShutterSpeed[] shutterSpeeds = initShutterSpeed();
   public static final Iso[] isos = initISOs();
-  public static final ExposureValue[] exposureValues = initExposureValues();
   public static final List<LightScenarioCategory> lightScenarioCategories = initLightScenarioCategories();
+  public static final ExposureValue[] exposureValues = initExposureValues();
   public static Length defaultFocalLength = new Length(50);
 
 
   private static ExposureValue[] initExposureValues() {
-    ExposureValue[] items = new ExposureValue[ExposureValue.DETAIL_STRINGS.length];
-    for (int i = 0; i < items.length; i++) {
-      items[i] = new ExposureValue(i);
+    SortedSet<ExposureValue> evs = new TreeSet<ExposureValue>();
+    for (LightScenario lightScenario : LightScenario.all()) {
+      evs.addAll(lightScenario.getLightValues());
     }
-    return items;
+    return evs.toArray(new ExposureValue[0]);
+
   }
 
   private static Iso[] initISOs() {
@@ -69,9 +69,12 @@ public class CameraSettingsRepository {
     outdoorNaturalLight.addScenario("Areas in deep shade", 11);
     outdoorNaturalLight.addScenario("Landscapes just after sunset/before sunrise", 10);
     outdoorNaturalLight.addScenario("Landscapes 10 minutes after sunset/before sunrise", 9);
-    outdoorNaturalLight.addScenario("Rural Areas under full moon", -3, -2);
-    outdoorNaturalLight.addScenario("Rural Areas under gibbous moon", -4);
-    outdoorNaturalLight.addScenario("Rural Areas under quarter moon", -6);
+    outdoorNaturalLight.addScenario("Bottom of rainforest canopy", 7);
+    outdoorNaturalLight.addScenario("Rural Areas snowscape under full moon",  -2);
+    outdoorNaturalLight.addScenario("Rural Areas under full moon", -3);
+    outdoorNaturalLight.addScenario("Rural Areas under half moon", -4);
+    outdoorNaturalLight.addScenario("Rural Areas under quarter moon", -5);
+    outdoorNaturalLight.addScenario("Rural Areas under star light", -7, -6);
 
     LightScenarioCategory outdoorArtificialLight = new LightScenarioCategory("Outdoor Night, Artifical Light");
     outdoorArtificialLight.addScenario("Neon and other bright signs",	9, 10);
@@ -96,6 +99,7 @@ public class CameraSettingsRepository {
     indoor.addScenario("Offices and work areas", 7, 8);
     indoor.addScenario("Home interiors", 5, 6, 7);
     indoor.addScenario("Christmas tree lights", 4, 5);
+    indoor.addScenario("Subjects lit by dim ambient light", -1, 0);
 
 
     return categories;
