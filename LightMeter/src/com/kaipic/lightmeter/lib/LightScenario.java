@@ -40,4 +40,8 @@ public class LightScenario {
   public List<ExposureValue> getLightValues() {
     return lightValues;
   }
+
+  public String toString() {
+    return description;
+  }
 }

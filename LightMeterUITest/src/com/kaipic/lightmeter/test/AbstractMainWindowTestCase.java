@@ -107,6 +107,7 @@ public abstract class AbstractMainWindowTestCase extends ActivityInstrumentation
         spinner.setSelection(position);
       }
     });
+    mInstrumentation.waitForIdleSync();
   }
 
   protected void runOnUiThread(Runnable runnable) {

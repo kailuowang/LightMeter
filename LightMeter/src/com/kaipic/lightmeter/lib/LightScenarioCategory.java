@@ -23,5 +23,11 @@ public class LightScenarioCategory {
     addScenario(new LightScenario(description, this, evs));
   }
 
+  public String toString(){
+    return name;
+  }
 
+  public List<LightScenario> getScenarios() {
+    return scenarios;
+  }
 }

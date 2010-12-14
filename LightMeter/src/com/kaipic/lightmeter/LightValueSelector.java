@@ -14,7 +14,7 @@ import java.util.List;
 public class LightValueSelector {
 
   private final Activity parentWindow;
-  private SpinnerHelper spinnerHelper;
+  private final SpinnerHelper spinnerHelper;
   private final Dialog dialog;
   private Spinner categorySpinner;
   private Spinner scenarioSpinner;
@@ -22,12 +22,24 @@ public class LightValueSelector {
   private Button selectLightValueFromScenarioButton;
   private Button selectLightValueOkButton;
   private Button selectLightValueCancelButton;
+  private Spinner parentExposureSpinner;
 
   public Spinner getParentExposureSpinner() {
     return parentExposureSpinner;
   }
 
-  private Spinner parentExposureSpinner;
+
+  public Spinner getCategorySpinner(){
+    return categorySpinner;
+  }
+
+  public Spinner getScenarioSpinner() {
+    return scenarioSpinner;
+  }
+
+  public Button getSelectLightValueFromScenarioButton() {
+    return selectLightValueFromScenarioButton;
+  }
 
   public LightValueSelector(Activity parentWindow, SpinnerHelper spinnerHelper) {
     this.parentWindow = parentWindow;
@@ -35,10 +47,28 @@ public class LightValueSelector {
     dialog = new Dialog(parentWindow);
     dialog.setContentView(R.layout.light_value_selector_dialog);
     dialog.setTitle("Select Light Value From Scenarios");
+
+    initializeSubViews();
+    databindSpinners();
+
+  }
+
+  private void databindSpinners() {
+    spinnerHelper.setupSpinner(parentExposureSpinner, exposureValueSpinnerItems());
+    spinnerHelper.setupSpinner(categorySpinner, CameraSettingsRepository.lightScenarioCategories);
+    spinnerHelper.setupSpinner(scenarioSpinner, CameraSettingsRepository.lightScenarioCategories[0].getScenarios().toArray());
+    spinnerHelper.registerSpinnerListenner(categorySpinner, new SpinnerItemSelectListener() {
+      public void onSpinnerItemSelected(Object selectedValue, int position) {
+        spinnerHelper.setupSpinner(scenarioSpinner, CameraSettingsRepository.lightScenarioCategories[position].getScenarios().toArray());
+      }
+    });
+  }
+
+  private void initializeSubViews() {
     categorySpinner = (Spinner) dialog.findViewById(R.id.categorySpinner);
     scenarioSpinner = (Spinner) dialog.findViewById(R.id.scenarioSpinner);
     parentExposureSpinner = (Spinner) parentWindow.findViewById(R.id.exposureSpinner);
-    spinnerHelper.setupSpinner(parentExposureSpinner, exposureValueSpinnerItems());
+
     selectLightValueFromScenarioButton = (Button) parentWindow.findViewById(R.id.selectLightValueFromScenarioButton);
     selectLightValueOkButton = (Button) dialog.findViewById(R.id.select_light_value_ok_button);
     selectLightValueCancelButton = (Button) dialog.findViewById(R.id.select_light_value_cancel_button);
@@ -80,4 +110,5 @@ public class LightValueSelector {
     int position = parentExposureSpinner.getSelectedItemPosition();
     return new Float(CameraSettingsRepository.exposureValues[position].getValue()).toString();
   }
+
 }

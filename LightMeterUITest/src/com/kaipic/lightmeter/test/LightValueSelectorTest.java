@@ -24,4 +24,14 @@ public class LightValueSelectorTest extends AbstractMainWindowTestCase {
     setExposureValueSpinnerTo(ev);
     assertEquals(ev, mActivity.getWorkMode().getExposure());
   }
+
+  @Test
+  public void testSelectCategoryShouldPopulateScenarioSpinner(){
+    click(lightValueSelector.getSelectLightValueFromScenarioButton());
+    setSpinnerSelection(lightValueSelector.getCategorySpinner(), 1);
+    int numOfScenarios = CameraSettingsRepository.lightScenarioCategories[1].getScenarios().size();
+    assertEquals(numOfScenarios, lightValueSelector.getScenarioSpinner().getAdapter().getCount());
+  }
+
+
 }

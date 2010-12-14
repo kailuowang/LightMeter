@@ -55,6 +55,7 @@ public class SpinnerHelper {
     setupSpinner(spinner, itemArray, null);
   }
 
+
   public void setupSpinner(final Spinner spinner, final Object[] itemArray, Object defaultItem) {
     setupSpinner(spinner,
         (ArrayAdapter<?>) new ArrayAdapter(activity, android.R.layout.simple_spinner_item, itemArray),

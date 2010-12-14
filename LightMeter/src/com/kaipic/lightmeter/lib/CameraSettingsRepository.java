@@ -7,7 +7,7 @@ public class CameraSettingsRepository {
   public static final Aperture[] apertures = initApertures();
   public static final ShutterSpeed[] shutterSpeeds = initShutterSpeed();
   public static final Iso[] isos = initISOs();
-  public static final List<LightScenarioCategory> lightScenarioCategories = initLightScenarioCategories();
+  public static final LightScenarioCategory[] lightScenarioCategories = initLightScenarioCategories();
   public static final ExposureValue[] exposureValues = initExposureValues();
   public static Length defaultFocalLength = new Length(50);
 
@@ -57,26 +57,27 @@ public class CameraSettingsRepository {
     return list;
   }
 
-  private static List<LightScenarioCategory> initLightScenarioCategories() {
-    List<LightScenarioCategory> categories = new ArrayList<LightScenarioCategory>();
+  private static LightScenarioCategory[] initLightScenarioCategories() {
     LightScenarioCategory outdoorNaturalLight = new LightScenarioCategory("Outdoor, Natural Light");
-    outdoorNaturalLight.addScenario("Light sand or snow in full or slightly hazy sunlight (distinct shadows)", 16, 17);
-    outdoorNaturalLight.addScenario("Typical scene in full or slightly hazy sunlight (distinct shadows)", 15);
-    outdoorNaturalLight.addScenario("Typical scene in hazy sunlight (soft shadows)", 14);
-    outdoorNaturalLight.addScenario("Typical scene, cloudy bright (no shadows)", 13);
+    outdoorNaturalLight.addScenario("Very bring scene in full sunlight", 16, 17);
+    outdoorNaturalLight.addScenario("Typical scene in full sunlight", 15);
+    outdoorNaturalLight.addScenario("Typical scene in hazy sunlight", 14);
+    outdoorNaturalLight.addScenario("Typical scene, cloudy bright", 13);
     outdoorNaturalLight.addScenario("Typical scene, heavy overcast", 12);
     outdoorNaturalLight.addScenario("Areas in open shade, clear sunlight", 12);
     outdoorNaturalLight.addScenario("Areas in deep shade", 11);
-    outdoorNaturalLight.addScenario("Landscapes just after sunset/before sunrise", 10);
-    outdoorNaturalLight.addScenario("Landscapes 10 minutes after sunset/before sunrise", 9);
+    outdoorNaturalLight.addScenario("Landscapes just after sunset", 10);
+    outdoorNaturalLight.addScenario("Landscapes just before sunrise", 10);
+    outdoorNaturalLight.addScenario("Landscapes 10 minutes after sunset", 9);
+    outdoorNaturalLight.addScenario("Landscapes 10 minutes before sunrise", 9);
     outdoorNaturalLight.addScenario("Bottom of rainforest canopy", 7);
-    outdoorNaturalLight.addScenario("Rural Areas snowscape under full moon",  -2);
+    outdoorNaturalLight.addScenario("Bright scene under full moon",  -2);
     outdoorNaturalLight.addScenario("Rural Areas under full moon", -3);
     outdoorNaturalLight.addScenario("Rural Areas under half moon", -4);
     outdoorNaturalLight.addScenario("Rural Areas under quarter moon", -5);
     outdoorNaturalLight.addScenario("Rural Areas under star light", -7, -6);
 
-    LightScenarioCategory outdoorArtificialLight = new LightScenarioCategory("Outdoor Night, Artifical Light");
+    LightScenarioCategory outdoorArtificialLight = new LightScenarioCategory("Outdoor, Night Artifical Light");
     outdoorArtificialLight.addScenario("Neon and other bright signs",	9, 10);
     outdoorArtificialLight.addScenario("Night sports",	9);
     outdoorArtificialLight.addScenario("Fires and burning buildings",9);
@@ -93,16 +94,15 @@ public class CameraSettingsRepository {
     indoor.addScenario("Galleries", 8, 9, 10, 11);
     indoor.addScenario("Stage shows with bright lighting", 9);
     indoor.addScenario("Circuses, floodlit", 8);
-    indoor.addScenario("Interior with sunlight coming through window", 8);
-    indoor.addScenario("Sports events, stage shows, and the like", 8, 9);
+    indoor.addScenario("Interior with window light", 8);
+    indoor.addScenario("Sports events, stage shows", 8, 9);
     indoor.addScenario("Ice shows, floodlit", 9);
     indoor.addScenario("Offices and work areas", 7, 8);
     indoor.addScenario("Home interiors", 5, 6, 7);
     indoor.addScenario("Christmas tree lights", 4, 5);
     indoor.addScenario("Subjects lit by dim ambient light", -1, 0);
 
-
-    return categories;
+    return new LightScenarioCategory[]{outdoorNaturalLight, outdoorArtificialLight, indoor};
 
 
   }
