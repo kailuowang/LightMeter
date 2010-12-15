@@ -351,7 +351,7 @@ public class MainWindow extends Activity implements LightMeterListener {
     setVisible(findViewById(viewId), visible);
   }
 
-  private void setVisible(View view, final boolean visible) {
+  protected void setVisible(View view, final boolean visible) {
     view.setVisibility(visible ? View.VISIBLE : View.GONE);
   }
 

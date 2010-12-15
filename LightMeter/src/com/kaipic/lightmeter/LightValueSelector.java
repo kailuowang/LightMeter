@@ -4,30 +4,40 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import com.kaipic.lightmeter.lib.CameraSettingsRepository;
 import com.kaipic.lightmeter.lib.ExposureValue;
+import com.kaipic.lightmeter.lib.LightScenario;
+import com.kaipic.lightmeter.lib.LightScenarioCategory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LightValueSelector {
 
-  private final Activity parentWindow;
+  private final MainWindow parentWindow;
   private final SpinnerHelper spinnerHelper;
   private final Dialog dialog;
   private Spinner categorySpinner;
   private Spinner scenarioSpinner;
   private Spinner lightValueSpinner;
+  private RadioGroup lightValueRadioGroup;
+
   private Button selectLightValueFromScenarioButton;
-  private Button selectLightValueOkButton;
+
   private Button selectLightValueCancelButton;
   private Spinner parentExposureSpinner;
+  private LightScenarioCategory currentCategory;
+  private LightScenario currentScenario;
 
   public Spinner getParentExposureSpinner() {
     return parentExposureSpinner;
   }
 
+  public RadioGroup getLightValueRadioGroup() {
+    return lightValueRadioGroup;
+  }
 
   public Spinner getCategorySpinner(){
     return categorySpinner;
@@ -41,7 +51,7 @@ public class LightValueSelector {
     return selectLightValueFromScenarioButton;
   }
 
-  public LightValueSelector(Activity parentWindow, SpinnerHelper spinnerHelper) {
+  public LightValueSelector(MainWindow parentWindow, SpinnerHelper spinnerHelper) {
     this.parentWindow = parentWindow;
     this.spinnerHelper = spinnerHelper;
     dialog = new Dialog(parentWindow);
@@ -56,21 +66,38 @@ public class LightValueSelector {
   private void databindSpinners() {
     spinnerHelper.setupSpinner(parentExposureSpinner, exposureValueSpinnerItems());
     spinnerHelper.setupSpinner(categorySpinner, CameraSettingsRepository.lightScenarioCategories);
-    spinnerHelper.setupSpinner(scenarioSpinner, CameraSettingsRepository.lightScenarioCategories[0].getScenarios().toArray());
+    currentCategory = CameraSettingsRepository.lightScenarioCategories[0];
+    setupScenarioSpinner();
+    setupLightValueRadioGroup(0);
     spinnerHelper.registerSpinnerListenner(categorySpinner, new SpinnerItemSelectListener() {
       public void onSpinnerItemSelected(Object selectedValue, int position) {
-        spinnerHelper.setupSpinner(scenarioSpinner, CameraSettingsRepository.lightScenarioCategories[position].getScenarios().toArray());
+        currentCategory = CameraSettingsRepository.lightScenarioCategories[position];
+        setupScenarioSpinner();
       }
     });
+
+    spinnerHelper.registerSpinnerListenner(scenarioSpinner, new SpinnerItemSelectListener() {
+      public void onSpinnerItemSelected(Object selectedValue, int position) {
+        setupLightValueRadioGroup(position);
+      }
+    });
+  }
+
+  private void setupLightValueRadioGroup(int position) {
+    currentScenario = currentCategory.getScenarios().get(position);
+    parentWindow.setVisible(lightValueRadioGroup, currentScenario.getLightValues().size() > 1);
+  }
+
+  private void setupScenarioSpinner() {
+    spinnerHelper.setupSpinner(scenarioSpinner, currentCategory.getScenarios().toArray());
   }
 
   private void initializeSubViews() {
     categorySpinner = (Spinner) dialog.findViewById(R.id.categorySpinner);
     scenarioSpinner = (Spinner) dialog.findViewById(R.id.scenarioSpinner);
     parentExposureSpinner = (Spinner) parentWindow.findViewById(R.id.exposureSpinner);
-
+    lightValueRadioGroup = (RadioGroup) dialog.findViewById(R.id.lightValueRadioGroup);
     selectLightValueFromScenarioButton = (Button) parentWindow.findViewById(R.id.selectLightValueFromScenarioButton);
-    selectLightValueOkButton = (Button) dialog.findViewById(R.id.select_light_value_ok_button);
     selectLightValueCancelButton = (Button) dialog.findViewById(R.id.select_light_value_cancel_button);
   }
 
@@ -85,18 +112,12 @@ public class LightValueSelector {
         parentWindow.showDialog(R.layout.light_value_selector_dialog);
       }
     });
-   selectLightValueOkButton.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View v) {
-        dialog.hide();
-      }
-    });
    selectLightValueCancelButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
         dialog.hide();
       }
     });
   }
-
 
   public String[] exposureValueSpinnerItems() {
     List<String> items = new ArrayList<String>();

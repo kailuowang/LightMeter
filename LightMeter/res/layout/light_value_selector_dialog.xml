@@ -40,24 +40,29 @@
           android:prompt="@string/scenario_spinner_prompt"/>
     </TableRow>
     <TableRow>
-      <TableLayout android:layout_width="fill_parent"
-                   android:layout_height="wrap_content" android:gravity="center" >
-        <TableRow>
-
-          <Button
-              android:id="@+id/select_light_value_ok_button"
-              android:text="@string/ok"
-              android:layout_column="1"
-              android:layout_width="wrap_content"
-              android:layout_height="40dip"/>
-          <Button
-              android:id="@+id/select_light_value_cancel_button"
-              android:text="@string/cancel"
-              android:layout_column="2"
-              android:layout_width="wrap_content"
-              android:layout_height="40dip"/>
-        </TableRow>
-      </TableLayout>
+      <TextView
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:text="Select light value"
+          android:visibility="gone"
+          android:padding="3dip"/>
+    </TableRow>
+    <TableRow>
+      <RadioGroup
+          android:id="@+id/lightValueRadioGroup"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          android:visibility="gone">
+      </RadioGroup>
+    </TableRow>
+    <TableRow>
+      <Button
+          android:id="@+id/select_light_value_cancel_button"
+          android:text="@string/cancel"
+          android:gravity="center"
+          android:layout_width="wrap_content"
+          android:layout_height="40dip"/>
     </TableRow>
   </TableLayout>
 </LinearLayout>

@@ -34,6 +34,7 @@ public final class R {
         public static final int hyperfocalTextView=0x7f07000d;
         public static final int isoSpinner=0x7f070008;
         public static final int lengthUnitSpinner=0x7f07001b;
+        public static final int lightValueRadioGroup=0x7f070003;
         public static final int lightValueSelectorTable=0x7f070011;
         public static final int nearLimitTextView=0x7f070018;
         public static final int pause_button=0x7f070015;
@@ -45,7 +46,6 @@ public final class R {
         public static final int scenarioSpinner=0x7f070002;
         public static final int selectLightValueFromScenarioButton=0x7f070013;
         public static final int select_light_value_cancel_button=0x7f070004;
-        public static final int select_light_value_ok_button=0x7f070003;
         public static final int shutterSpeed=0x7f07000c;
         public static final int shutterSpeedSpinner=0x7f07000b;
         public static final int status_text_view=0x7f07001e;

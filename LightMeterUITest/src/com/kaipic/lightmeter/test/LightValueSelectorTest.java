@@ -12,6 +12,7 @@ public class LightValueSelectorTest extends AbstractMainWindowTestCase {
     super.setUp();
     lightValueSelector = mActivity.getLightValueSelector();
   }
+
   @Test
   public void testExposureValueSpinnerItems() {
     String[] items = lightValueSelector.exposureValueSpinnerItems();
@@ -27,10 +28,24 @@ public class LightValueSelectorTest extends AbstractMainWindowTestCase {
 
   @Test
   public void testSelectCategoryShouldPopulateScenarioSpinner(){
-    click(lightValueSelector.getSelectLightValueFromScenarioButton());
+    showDialog();
     setSpinnerSelection(lightValueSelector.getCategorySpinner(), 1);
     int numOfScenarios = CameraSettingsRepository.lightScenarioCategories[1].getScenarios().size();
     assertEquals(numOfScenarios, lightValueSelector.getScenarioSpinner().getAdapter().getCount());
+  }
+
+  @Test
+  public void testSelectScenarioSpinnerShouldPopulateExposureRadioGroup(){
+    showDialog();
+    assertTrue(lightValueSelector.getLightValueRadioGroup().isShown());
+    setSpinnerSelection(lightValueSelector.getScenarioSpinner(), 2);
+    assertFalse(lightValueSelector.getLightValueRadioGroup().isShown());
+    setSpinnerSelection(lightValueSelector.getScenarioSpinner(), 0);
+    assertTrue(lightValueSelector.getLightValueRadioGroup().isShown());
+  }
+
+  private void showDialog() {
+    click(lightValueSelector.getSelectLightValueFromScenarioButton());
   }
 
 

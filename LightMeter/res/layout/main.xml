@@ -71,7 +71,6 @@
           android:padding="3dip"
           android:layout_column="4"
           android:visibility="gone"/>
-
     </TableRow>
   </TableLayout>
   <TableLayout android:layout_width="fill_parent"
