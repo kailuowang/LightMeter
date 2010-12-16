@@ -7,7 +7,7 @@ public class CameraSettingsRepository {
   public static final Aperture[] apertures = initApertures();
   public static final ShutterSpeed[] shutterSpeeds = initShutterSpeed();
   public static final Iso[] isos = initISOs();
-  public static final LightScenarioCategory[] lightScenarioCategories = initLightScenarioCategories();
+  public static LightScenarioCategory[] lightScenarioCategories = initLightScenarioCategories();
   public static final ExposureValue[] exposureValues = initExposureValues();
   public static Length defaultFocalLength = new Length(50);
 

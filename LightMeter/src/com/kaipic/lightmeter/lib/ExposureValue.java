@@ -12,6 +12,10 @@ public class ExposureValue implements Comparable<ExposureValue>{
     this.value = value;
   }
 
+  public ExposureValue(String value) {
+    this(Float.valueOf(value.replace("EV ", "")));
+  }
+
   public ExposureValue(float illumination, Iso iso, float calibration) {
     this(log2(illumination * iso.getValue() / calibration));
   }
@@ -29,7 +33,7 @@ public class ExposureValue implements Comparable<ExposureValue>{
   }
 
   public String toString() {
-    return "EV" + Util.format(value);
+    return "EV " + Util.format(value);
   }
 
   public String toDetailString() {

@@ -54,6 +54,11 @@ public class ExposureValueTest {
     assertEquals(160f, new ExposureValue(6f).toIllumination(new Iso(100), 250), 0.0001f);
   }
 
+  @Test
+  public void shouldInstantiateFromString() {
+    assertEquals(new ExposureValue(4), new ExposureValue("EV 4"));
+  }
+
   public static void assertEVEquals(ExposureValue expected, ExposureValue actual) throws Exception {
     assertEquals(expected.getValue(), actual.getValue(), 0.001f);
   }

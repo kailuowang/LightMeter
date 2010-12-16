@@ -1,18 +1,14 @@
 package com.kaipic.lightmeter;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.view.View;
-import android.widget.Button;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
+import android.widget.*;
 import com.kaipic.lightmeter.lib.CameraSettingsRepository;
 import com.kaipic.lightmeter.lib.ExposureValue;
 import com.kaipic.lightmeter.lib.LightScenario;
 import com.kaipic.lightmeter.lib.LightScenarioCategory;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 public class LightValueSelector {
 
@@ -30,6 +26,7 @@ public class LightValueSelector {
   private Spinner parentExposureSpinner;
   private LightScenarioCategory currentCategory;
   private LightScenario currentScenario;
+  private LightScenarioCategory[] lightScenarioCategories;
 
   public Spinner getParentExposureSpinner() {
     return parentExposureSpinner;
@@ -39,13 +36,15 @@ public class LightValueSelector {
     return lightValueRadioGroup;
   }
 
-  public Spinner getCategorySpinner(){
+  public Spinner getCategorySpinner() {
     return categorySpinner;
   }
 
   public Spinner getScenarioSpinner() {
     return scenarioSpinner;
   }
+
+
 
   public Button getSelectLightValueFromScenarioButton() {
     return selectLightValueFromScenarioButton;
@@ -57,21 +56,43 @@ public class LightValueSelector {
     dialog = new Dialog(parentWindow);
     dialog.setContentView(R.layout.light_value_selector_dialog);
     dialog.setTitle("Select Light Value From Scenarios");
-
+    lightScenarioCategories = CameraSettingsRepository.lightScenarioCategories;
     initializeSubViews();
     databindSpinners();
 
   }
 
+
+  public Dialog getDialog() {
+    return dialog;
+  }
+
+  public void registerEvents() {
+    selectLightValueFromScenarioButton.setOnClickListener(new View.OnClickListener() {
+      public void onClick(View v) {
+        parentWindow.showDialog(R.layout.light_value_selector_dialog);
+      }
+    });
+    selectLightValueCancelButton.setOnClickListener(new View.OnClickListener() {
+      public void onClick(View v) {
+        dialog.hide();
+      }
+    });
+  }
+
+  public String getLightValueString() {
+    return parentExposureSpinner.getSelectedItem().toString();
+  }
+
   private void databindSpinners() {
-    spinnerHelper.setupSpinner(parentExposureSpinner, exposureValueSpinnerItems());
-    spinnerHelper.setupSpinner(categorySpinner, CameraSettingsRepository.lightScenarioCategories);
-    currentCategory = CameraSettingsRepository.lightScenarioCategories[0];
+    spinnerHelper.setupSpinner(parentExposureSpinner, CameraSettingsRepository.exposureValues);
+    spinnerHelper.setupSpinner(categorySpinner, lightScenarioCategories);
+    currentCategory = lightScenarioCategories[0];
     setupScenarioSpinner();
     setupLightValueRadioGroup(0);
     spinnerHelper.registerSpinnerListenner(categorySpinner, new SpinnerItemSelectListener() {
       public void onSpinnerItemSelected(Object selectedValue, int position) {
-        currentCategory = CameraSettingsRepository.lightScenarioCategories[position];
+        currentCategory = lightScenarioCategories[position];
         setupScenarioSpinner();
       }
     });
@@ -85,7 +106,36 @@ public class LightValueSelector {
 
   private void setupLightValueRadioGroup(int position) {
     currentScenario = currentCategory.getScenarios().get(position);
-    parentWindow.setVisible(lightValueRadioGroup, currentScenario.getLightValues().size() > 1);
+    boolean multipleExposureValues = currentScenario.getLightValues().size() > 1;
+    parentWindow.setVisible(lightValueRadioGroup, multipleExposureValues);
+
+    if (multipleExposureValues) {
+      LinearLayout.LayoutParams layoutParams = new RadioGroup.LayoutParams(
+        RadioGroup.LayoutParams.WRAP_CONTENT,
+        RadioGroup.LayoutParams.WRAP_CONTENT);
+      lightValueRadioGroup.removeAllViews();
+      for (final ExposureValue lightValue : currentScenario.getLightValues()) {
+        RadioButton newRadioButton = new RadioButton(parentWindow);
+        newRadioButton.setText(lightValue.toString());
+        newRadioButton.setOnClickListener(new View.OnClickListener(){
+          public void onClick(View view) {
+           lightValueSelected(new ExposureValue(lightValue.toString()));
+          }
+        });
+
+        lightValueRadioGroup.addView(newRadioButton, lightValueRadioGroup.getChildCount(), layoutParams);
+      }
+    }else {
+      lightValueSelected(currentScenario.getLightValues().get(0));
+    }
+
+  }
+
+  private void lightValueSelected(ExposureValue lightValue) {
+    int position;
+    position = Arrays.asList(CameraSettingsRepository.exposureValues).indexOf(lightValue);
+    parentExposureSpinner.setSelection(position);
+    dialog.hide();
   }
 
   private void setupScenarioSpinner() {
@@ -99,37 +149,6 @@ public class LightValueSelector {
     lightValueRadioGroup = (RadioGroup) dialog.findViewById(R.id.lightValueRadioGroup);
     selectLightValueFromScenarioButton = (Button) parentWindow.findViewById(R.id.selectLightValueFromScenarioButton);
     selectLightValueCancelButton = (Button) dialog.findViewById(R.id.select_light_value_cancel_button);
-  }
-
-
-  protected Dialog getDialog() {
-    return dialog;
-  }
-
-  public void registerEvents() {
-    selectLightValueFromScenarioButton.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View v) {
-        parentWindow.showDialog(R.layout.light_value_selector_dialog);
-      }
-    });
-   selectLightValueCancelButton.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View v) {
-        dialog.hide();
-      }
-    });
-  }
-
-  public String[] exposureValueSpinnerItems() {
-    List<String> items = new ArrayList<String>();
-    for (ExposureValue exposureValue : CameraSettingsRepository.exposureValues) {
-      items.add(exposureValue.toString());
-    }
-    return items.toArray(new String[0]);
-  }
-
-  public String getLightValueString() {
-    int position = parentExposureSpinner.getSelectedItemPosition();
-    return new Float(CameraSettingsRepository.exposureValues[position].getValue()).toString();
   }
 
 }

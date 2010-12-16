@@ -3,7 +3,6 @@ package com.kaipic.lightmeter.lib;
 import java.util.HashMap;
 import java.util.Map;
 
-import static java.lang.Float.valueOf;
 
 public class LightSensorRepo {
   private LightSensorFactory lightSensorFactory;
@@ -22,7 +21,7 @@ public class LightSensorRepo {
       sensors.put(type, sensor);
     }
     if (type == LightSensorType.MANUAL) {
-      ((ManualLightSensor) sensor).setEVByEVAt100(new ExposureValue(valueOf(sensorInfo)));
+      ((ManualLightSensor) sensor).setEVByEVAt100(new ExposureValue(sensorInfo));
     }
     return sensor;
   }

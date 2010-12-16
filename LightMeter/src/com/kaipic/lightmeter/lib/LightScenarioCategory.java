@@ -15,7 +15,7 @@ public class LightScenarioCategory {
     scenarios.add(scenario);
   }
 
-  protected void addScenario(String description, int... exposureValues){
+  public void addScenario(String description, int... exposureValues){
     ExposureValue[] evs = new ExposureValue[exposureValues.length];
     for(int i = 0; i < exposureValues.length; i++) {
       evs[i] = new ExposureValue(exposureValues[i]);
