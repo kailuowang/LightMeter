@@ -90,4 +90,8 @@ public abstract class LightSensor {
   public void calibrate(ExposureValue affirmedISO100EV) {
     setCalibration((float) (100f * read() / (Math.pow(2f, affirmedISO100EV.getValue()))));
   }
+
+  public boolean isReady(){
+    return true;
+  }
 }

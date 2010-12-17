@@ -11,6 +11,7 @@ import java.util.List;
 public class AmbientLightSensor extends LightSensor implements SensorEventListener {
   SensorManager mSensorManager;
   private float mRead;
+  private boolean ready = false;
   String mStatus = "Initialized";
 
   public AmbientLightSensor(Context context) {
@@ -26,7 +27,10 @@ public class AmbientLightSensor extends LightSensor implements SensorEventListen
 
   public void onSensorChanged(SensorEvent arg0) {
     mRead = arg0.values[0];
+    mStatus = "monitoring " + getAndroidSensor().getName();;
+    ready = true;
     broadcast();
+
   }
 
   @Override
@@ -35,7 +39,8 @@ public class AmbientLightSensor extends LightSensor implements SensorEventListen
     Sensor sensor = getAndroidSensor();
     if (sensor != null) {
       mSensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST);
-      mStatus = "Using " + sensor.getName();
+      mStatus = "Waitting on light change to start";
+      ready = false;
     } else {
       mStatus = "No ambient light sensor found on the phone.";
     }
@@ -72,5 +77,8 @@ public class AmbientLightSensor extends LightSensor implements SensorEventListen
     return mRead;
   }
 
-
+  @Override
+  public boolean isReady() {
+    return ready;
+  }
 }

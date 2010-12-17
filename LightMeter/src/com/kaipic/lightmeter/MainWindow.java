@@ -67,7 +67,6 @@ public class MainWindow extends Activity implements LightMeterListener {
     return spinnerHelper;
   }
 
-
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
@@ -144,7 +143,7 @@ public class MainWindow extends Activity implements LightMeterListener {
   }
 
   public void display() {
-    exposureValueTextView.setText(workMode.getExposure().toDetailString());
+    exposureValueTextView.setText(workMode.getLightValueString());
     shutterSpeedTextView.setText(workMode.getShutterSpeed().toString());
     apertureTextView.setText(workMode.getAperture().toString());
     statusTextView.setText("Status: " + lightMeter.getStatus());

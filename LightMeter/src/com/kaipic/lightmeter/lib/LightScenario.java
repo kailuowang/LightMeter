@@ -42,6 +42,10 @@ public class LightScenario {
   }
 
   public String toString() {
-    return description;
+    String lastLightValueString = lightValues.size() > 1 ?
+            "-" + Util.format(lightValues.get(lightValues.size() - 1).getValue())
+            : "";
+
+    return lightValues.get(0).toString() + lastLightValueString + ", " + description;
   }
 }

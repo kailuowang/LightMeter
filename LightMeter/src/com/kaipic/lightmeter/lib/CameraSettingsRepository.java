@@ -59,17 +59,17 @@ public class CameraSettingsRepository {
 
   private static LightScenarioCategory[] initLightScenarioCategories() {
     LightScenarioCategory outdoorNaturalLight = new LightScenarioCategory("Outdoor, Natural Light");
-    outdoorNaturalLight.addScenario("Very bring scene in full sunlight", 16, 17);
+    outdoorNaturalLight.addScenario("Bright scene in full sunlight", 16, 17);
     outdoorNaturalLight.addScenario("Typical scene in full sunlight", 15);
     outdoorNaturalLight.addScenario("Typical scene in hazy sunlight", 14);
     outdoorNaturalLight.addScenario("Typical scene, cloudy bright", 13);
     outdoorNaturalLight.addScenario("Typical scene, heavy overcast", 12);
     outdoorNaturalLight.addScenario("Areas in open shade, clear sunlight", 12);
     outdoorNaturalLight.addScenario("Areas in deep shade", 11);
-    outdoorNaturalLight.addScenario("Landscapes just after sunset", 10);
-    outdoorNaturalLight.addScenario("Landscapes just before sunrise", 10);
-    outdoorNaturalLight.addScenario("Landscapes 10 minutes after sunset", 9);
-    outdoorNaturalLight.addScenario("Landscapes 10 minutes before sunrise", 9);
+    outdoorNaturalLight.addScenario("Areas just after sunset", 10);
+    outdoorNaturalLight.addScenario("Areas just before sunrise", 10);
+    outdoorNaturalLight.addScenario("Areas 10 minutes after sunset", 9);
+    outdoorNaturalLight.addScenario("Areas 10 minutes before sunrise", 9);
     outdoorNaturalLight.addScenario("Bottom of rainforest canopy", 7);
     outdoorNaturalLight.addScenario("Bright scene under full moon",  -2);
     outdoorNaturalLight.addScenario("Rural Areas under full moon", -3);
@@ -87,11 +87,11 @@ public class CameraSettingsRepository {
     outdoorArtificialLight.addScenario("Night vehicle traffic",	5);
     outdoorArtificialLight.addScenario("Fairs and amusement parks",	7);
     outdoorArtificialLight.addScenario("Christmas tree lights",	4,5);
-    outdoorArtificialLight.addScenario("Floodlit buildings, monuments, and fountains",	3,5);
+    outdoorArtificialLight.addScenario("Floodlit buildings, monuments",	3,5);
     outdoorArtificialLight.addScenario("Distant views of lighted buildings",	2);
 
     LightScenarioCategory indoor = new LightScenarioCategory("Indoor, Artifical Light");
-    indoor.addScenario("Galleries", 8, 9, 10, 11);
+    indoor.addScenario("Galleries", 8, 9, 10);
     indoor.addScenario("Stage shows with bright lighting", 9);
     indoor.addScenario("Circuses, floodlit", 8);
     indoor.addScenario("Interior with window light", 8);

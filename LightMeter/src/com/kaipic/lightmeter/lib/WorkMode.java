@@ -38,4 +38,12 @@ public abstract class WorkMode {
   public ExposureValue getExposure() {
     return lightMeter.getISO100EV();
   }
+
+  public String getLightValueString() {
+    if(lightMeter.getLightSensor().isReady())
+      return getExposure().toDetailString();
+    else
+      return lightMeter.getLightSensor().getStatus();
+
+  }
 }

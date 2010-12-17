@@ -20,6 +20,7 @@
       <Spinner
           android:id="@+id/categorySpinner"
           android:layout_height="wrap_content"
+          android:layout_width="wrap_content"
           android:drawSelectorOnTop="true"
           android:gravity="left"
           android:prompt="@string/category_spinner_prompt"/>
@@ -28,6 +29,7 @@
       <TextView
           android:layout_width="fill_parent"
           android:layout_height="wrap_content"
+
           android:text="@string/scenario_spinner_prompt"
           android:padding="3dip"/>
     </TableRow>
@@ -35,17 +37,19 @@
       <Spinner
           android:id="@+id/scenarioSpinner"
           android:layout_height="wrap_content"
+          android:layout_width="wrap_content"
           android:drawSelectorOnTop="true"
           android:gravity="left"
           android:prompt="@string/scenario_spinner_prompt"/>
     </TableRow>
     <TableRow>
       <TextView
+          android:id="@+id/lightValueSelectText"
           android:layout_width="fill_parent"
           android:layout_height="wrap_content"
           android:text="Select light value"
-          android:visibility="gone"
-          android:padding="3dip"/>
+          android:padding="3dip"
+          android:visibility="gone" />
     </TableRow>
     <TableRow>
       <RadioGroup

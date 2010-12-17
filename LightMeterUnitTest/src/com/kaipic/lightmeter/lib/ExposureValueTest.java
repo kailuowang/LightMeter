@@ -9,20 +9,20 @@ import static org.junit.Assert.assertTrue;
 public class ExposureValueTest {
   @Test
   public void shouldGenerateFormattedStringAsToString() throws Exception {
-    assertEquals("EV1.1", new ExposureValue(1.10001f).toString());
+    assertEquals("EV 1.1", new ExposureValue(1.10001f).toString());
   }
 
 
   @Test
   public void detailStringShouldHandleEVWithoutLightScenario() throws Exception {
-    assertEquals("EV39 Unknown EV", new ExposureValue(39).toDetailString());
+    assertEquals("EV 39 Unknown EV", new ExposureValue(39).toDetailString());
   }
 
   @Test
   public void shouldUseLightScenarioToGenerateDetailString() {
     ExposureValue ev = new ExposureValue(10);
     new LightScenario("testScene", null, ev);
-    assertEquals("EV10 testScene", ev.toDetailString());
+    assertEquals("EV 10 testScene", ev.toDetailString());
   }
 
   @Test
