@@ -1,18 +1,15 @@
 package com.kaipic.lightmeter;
 
 import android.app.Dialog;
-import android.hardware.Camera;
+import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.*;
 import com.kaipic.lightmeter.lib.CameraSettingsRepository;
 import com.kaipic.lightmeter.lib.ExposureValue;
 import com.kaipic.lightmeter.lib.LightScenario;
 import com.kaipic.lightmeter.lib.LightScenarioCategory;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.Transformer;
 
 import java.util.Arrays;
-import java.util.Collection;
 
 public class LightValueSelector {
 
@@ -62,9 +59,8 @@ public class LightValueSelector {
     dialog.setTitle("Select Light Value From Scenarios");
     lightScenarioCategories = CameraSettingsRepository.lightScenarioCategories;
     initializeSubViews();
-    databindSpinners();
-
   }
+
 
 
   public Dialog getDialog() {
@@ -85,10 +81,14 @@ public class LightValueSelector {
   }
 
   public String getLightValueString() {
-    return CameraSettingsRepository.exposureValues[parentExposureSpinner.getSelectedItemPosition()].toString();
+    return getSelectedLightValue().toString();
   }
 
-  private void databindSpinners() {
+  public ExposureValue getSelectedLightValue() {
+    return CameraSettingsRepository.exposureValues[parentExposureSpinner.getSelectedItemPosition()];
+  }
+
+  public void databind() {
     spinnerHelper.setupSpinner(parentExposureSpinner, lightValueItems());
     spinnerHelper.setupSpinner(categorySpinner, lightScenarioCategories);
     currentCategory = lightScenarioCategories[0];
@@ -168,6 +168,12 @@ public class LightValueSelector {
     lightValueRadioGroup = (RadioGroup) dialog.findViewById(R.id.lightValueRadioGroup);
     selectLightValueFromScenarioButton = (Button) parentWindow.findViewById(R.id.selectLightValueFromScenarioButton);
     selectLightValueCancelButton = (Button) dialog.findViewById(R.id.select_light_value_cancel_button);
+  }
+
+  public void saveSettings(SharedPreferences.Editor editor) {
+    spinnerHelper.saveSpinnerSetting(editor, categorySpinner);
+    spinnerHelper.saveSpinnerSetting(editor, scenarioSpinner);
+
   }
 
 }

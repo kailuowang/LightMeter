@@ -71,6 +71,7 @@ public class CameraSettingsRepository {
     outdoorNaturalLight.addScenario("Areas 10 minutes after sunset", 9);
     outdoorNaturalLight.addScenario("Areas 10 minutes before sunrise", 9);
     outdoorNaturalLight.addScenario("Bottom of rainforest canopy", 7);
+    outdoorNaturalLight.addScenario("Distant view of lighted skyline", 1);
     outdoorNaturalLight.addScenario("Bright scene under full moon",  -2);
     outdoorNaturalLight.addScenario("Rural Areas under full moon", -3);
     outdoorNaturalLight.addScenario("Rural Areas under half moon", -4);
@@ -83,7 +84,7 @@ public class CameraSettingsRepository {
     outdoorArtificialLight.addScenario("Fires and burning buildings",9);
     outdoorArtificialLight.addScenario("Stadium lighting",8);
     outdoorArtificialLight.addScenario("Bright street scenes",	8);
-    outdoorArtificialLight.addScenario("Night street scenes and window displays",	7,8);
+    outdoorArtificialLight.addScenario("Night street scenes, window displays",	7,8);
     outdoorArtificialLight.addScenario("Night vehicle traffic",	5);
     outdoorArtificialLight.addScenario("Fairs and amusement parks",	7);
     outdoorArtificialLight.addScenario("Christmas tree lights",	4,5);

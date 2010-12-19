@@ -11,12 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
-import android.widget.Button;
 import com.kaipic.lightmeter.lib.*;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainWindow extends Activity implements LightMeterListener {
   private LightMeter lightMeter;
@@ -36,7 +31,7 @@ public class MainWindow extends Activity implements LightMeterListener {
   private TextView statusTextView;
   private static final String PREFS_NAME = "LIGHT_METER_PREFS";
   private static final String LIGHT_SENSOR_CALIBRATION = "LightSensorCalibration";
-  private static final boolean DEBUG_ENABLED = true;
+  private static final boolean DEBUG_ENABLED = false;
   private RadioButton radioAv;
   private RadioButton radioM;
   private RadioButton radioSv;
@@ -77,12 +72,14 @@ public class MainWindow extends Activity implements LightMeterListener {
 
   private void initialize() {
     spinnerHelper = new SpinnerHelper(this, getSettings());
-    lightValueSelector = new LightValueSelector(this, spinnerHelper);
-    initializeSubViewFields();
     initializeLightMeter();
+    initializeSubViewFields();
     initializeSpinners();
     initializeWorkModeRadioGroup();
     initializeExposureSettingRadioGroup();
+    lightValueSelector = new LightValueSelector(this, spinnerHelper);
+    lightValueSelector.databind();
+
   }
 
   public boolean onCreateOptionsMenu(Menu menu) {
@@ -262,6 +259,7 @@ public class MainWindow extends Activity implements LightMeterListener {
   }
 
   public void updateSettings() {
+
     workMode.setAperture((Aperture) apertureSpinner.getSelectedItem());
     lightMeter.setISO((Iso) isoSpinner.getSelectedItem());
     workMode.setShutterSpeed((ShutterSpeed) shutterSpeedSpinner.getSelectedItem());
@@ -287,10 +285,10 @@ public class MainWindow extends Activity implements LightMeterListener {
   private String lightSensorString() {
     if (radioAutoExposure.isChecked())
       return "AUTO";
-    return lightValueSelector.getLightValueString();
+    return lightValueSelector.getSelectedLightValue().toString();
   }
 
-  
+
   public SharedPreferences getSettings() {
     return getSharedPreferences(PREFS_NAME, 0);
   }
@@ -336,6 +334,7 @@ public class MainWindow extends Activity implements LightMeterListener {
     spinnerHelper.saveSpinnerSetting(editor, shutterSpeedSpinner);
     spinnerHelper.saveSpinnerSetting(editor, circlesOfConfusionSpinner);
     spinnerHelper.saveSpinnerSetting(editor, lengthUnitSpinner);
+    lightValueSelector.saveSettings(editor);
     editor.putFloat(LIGHT_SENSOR_CALIBRATION, lightMeter.getCalibration());
     editor.commit();
   }

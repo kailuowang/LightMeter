@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.kaipic.lightmeter"
-          android:versionCode="6"
-          android:versionName="1.5Beta">
+          android:versionCode="7"
+          android:versionName="1.5">
   <uses-sdk android:minSdkVersion="2"/>
   <application android:icon="@drawable/icon" android:label="@string/app_name">
     <activity android:name=".MainWindow"
@@ -15,6 +15,6 @@
       </intent-filter>
     </activity>
   </application>
-  <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+  <!--<uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>-->
 
 </manifest>

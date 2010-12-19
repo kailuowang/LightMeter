@@ -65,7 +65,7 @@ public class LightValueSelectorTest extends AbstractMainWindowTestCase {
     showDialog();
     setSpinnerSelection(lightValueSelector.getScenarioSpinner(), 1);
     click(lightValueSelector.getLightValueRadioGroup().getChildAt(0));
-    assertEquals(new ExposureValue(16), lightValueSelector.getParentExposureSpinner().getSelectedItem());
+    assertEquals(new ExposureValue(16), lightValueSelector.getSelectedLightValue());
   }
 
 
@@ -74,7 +74,7 @@ public class LightValueSelectorTest extends AbstractMainWindowTestCase {
     showDialog();
     setSpinnerSelection(lightValueSelector.getCategorySpinner(), 1);
     setSpinnerSelection(lightValueSelector.getScenarioSpinner(), 1);
-    assertEquals(new ExposureValue(2), lightValueSelector.getParentExposureSpinner().getSelectedItem());
+    assertEquals(new ExposureValue(2), lightValueSelector.getSelectedLightValue());
   }
 
   private void showDialog() {

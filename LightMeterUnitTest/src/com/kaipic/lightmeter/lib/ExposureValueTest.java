@@ -26,6 +26,15 @@ public class ExposureValueTest {
   }
 
   @Test
+  public void shouldUseClosestLightScenarioToGenerateDetailString(){
+    ExposureValue ev = new ExposureValue(10.3f);
+    new LightScenario("testScene2", null, new ExposureValue(11));
+    new LightScenario("testScene", null, new ExposureValue(10));
+    assertEquals("EV 10.3 testScene", ev.toDetailString());
+  }
+
+
+  @Test
   public void shouldBeAbleToMultiplyToFloatLargerThan1() throws Exception {
     ExposureValue ev = new ExposureValue(2f);
     assertEVEquals(new ExposureValue(3f), ev.multiply(2f));

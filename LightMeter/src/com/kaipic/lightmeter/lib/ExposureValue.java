@@ -39,7 +39,7 @@ public class ExposureValue implements Comparable<ExposureValue>{
   public String toDetailString() {
 
     String detailString = "Unknown EV";
-    List<LightScenario> scenarios = LightScenario.find(this);
+    List<LightScenario> scenarios = LightScenario.find(new ExposureValue(Math.round(value)));
     if(scenarios.size() > 0){
       detailString = scenarios.get(0).getDescription();
     }

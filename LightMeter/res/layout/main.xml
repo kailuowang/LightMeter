@@ -56,7 +56,6 @@
           android:layout_column="3"
           android:text="Aperture:"
           android:gravity="right"
-
           android:padding="3dip"/>
       <Spinner
           android:id="@+id/apertureSpinner"
